@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/docs/github.css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<h1><a id="user-content-推荐算法文档" class="anchor" aria-hidden="true" href="#推荐算法文档"><span aria-hidden="true" class="octicon octicon-link"></span></a>推荐算法文档</h1>
+<p>项目根目录:</p>
+<p><code>/root/hw/推荐算法</code></p>
+<p>运行环境:</p>
+<p><code>conda activate hw</code></p>
+<h2><a id="user-content-部署" class="anchor" aria-hidden="true" href="#部署"><span aria-hidden="true" class="octicon octicon-link"></span></a>部署</h2>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> 单进程</span>
+nohup python api_recommend.py <span class="pl-k">&gt;</span>  api_recommend-nohup.log <span class="pl-k">&amp;</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 多进程</span>
+<span class="pl-c"><span class="pl-c">#</span> 2 * cpu_n + 1</span>
+nohup uvicorn api_recommend_multiproc:app --workers 2 --host 61.142.208.114 --port 7870 <span class="pl-k">&gt;</span> api_recommend_multiproc-nohup.log <span class="pl-k">&amp;</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 如何kill:</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 由于多进程uvicorn的模式是单父进程多子进程，所以不能直接使用 kill -9 杀掉父进程id. 这里提供一个自建命令killu来一键杀掉子进程和父进程</span>
+killu <span class="pl-k">&lt;</span>PID<span class="pl-k">&gt;</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 若killu没有用, 如何杀掉多进程的uvicorn后端: </span>
+<span class="pl-c"><span class="pl-c">#</span> 先删所有子进程:</span>
+<span class="pl-c"><span class="pl-c">#</span> api -&gt; 查找父进程</span>
+<span class="pl-c1">kill</span> <span class="pl-s"><span class="pl-pds">$(</span>pgrep -P <span class="pl-smi">$uvicorn_father_pid</span><span class="pl-pds">)</span></span>
+<span class="pl-c"><span class="pl-c">#</span> 再删父进程:</span>
+<span class="pl-c1">kill</span> -9 <span class="pl-smi">$uvicorn_pid</span> <span class="pl-c"><span class="pl-c">#</span> 再删父进程</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 一不小心删了父进程, 走投无路:</span>
+pkill -9 -f <span class="pl-s"><span class="pl-pds">"</span>.*/root/anaconda3/envs/hw/bin/python3.11 -c from multiprocessing.spawn import spawn_main; spawn_.*<span class="pl-pds">"</span></span></pre></div>
+<h2><a id="user-content-推荐算法逻辑" class="anchor" aria-hidden="true" href="#推荐算法逻辑"><span aria-hidden="true" class="octicon octicon-link"></span></a>推荐算法逻辑</h2>
+<ol start="0">
+<li>推荐算法总接口 <strong>对应函数</strong>: <code>Recommendation.get_recommend(self, id: int, filter: tuple[tuple[int, int]], cities: list[str], max_n: int) -&gt; list[Result]</code>
+</li>
+<li>获得待推荐人user_id, es中查找待推荐人信息 <strong>对应函数</strong>: <code>Recommendation.get_my_info(self, id: int) -&gt; UserInfo</code>
+</li>
+<li>根据过滤条件在es中随机选取100条匹配记录, 从图谱接口获得相似用户关注的用户(最多30个用户) <strong>对应函数</strong>: <code>Recommendation.select_matches(self)</code> <code>Recommendation.select_from_user_graph(self)</code>
+</li>
+<li>对100条记录进行打分, 取最高分的max_n(由调用程序设置)条作为返回结果 <strong>对应函数</strong>: <code>Recommendation.cal_score(self, matches: list[UserInfo]) -&gt; list[Result]</code>
+</li>
+</ol>
+<blockquote>
+<p>自我介绍和爱情观使用TF-IDF算法提取关键词，计算相似度, 计入分数。函数: <code>Recommendation.calculate_correlation(self, match: UserInfo) -&gt; int</code>, 由<code>cal_score()</code>调用</p>
+</blockquote>
+<h2><a id="user-content-代码结构" class="anchor" aria-hidden="true" href="#代码结构"><span aria-hidden="true" class="octicon octicon-link"></span></a>代码结构</h2>
+<table>
+<thead>
+<tr>
+<th align="center">文件名</th>
+<th align="left">作用</th>
+<th align="left">启动命令</th>
+<th align="left">关闭命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">api_recommend_multiproc.py</td>
+<td align="left">推荐算法的接口, 由于是uvicorn的多进程接口, 无法直接使用python命令运行，需要使用deploy.sh中的命令</td>
+<td align="left">nohup uvicorn api_recommend_multiproc:app --workers 2 --host 61.142.208.114 --port 7870 &gt; api_recommend_multiproc-nohup.log &amp;</td>
+<td align="left">使用<code>killu &lt;PID&gt;</code> 或者 使用<code>kill -9 $(pgrep -P $uvicorn_father_id) &amp;&amp; kill -9 $uvicorn_father_id</code>  ($uvicorn_father_id: 一个形如<code>/root/anaconda3/envs/hw/bin/python3.11 /root/anaconda3/envs/hw/bin/uvicorn api_recommend_multiproc:app --workers 2 --host 61.142.208.114 --port 7870</code> 的进程的id)先杀掉uvicorn的所有子worker进程!! <strong>请绝对不要直接使用<code>kill -9</code>杀掉uvicorn的父进程</strong>，不然所有的子worker进程得一个一个删</td>
+</tr>
+<tr>
+<td align="center">api_recommend.py</td>
+<td align="left">推荐算法单线程接口, 可以直接使用python命令运行, 方便调试</td>
+<td align="left">nohup python api_recommend.py &gt;  api_recommend-nohup.log &amp;</td>
+<td align="left">kill -9 &lt;PID&gt;</td>
+</tr>
+<tr>
+<td align="center">algorithm_recommend.py</td>
+<td align="left">推荐算法核心代码</td>
+<td align="left">无，仅为推荐系统模块</td>
+<td align="left">无，仅为推荐系统模块</td>
+</tr>
+<tr>
+<td align="center">user_list.py</td>
+<td align="left">添加、删除、更新用户信息</td>
+<td align="left">无，仅为推荐系统模块</td>
+<td align="left">无，仅为推荐系统模块</td>
+</tr>
+<tr>
+<td align="center">black_list.py</td>
+<td align="left">添加、删除用户黑名单</td>
+<td align="left">无，仅为推荐系统模块</td>
+<td align="left">无，仅为推荐系统模块</td>
+</tr>
+<tr>
+<td align="center">save_chat.py</td>
+<td align="left">添加用户对话记录</td>
+<td align="left">无，仅为推荐系统模块</td>
+<td align="left">无，仅为推荐系统模块</td>
+</tr>
+<tr>
+<td align="center">follow.py</td>
+<td align="left">添加、删除用户关注列表</td>
+<td align="left">无，仅为推荐系统模块</td>
+<td align="left">无，仅为推荐系统模块</td>
+</tr>
+</tbody>
+</table>
+<h4><a id="user-content-打分" class="anchor" aria-hidden="true" href="#打分"><span aria-hidden="true" class="octicon octicon-link"></span></a>打分</h4>
+<p>推荐算法打分部分分为:</p>
+<ol>
+<li>规则分数矩阵(细则, 见附件<code>推荐规则_zhw.xlsx</code>)</li>
+<li>TF-IDF算法对恋爱观和自我介绍的关键词提取, 进行相关度分析</li>
+</ol>
+<h2><a id="user-content-用户列表" class="anchor" aria-hidden="true" href="#用户列表"><span aria-hidden="true" class="octicon octicon-link"></span></a>用户列表</h2>
+<p>代码: <code>/root/hw/推荐算法/user_list.py</code></p>
+<p>表名: <code>user_list</code></p>
+<p>表结构(schema): <code>mappings/user_info.json</code>或见<code>es_userlist.ipynb</code></p>
+<ol>
+<li>用户列表的接口见接口文档<code>推荐算法接口.md</code>
+</li>
+<li>用户列表使用最少的、可供计算用户分数的字段用于存储, 当然，存储所有字段也是可以的。</li>
+</ol>
+<h2><a id="user-content-黑名单" class="anchor" aria-hidden="true" href="#黑名单"><span aria-hidden="true" class="octicon octicon-link"></span></a>黑名单</h2>
+<p>代码: <code>/root/hw/推荐算法/black_list.py</code></p>
+<p>表名: <code>black_list</code></p>
+<p>表结构(schema):  见<code>es_blacklist.ipynb</code></p>
+<p>黑名单用于屏蔽某个用户，推荐接口将不会推荐此用户</p>
+<h2><a id="user-content-保存用户聊天记录" class="anchor" aria-hidden="true" href="#保存用户聊天记录"><span aria-hidden="true" class="octicon octicon-link"></span></a>保存用户聊天记录</h2>
+<p>代码: <code>/root/hw/推荐算法/save_chat.py</code></p>
+<p>表名: <code>user_chat</code></p>
+<p>表结构(schema):  见<code>es_user_chat.ipynb</code></p>
+<p>保存用户聊天记录</p>
+<h2><a id="user-content-关注列表" class="anchor" aria-hidden="true" href="#关注列表"><span aria-hidden="true" class="octicon octicon-link"></span></a>关注列表</h2>
+<p>代码: <code>/root/hw/推荐算法/follow.py</code></p>
+<p>表名: <code>follow</code></p>
+<p>表结构(schema):  见<code>es_follow.ipynb</code></p>
+<p>推荐接口将不会推荐已关注的用户</p>
+<h2><a id="user-content-用户图谱" class="anchor" aria-hidden="true" href="#用户图谱"><span aria-hidden="true" class="octicon octicon-link"></span></a>用户图谱</h2>
+<p>根目录: <code>/root/haoyu/ElasticSearch/neo4j</code></p>
+<p>用户图谱将会推荐相似用户关注的用户(如两个男用户Nan1, Nan2相似，为Nan1寻找推荐用户时，推荐Nan2关注的用户)
+由于是<strong>陈浩宇</strong>负责，具体逻辑请参见他的文档<a href="http://192.168.20.196/svn/matchmakin/01.CI/1.4%20Design/1.4.1%20SD/Draft/%E6%8E%A5%E5%8F%A3/%E5%9B%BE%E8%B0%B1%E6%8E%A8%E8%8D%90%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3.pdf" rel="nofollow">图谱推荐接口文档</a></p>
+<h2><a id="user-content-es快速调试" class="anchor" aria-hidden="true" href="#es快速调试"><span aria-hidden="true" class="octicon octicon-link"></span></a>es快速调试</h2>
+<blockquote>
+<p>运行环境: 全部都为hw</p>
+</blockquote>
+<blockquote>
+<p>.ipynb为jupyter notebook, 使用vscode的远程ssh插件可以非常方便地运行</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">文件名</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">es_blacklist.ipynb</td>
+<td align="center">黑名单表快速操作</td>
+</tr>
+<tr>
+<td align="center">es_follow.ipynb</td>
+<td align="center">关注列表快速操作</td>
+</tr>
+<tr>
+<td align="center">es_user_chat.ipynb</td>
+<td align="center">用户聊天记录表快速操作</td>
+</tr>
+<tr>
+<td align="center">es_userlist.ipynb</td>
+<td align="center">用户列表快速操作</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="user-content-未来优化" class="anchor" aria-hidden="true" href="#未来优化"><span aria-hidden="true" class="octicon octicon-link"></span></a>未来优化</h2>
+<ol>
+<li>改进nohup的输出重定向，使用python的日志库logging来打印日志到日志文件。</li>
+<li>使用深度学习模型和大数据分析框架创造一个更加强大的推荐系统</li>
+<li>使用<code>gunicorn</code>来管理多进程接口(以改善繁琐的杀进程流程)</li>
+</ol>
+
+</article>
+<div>
+</div>
+</div>
+</html>

@@ -1,0 +1,7 @@
+copies
+images
+videos
+zdeprecated
+
+*.log
+*.sh

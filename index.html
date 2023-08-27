@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <link href="/images/favicon.ico" rel="icon" type="image/x-icon"/>
+        <title>
+            朱皓炜博客
+        </title>
+    </head>
+    <!-- <body onload="loadBlog();"> -->
+    <body>
+        <div class="center">
+            <div id="seasonal-img-container">
+                <a href="/upload">
+                    <img alt="seasonal_image" id="seasonal-img" src="/images/seasonal/kyoto.png"/>
+                </a>
+            </div>
+            <div id="title-and-img">
+                <a href="https://sberm.cn" id="title">
+                    朱皓炜博客
+                </a>
+                <div id="title-img">
+                    <a href="https://sberm.cn">
+                        <img alt="akiha" id="akiha-img" src="images/akiha.png"/>
+                    </a>
+                </div>
+            </div>
+            <div style="margin: 4rem auto 0 auto; width: 89%; display: flex; flex-direction: row; gap: 4rem">
+                <p class="motto">
+                    > 自分が時間を費やすことができ、自分が関心を持ち、興味を持てるものを選ぶだけでいい。
+                </p>
+                <p class="motto">
+                    > 繰り返し、改善し、時間を無駄にする。
+                </p>
+            </div>
+            <div id="blog-index"><div class="blog-item"><div class = "date">2023-8-27</div><a class = "blog-link" href = "/blog/b827">git好复杂</a><p class = "sample">git真的是我用过最复杂的软件之一了
+能不能做简单点啊torvalds桑
+好难，看了一早上还是不太会...</p></div><div class="blog-item"><div class = "date">2023-8-24</div><a class = "blog-link" href = "/blog/b824">Python虚拟机也太耗内存了</a><p class = "sample">Python虚拟机也太耗内存了
+为了博客的正常运转我跑了四个python守护进程
+root
+2064...</p></div><div class="blog-item"><div class = "date">2023-8-18</div><a class = "blog-link" href = "/blog/b23821">对不起，在公司摸鱼了</a><p class = "sample">不知道今天在做什么，在公司摸了一天的鱼。
+感觉也不想写codeforces, 心情比较复杂。要不要学...</p></div><div class="blog-item"><div class = "date">2023-8-17</div><a class = "blog-link" href = "/blog/longRoadBuddy">自我提升的路还很长</a><p class = "sample">自我提升的路还很长
+一件让我觉得很羞愧的事情是，我还无法写出让我自己惊叹："写的真好啊"的代码。老大...</p></div><div class="blog-item"><div class = "date">2023-8-15</div><a class = "blog-link" href = "/blog/painIsImportant">Pain is important</a><p class = "sample">Pain is important for your personal growth
+“Is the...</p></div><div class="blog-item"><div class = "date">2023-8-14</div><a class = "blog-link" href = "/blog/104cpu">104个cpu编译gcc还是好慢</a><p class = "sample">为啥104个cpu编译gcc还是这么慢
+公司的服务器有104个cpu
+但是gcc还是编译了15分钟编...</p></div><div class="blog-item"><div class = "date">2023-8-13</div><a class = "blog-link" href = "/blog/andrej">什么是micrograd</a><p class = "sample">micrograd
+A tiny Autograd engine (with a bite! :))...</p></div></div>
+            <div id="footer-main">
+                <div id="footer-line">
+                </div>
+                <div id="footer-text-wrapper">
+                    <p id="footer-text">
+                        The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness.
+                    </p>
+                </div>
+                <div id="footer-commu-background">
+                    <div id="footer-commu">
+                        <div class="footer-image-container">
+                            <a href="https://www.youtube.com/watch?v=XqZsoesa55w">
+                                <img class="footer-image" src="images/linux.png"/>
+                            </a>
+                        </div>
+                        <div class="footer-image-container">
+                            <a href="https://twitter.com/Fernand73827208">
+                                <img class="footer-image" src="images/twitter.png"/>
+                            </a>
+                        </div>
+                        <div class="footer-image-container">
+                            <a href="https://github.com/torvalds">
+                                <img class="footer-image" src="images/github.svg"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    </body>
+</html>
+<script>
+    async function loadBlog() {
+	const response = await fetch("https://sberm.cn/blog-info");
+	const blog_list = await response.json();
+	let blog_index = "";
+	let name, title, date, sample;
+	for (let i = 0; i < blog_list.length; i++) {
+		name = blog_list[i].name;
+		title = blog_list[i].title;
+		date = blog_list[i].date;
+		sample = blog_list[i].sample;
+		blog_index += `<div class="blog_item"><div class="date">${date}</div>`;
+		blog_index += `<a class = "blog-link" href = "/blog/${name}">${title}</a>`;
+		blog_index += `<p class = "sample">${sample}</p></div>`;
+	}
+	// console.log(blog_index);
+	document.getElementById("blog-index").innerHTML = blog_index;
+}
+</script>
+<style>
+    @media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+
+	#seasonal-img-container {
+		background-color: rgb(245, 245, 245);
+		overflow: hidden;
+		position: relative;
+		height: 9rem;
+		width: 90%;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 5rem;
+		border-radius: 20px;
+	}
+
+	#seasonal-img {
+		/* object-fit:scale-down; */
+		object-fit:cover;
+		position:absolute;
+		max-width: 100%;
+		max-height: 100%;
+		margin: auto;
+		width: 100%;
+		height: 100%;
+	}
+
+	.sample {
+		color:rgb(170, 170, 170);
+		font-size: 2.5rem;
+		font-family: Arial;
+		margin-top: 0rem;
+	}
+
+	#video-preview {
+		margin-left: auto;
+		display: flex;
+		align-items: flex-end;
+	}
+
+	#footer-main {
+		margin-top: 10rem;
+	}
+
+	#footer-line {
+		border: 1px rgb(100, 100, 100) solid;
+		border-radius: 3px;
+	}
+
+	#footer-text {
+		font-weight: normal;
+		color: rgba(0, 0, 0, 0.301) ;
+		font-family: Arial;
+		font-size: 1.2rem;
+	}
+
+	#footer-text-wrapper {
+		text-align: center;
+		width: 90%;
+		margin-top: 1rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	html {
+		font-size: 16px;
+	}
+
+	.blog-item {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#blog-index {
+		/* 对于font-boost的解决办法，就是设置父div的max-height: 100% */
+		max-height: 100%;
+		width: 70%;
+		margin: 4rem auto;
+		display: flex;
+		flex-direction: column;
+		gap: 3.7rem;
+	}
+
+	.date {
+		font-size: 2.1rem;
+		color: rgb(74, 74, 74);
+		font-family: Monaco;
+	}
+	
+	#akiha-img {
+		margin-left: auto; 
+		max-height: 37%;
+		margin-top: 2rem;
+		margin-right: 2rem;
+	}
+
+	.center {
+		width: 95%;
+		margin: auto;
+	}
+
+	#title-and-img {
+		display: flex;
+		height: 25rem;
+	}
+
+	#title {
+		color: black;
+		text-decoration: none; 
+		font-weight: bold;
+		width: 60%;
+		font-size: 2.6rem;
+		align-self: flex-end;
+		margin-left: 3rem;
+		margin-bottom: 0;
+		font-family: Georgia, 'Times New Roman', Times, serif;
+	}
+
+	#title-img {
+		margin-left: auto;
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.motto {
+		font-weight: bold;
+		font-size: 1.7rem;
+		word-wrap: normal;
+		font-family: 游明朝体;
+		flex: 1 1 0;
+	}
+
+	.blog-link {
+		display: inline-block;
+		font-family: Monaco;
+		font-weight:bold;
+		text-decoration:none;
+		font-size: 3.8rem;
+	}
+
+	a:link:not(#title) {
+		color: rgb(0, 162, 190);
+		background-color: transparent;
+		text-decoration: none;
+	}
+
+	a:visited:not(.blog-name) {
+		color: rgb(0, 75, 128);
+		background-color: transparent;
+		text-decoration: none;
+	}
+
+	#footer-commu-background {
+		margin-top: 6rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: rgb(247, 247, 247);
+		height: 13rem;
+		border-radius: 20px;
+		justify-content: center;
+	}
+
+	#footer-commu {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8rem;
+		/* image size */
+		height: 25%;
+	}
+
+	.footer-image-container {
+		height: 100%;
+		flex-basis: 1;
+	}
+
+	.footer-image {
+		max-height: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		height: 100%;
+	}
+}
+
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ 
+
+	#seasonal-img-container {
+		width: 90%;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: rgb(245, 245, 245);
+		overflow: hidden;
+		position: relative;
+		height: 6.3rem;
+		margin-top: 1rem;
+		border-radius: 20px;
+	}
+
+	#seasonal-img {
+		/* object-fit:scale-down; */
+		object-fit:cover;
+		position:absolute;
+		max-width: 100%;
+		max-height: 100%;
+		margin: auto;
+		width: 100%;
+		height: 100%;
+	}
+
+	.sample {
+		color:rgb(170, 170, 170);
+		font-size: 1rem;
+		font-family: Monaco;
+		margin-top: 0.8rem;
+	}
+
+	#video-preview {
+		flex-basis: 2;
+		/* margin-left: auto; */
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+	}
+
+	#footer-main {
+		margin-top: 10rem;
+	}
+
+	#footer-line {
+		border: 2px rgb(100, 100, 100) solid;
+		border-radius: 3px;
+	}
+
+	#footer-text {
+		font-weight: normal;
+		color: rgba(0, 0, 0, 0.301);
+		font-family: Arial;
+		font-size: 0.7rem;
+	}
+
+	#footer-text-wrapper {
+		text-align: center;
+		width: 90%;
+		margin-top: 1rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	html {
+		font-size: 16px;
+	}
+
+	.blog-item {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#blog-index {
+		/* 对于font-boost的解决办法，就是设置父div的max-height: 100% */
+		max-height: 100%;
+		width: 70%;
+		margin: 4rem auto;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.date {
+		font-size: 1.1rem;
+		color: rgb(74, 74, 74);
+		font-family: Monaco;
+	}
+
+	.motto {
+		font-weight: bold;
+		font-size: 1.3rem;
+		word-wrap: normal;
+		font-family: 游明朝体;
+		flex: 1 1 0;
+	}
+
+	#akiha-img {
+		margin-left: auto; 
+		max-height: 100%;
+		max-width: 100%;
+		flex-basis: 1;
+	}
+	.center {
+		width: 45%;
+		margin: auto;
+	}
+
+	#title-and-img {
+		display: flex;
+		height: 14rem;
+		margin-top: 1rem;
+	}
+
+	#title{
+		color: black;
+		text-decoration: none; 
+		font-weight: bold;
+		width: 60%;
+		width: 40%;
+		font-size: 2.0rem;
+		font-family: KaiTi;
+		align-self: flex-end;
+		margin-left: 3rem;
+		margin-bottom: 0;
+	}
+
+	#title-img {
+		width: 10rem;
+		margin-left: auto;
+		display: flex;
+		align-items: flex-start;
+	}
+
+
+	#motto {
+		font-size: 1.3rem;
+	}
+
+	p {
+		font-family: Monaco;
+		font-size: 20px;
+		font-weight: bold;
+	}
+
+	.doctor-image {
+		width: 50rem;
+		margin: auto;
+	}
+
+	.blog-link {
+		display: inline-block;
+		font-family: Monaco;
+		transition: .3s;
+		font-weight:bold;
+		text-decoration:none;
+		font-size: 25px;
+	}
+
+	a:link:not(#title) {
+		color: rgb(0, 162, 190);
+		background-color: transparent;
+		text-decoration: none;
+	}
+
+	a:visited:not(.blog-name) {
+		color: rgb(0, 75, 128);
+		background-color: transparent;
+		text-decoration: none;
+	}
+
+	#footer-commu-background {
+		margin-top: 2rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: rgb(247, 247, 247);
+		height: 7rem;
+		border-radius: 20px;
+		justify-content: center;
+	}
+
+	#footer-commu {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 5rem;
+		/* this controls the image size */
+		height: 30%;
+	}
+
+	.footer-image-container {
+		height: 100%;
+		flex-basis: 1;
+	}
+
+	.footer-image {
+		max-height: 100%;
+		max-width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		height: 100%;
+	}
+}
+</style>

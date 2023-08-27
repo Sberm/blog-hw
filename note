@@ -1,0 +1,19 @@
+/blog/1 > /blog/1.html
+
+rewrite (/blog)/(\w+)$ $1/$2.html last;
+
+如果要删除一篇文章，要删除blog里面的html文件
+
+; 运行自动化:
+; nohup python -u scripts/update_html.py > update_html.log &
+; nohup python -u md/convert.py > convert.log &
+; nohup python -u scripts/doc_html.py > doc_html.log &
+; nohup python -u docs/md/convert_doc.py > convert_doc.log &
+
+每次改完标题还要回到md重新保存，刷新一下html好让他读到yaml
+
+逻辑: 点击上传图片至seasonal文件夹 -> 改变index.html中图片链接 -> 改变谷歌链接
+
+运行自动化:
+
+nohup python3 -u server.py > server.log &
