@@ -36,10 +36,23 @@ git reflog
 git checkout <span class="pl-k">&lt;</span>ref<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> 未commit</span>
 git reset <span class="pl-k">&lt;</span>ref<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> 无history</span>
 git revert <span class="pl-k">&lt;</span>ref<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> 有history</span></pre></div>
-<p>有时候远程的主分支merge了之后，自己又改动了本地的主分支，这个时候:</p>
+<p>有时候远程的主分支merge了之后，自己又改动了本地的主分支，如果要覆盖本地分支，这个时候:</p>
 <div class="highlight highlight-source-shell"><pre>git checkout main
 git fetch --all
 git reset --hard origin/main</pre></div>
+<p>本地删除远程分支中已删除的分支</p>
+<div class="highlight highlight-source-shell"><pre>git remote prune origin</pre></div>
+<p>查看分支</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> 查看本地分支</span>
+git branch
+
+<span class="pl-c"><span class="pl-c">#</span> 查远程分支</span>
+git branch -r
+
+<span class="pl-c"><span class="pl-c">#</span> 查看所有分支</span>
+git branch -a</pre></div>
+<p>查看远程分支log</p>
+<div class="highlight highlight-source-shell"><pre>git log origin/main <span class="pl-c"><span class="pl-c">#</span> 使用/而不是空格</span></pre></div>
 
 </article>
 <div>
