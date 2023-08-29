@@ -53,6 +53,16 @@ git branch -r
 git branch -a</pre></div>
 <p>查看远程分支log</p>
 <div class="highlight highlight-source-shell"><pre>git log origin/main <span class="pl-c"><span class="pl-c">#</span> 使用/而不是空格</span></pre></div>
+<p>git pull冲突办法</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> 还没commit</span>
+git stash push <span class="pl-c"><span class="pl-c">#</span> 存起来</span>
+git stash pop <span class="pl-c"><span class="pl-c">#</span> 取出存储, 然后手动解决冲突</span>
+
+<span class="pl-c"><span class="pl-c">#</span> commit 了</span>
+<span class="pl-c"><span class="pl-c">#</span> 要是不重要的话</span>
+git reset --hard origin/main
+<span class="pl-c"><span class="pl-c">#</span> 重要</span>
+git merge origin/main <span class="pl-c"><span class="pl-c">#</span> 然后手动解决冲突</span></pre></div>
 
 </article>
 <div>

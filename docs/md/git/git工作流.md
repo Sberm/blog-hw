@@ -57,3 +57,16 @@ git branch -a
 ```bash
 git log origin/main # 使用/而不是空格
 ```
+
+git pull冲突办法
+```bash
+# 还没commit
+git stash push # 存起来
+git stash pop # 取出存储, 然后手动解决冲突
+
+# commit 了
+# 要是不重要的话
+git reset --hard origin/main
+# 重要
+git merge origin/main # 然后手动解决冲突
+```
