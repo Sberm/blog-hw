@@ -63,6 +63,7 @@ git pull冲突办法
 # 还没commit
 git stash push # 存起来
 git stash pop # 取出存储, 然后手动解决冲突
+git stash drop # 删除用过的stash
 
 # commit 了
 # 要是不重要的话
