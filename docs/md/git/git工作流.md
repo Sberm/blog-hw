@@ -29,9 +29,31 @@ git reset <ref> # 无history
 git revert <ref> # 有history
 ```
 
-有时候远程的主分支merge了之后，自己又改动了本地的主分支，这个时候:
+有时候远程的主分支merge了之后，自己又改动了本地的主分支，如果要覆盖本地分支，这个时候:
 ```bash
 git checkout main
 git fetch --all
 git reset --hard origin/main
+```
+
+本地删除远程分支中已删除的分支
+```bash
+git remote prune origin
+```
+
+查看分支
+```bash
+# 查看本地分支
+git branch
+
+# 查远程分支
+git branch -r
+
+# 查看所有分支
+git branch -a
+```
+
+查看远程分支log
+```bash
+git log origin/main # 使用/而不是空格
 ```
