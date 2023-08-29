@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/docs/github.css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<p>feature branch</p>
+<blockquote>
+<p>checkout before editing, multiple commit, pull(or rebase) before push</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> Start a new feature</span>
+git checkout -b new-feature main
+<span class="pl-c"><span class="pl-c">#</span> Edit some files</span>
+git add <span class="pl-k">&lt;</span>file<span class="pl-k">&gt;</span>
+git commit -m <span class="pl-s"><span class="pl-pds">"</span>Start a feature<span class="pl-pds">"</span></span>
+<span class="pl-c"><span class="pl-c">#</span> Edit some files</span>
+git add <span class="pl-k">&lt;</span>file<span class="pl-k">&gt;</span>
+git commit -m <span class="pl-s"><span class="pl-pds">"</span>Finish a feature<span class="pl-pds">"</span></span>
+
+<span class="pl-c"><span class="pl-c">#</span> before push, if feature has new changes</span>
+git rebase <span class="pl-c"><span class="pl-c">#</span> (if nobody but me is working on this feature)</span>
+git pull <span class="pl-c"><span class="pl-c">#</span> (if multiple people are working on this feature)</span>
+
+<span class="pl-c"><span class="pl-c">#</span> push</span>
+git push origin <span class="pl-k">&lt;</span>BRANCH_NAME<span class="pl-k">&gt;</span></pre></div>
+<p>选择不同ref pointer和跳转</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> 查看所有ref</span>
+git reflog
+
+<span class="pl-c"><span class="pl-c">#</span> 切换</span>
+git checkout <span class="pl-k">&lt;</span>ref<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> 未commit</span>
+git reset <span class="pl-k">&lt;</span>ref<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> 无history</span>
+git revert <span class="pl-k">&lt;</span>ref<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> 有history</span></pre></div>
+
+</article>
+<div>
+</div>
+</div>
+</html>
