@@ -36,6 +36,10 @@ git reflog
 git checkout <span class="pl-k">&lt;</span>ref<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> 未commit</span>
 git reset <span class="pl-k">&lt;</span>ref<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> 无history</span>
 git revert <span class="pl-k">&lt;</span>ref<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> 有history</span></pre></div>
+<p>有时候远程的主分支merge了之后，自己又改动了本地的主分支，这个时候:</p>
+<div class="highlight highlight-source-shell"><pre>git checkout main
+git fetch --all
+git reset --hard origin/main</pre></div>
 
 </article>
 <div>

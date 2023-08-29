@@ -28,3 +28,10 @@ git checkout <ref> # 未commit
 git reset <ref> # 无history
 git revert <ref> # 有history
 ```
+
+有时候远程的主分支merge了之后，自己又改动了本地的主分支，这个时候:
+```bash
+git checkout main
+git fetch --all
+git reset --hard origin/main
+```
