@@ -131,7 +131,9 @@ P.S. 也可以使用webui来添加txt, csv文件, 更加便捷。
 
 全部敏感词文件位置: `/root/hw/敏感词过滤/敏感词词库`
 
-可以使用`sadd <敏感词>` 和 `sdel <敏感词>` 来增加和删除敏感词，并动态更新敏感词库
+可以使用`sadd <敏感词>` 和 `sdel <敏感词>` 来增加和删除敏感词，该命令会通过网络接口直接更新部署接口的敏感词库
+
+> 要使用sadd和sdel命令，需要后台开启监听管道的python进程`api_sensitive_words.py`, 这个文件的位置在`/root/hw/敏感词过滤`, 使用根目录中的脚本，在命令行`conda activate hw`之后, `./deploy.sh`直接运行(需要自行在命令行中先`conda activate hw`, shell脚本中无法`conda activate hw`)
 
 ![](/images/docs/乐唯/Snipaste_2023-08-23_15-42-11.png)
 
@@ -203,20 +205,20 @@ def knowledge_base_chat(query: str = Body(..., description="用户输入", examp
 若没有检索到文本，返回300(这里的300是字符串，且作为纯文本返回，是为了配合后续代码中的return StreamingResponse(knowledge_base_chat_iterator(query, kb, top_k, history, docs), media_type="text/event-stream") 而被使用，是非常丑陋的实现，后续可以改进)
 
 ```python
-	# 128行
-	docs = kb.search_docs(query, top_k)
-    if do_shuffle:
-        shuffle(docs)
-        docs = docs[-4:]
-    
-    content_length_threshold = 420
-    tmp_l = [0]
-    tmp_l.extend(docs)
-    is_content_valid = lambda docs: reduce(lambda x, y: x + len(y.page_content), docs) >= content_length_threshold
-    # print(f"docs length(characters): {reduce(lambda x, y: x + len(y.page_content), tmp_l)}")
-    if len(docs) == 0 or \
-       not is_content_valid(tmp_l):
-        return "300"
+# 128行
+docs = kb.search_docs(query, top_k)
+if do_shuffle:
+	shuffle(docs)
+	docs = docs[-4:]
+
+content_length_threshold = 420
+tmp_l = [0]
+tmp_l.extend(docs)
+is_content_valid = lambda docs: reduce(lambda x, y: x + len(y.page_content), docs) >= content_length_threshold
+# print(f"docs length(characters): {reduce(lambda x, y: x + len(y.page_content), tmp_l)}")
+if len(docs) == 0 or \
+   not is_content_valid(tmp_l):
+	return "300"
 ```
 
 #### 3. 改动`configs/model_config.py`中的参数

@@ -17,7 +17,7 @@ async def change_index(file_name: str):
     with open('index.html', 'rb') as html:
         soup = bs(html, 'html.parser')
     old_text = soup.find("img", {"id": "seasonal-img"})
-    # <img alt="seasonal_image" id = "seasonal-img" src="images/seasonal/La Vierge, l'Enfant, saint Sébastien et sainte Ursule.jpg"/>
+    # TODO: https://www.google.com.hk/search?q=hello+world
     old_text.replace_with(f"""<img alt="seasonal_image" id = "seasonal-img" src="{file_name}"/>""")
     formatter_ = formatter.HTMLFormatter(indent=4)
 
