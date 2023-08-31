@@ -1,8 +1,13 @@
+# folders
 copies
 images/seasonal/
 videos
 zdeprecated
+dev
 
+# files
 *.log
 *.sh
+
+# no deploy.sh
 !deploy.sh

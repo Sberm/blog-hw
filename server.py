@@ -1,5 +1,4 @@
 import uvicorn
-from typing import Annotated
 from fastapi import FastAPI, UploadFile
 from bs4 import BeautifulSoup as bs
 from bs4 import formatter
@@ -86,8 +85,13 @@ def update_html_doc():
     soup = bs(html, 'html.parser')
     old_text = soup.find("div", {"id": "doc-container"})
     docs = ""
+    folder_name = doc.doc_info[0].split('/',1)[0] if len(doc.doc_info) != 0 else ""
     for di in doc.doc_info:
         name_without_ext = di.rsplit(".html", 1)[0]
+        tmp = di.split('/', 1)[0]
+        if folder_name != tmp:
+            folder_name = tmp
+            # docs += '<br/>'
         docs += f'<div class = "doc-item"><a href="content/{name_without_ext}" class = "doc-item"><p class = "doc-item">{name_without_ext}</p></a></div>'
 
     old_text.replace_with(f"<div id=\"doc-container\">{docs}</div>")
