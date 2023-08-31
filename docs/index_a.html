@@ -48,7 +48,7 @@
 							body: JSON.stringify(data)
 						});
 			const rJson = await response.json();
-			if (rJson['url'] != undefined) {
+			if (rJson['code'] == 200) {
 				window.location.replace("https://sberm.cn"+rJson['url']);
 			} else {
 				password_input.value = "";
@@ -73,7 +73,7 @@
 
 	#input-password-parent{
 		height: 8rem;
-		width: 25rem;
+		width: 23rem;
 		margin: 0 auto;
 		display: flex;
 		align-items: center;

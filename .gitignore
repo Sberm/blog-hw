@@ -5,3 +5,4 @@ zdeprecated
 
 *.log
 *.sh
+!deploy.sh

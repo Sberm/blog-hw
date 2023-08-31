@@ -12,6 +12,9 @@ from time import strftime, localtime
 from threading import Thread
 from fastapi import Body
 
+# /docs 认证密码
+CORRECT_PASSWORD = "hen"
+
 app = FastAPI()
 
 async def change_index(file_name: str):
@@ -42,8 +45,7 @@ def make_response(code: int, msg: str, url: str = None):
 async def valiate(password: str = Body(...,description="password", examples="abc123"),
                   jwt: str = Body(...,description="json web token")):
     real_doc_url = "/docs/qowidjqowidjqowid12091i32031h20i1/a0iosjd0asdq109w102ije1209iu0as9dmsdnalskdaj0wi1092ue"
-    correct_password = "hentai"
-    if password == correct_password:
+    if password == CORRECT_PASSWORD:
         return make_response(200, "correct password", real_doc_url)
     else:
         return make_response(430, "wrong password")
