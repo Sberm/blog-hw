@@ -10,6 +10,7 @@ import yaml
 import time
 from time import strftime, localtime
 from threading import Thread
+from fastapi import Body
 
 app = FastAPI()
 
@@ -23,6 +24,29 @@ async def change_index(file_name: str):
 
     with open("index.html", "wb") as f:
         f.write(soup.prettify("utf-8", formatter_))
+
+def make_response(code: int, msg: str, url: str = None):
+    if url:
+        return {
+            "code": code,
+            "msg": msg,
+            "url": url
+        }
+    else:
+        return {
+            "code": code,
+            "msg": msg
+        }
+
+@app.post("/validate")
+async def valiate(password: str = Body(...,description="password", examples="abc123"),
+                  jwt: str = Body(...,description="json web token")):
+    real_doc_url = "/docs/qowidjqowidjqowid12091i32031h20i1/a0iosjd0asdq109w102ije1209iu0as9dmsdnalskdaj0wi1092ue"
+    correct_password = "hentai"
+    if password == correct_password:
+        return make_response(200, "correct password", real_doc_url)
+    else:
+        return make_response(430, "wrong password")
 
 
 @app.post("/upload-file")

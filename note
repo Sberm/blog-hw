@@ -17,3 +17,14 @@ rewrite (/blog)/(\w+)$ $1/$2.html last;
 运行自动化:
 
 nohup python3 -u server.py > server.log &
+
+url vunerabilities:
+doc/content/x
+next time you can just remember that url and access it, which is not cool.
+
+what I want:
+you have to enter password in /doc to access my content
+enter password ->  session key(could be a cookie) -> use that key to access content
+
+problems to be solved: use cookie to access content ----> server has to save a cookie record, compare it with client's cookie
+                                                    |----> client send the cookies
