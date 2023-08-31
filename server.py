@@ -12,7 +12,7 @@ from threading import Thread
 from fastapi import Body
 
 # /docs 认证密码
-CORRECT_PASSWORD = "hen"
+CORRECT_PASSWORD = "sbm"
 
 app = FastAPI()
 
