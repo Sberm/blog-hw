@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <link href="/images/favicon.ico" rel="icon" type="image/x-icon"/>
+        <title>
+            小鸡拜美食博客
+        </title>
+    </head>
+    <body onload="onLoad();">
+        <div class="main-header">
+            <p style="margin: 0;">小鸡拜🙏</p>
+        </div>
+        <div class="content-background">
+            <div class = "content-container">
+                <div class = "rating-score">
+                    <div id = "rating-text">Rating: </div>
+                </div>
+                <div class = "review-header">
+                    <p>scrumptious, graceful, and warm.</p>
+                </div>
+                <div class = "review-text">
+                    <p>The best cuisine I’ve ever had. Each dishes taste graceful and unique. Considering we have one kid with us, the chief adjusted meals to our diet habit. Everyone enjoyed the night so much.</p>
+                </div>
+                <div class="image-background">
+                    <div class = "image-container">
+                        <a href="javascript:void(0);"><img src = "/images/review/caption (1).jpg" />  </a>
+                        <a href="javascript:void(0);"><img src = "/images/review/caption.jpg" />      </a>
+                        <a href="javascript:void(0);"><img src = "/images/review/photo3jpg.jpg" />    </a>
+                        <a href="javascript:void(0);"><img src = "/images/review/photo4jpg.jpg" />    </a>
+                    </div>
+                </div>
+                <div class = "review-date">Review date:&nbsp;&nbsp;2023-9-8</div>
+            </div>
+        </div>
+        <div class="content-background">
+            <div class = "content-container">
+                <div class = "rating-score">
+                    <div id = "rating-text">Rating: </div>
+                </div>
+                <div class = "review-header">
+                    <p>除掉了創造者！</p>
+                </div>
+                <div class = "review-text">
+                    <p>但創造者是創造人類的目標並給大地以意義和未來的人：只有他能建立了善和惡。 　　我吩咐他們推倒了他們的講壇，一切古代的傲慢所踞坐的交椅；我吩咐他們嘲笑他們的偉大的道德家，他們的聖哲，他們的詩人，他們的救世主。 　　我吩咐他們嘲笑他們的陰鬱的哲人，嘲笑那些踞坐如黑色幽靈的人，使他們離了生命樹。</p>
+                </div>
+                <div class="image-background">
+                    <div class = "image-container">
+                        <a href="javascript:void(0);"><img src = "/images/review/caption (1).jpg" />  </a>
+                        <a href="javascript:void(0);"><img src = "/images/review/caption.jpg" />      </a>
+                        <a href="javascript:void(0);"><img src = "/images/review/photo3jpg.jpg" />    </a>
+                        <a href="javascript:void(0);"><img src = "/images/review/photo4jpg.jpg" />    </a>
+                    </div>
+                </div>
+                <div class = "review-date">Review date:&nbsp;&nbsp;2023-9-8</div>
+            </div>
+        </div>
+        <div class="content-background">
+            <div class = "content-container">
+                <div class = "rating-score">
+                    <div id = "rating-text">Rating: </div>
+                </div>
+                <div class = "review-header">
+                    <p>看哪，這裏是一張新榜！但同我持著它到峽谷裏，到人類之心的我的弟兄們在何處呢？</p>
+                </div>
+                <div class = "review-text">
+                    <p>我對於遙遠的人們的偉大的愛如是要求：「別姑息你們的鄰人！人是要被超越的一種東西。」 　　因此你看：有著這多超越之不同的道路和方式！但僅僅一個丑角知道：人也能被躍過！ 　　甚至於在你的鄰人中超越了你自己：有力量奪取的你不當忍受了給予，這便是你的權力！ 　　你對人所做的無人能對你做。看哪，這裏並沒有報酬！ 　　不能命令自己的人不當服從。許多人能命令自己，但於自己服從仍然差得很遠。</p>
+                </div>
+                <div class="image-background">
+                    <div class = "image-container">
+                        <a href="javascript:void(0);"><img src = "/images/review/caption (1).jpg" />  </a>
+                        <a href="javascript:void(0);"><img src = "/images/review/caption.jpg" />      </a>
+                        <a href="javascript:void(0);"><img src = "/images/review/photo3jpg.jpg" />    </a>
+                        <a href="javascript:void(0);"><img src = "/images/review/photo4jpg.jpg" />    </a>
+                    </div>
+                </div>
+                <div class = "review-date">Review date:&nbsp;&nbsp;2023-9-8</div>
+            </div>
+        </div>
+        <div class = "xjbai"><img src="/images/review/xjbai.png" style="object-fit: cover; object-position: center;"/></div>
+        <div class = "xjbair"><img src="/images/review/xjbai_right.png" style="object-fit: cover; object-position: center;"/></div>
+    </body>
+</html>
+<script defer>
+
+    function removePopUp() {
+        var popUpWindow = document.getElementsByClassName("image-popup")[0];
+        popUpWindow.remove();
+    }
+
+    function popUp() {
+        let body_ = document.body;
+        let popUpWindow = document.createElement("div");
+        let quitButton = document.createElement("div");
+        let quitButtonImage = document.createElement("img");
+        let quitButtonLink = document.createElement("a");
+        popUpWindow.setAttribute("class", "image-popup");
+        quitButton.setAttribute("class", "popup-quit-button");
+        quitButtonImage.src = "/images/delete-button.png";
+        quitButton.appendChild(quitButtonImage);
+        quitButtonLink.href = "javascript:void(0);";
+        quitButton.addEventListener('click', removePopUp);
+        quitButtonLink.appendChild(quitButton);
+        const image_ = document.createElement("img");
+        image_.src = "/images/review/caption.jpg";
+        popUpWindow.appendChild(image_);
+        popUpWindow.appendChild(quitButtonLink);
+        body_.appendChild(popUpWindow);
+    }
+    function setRatingScore() {
+        let src = document.getElementsByClassName("rating-score");
+        for (var j = 0;j < src.length;j++) {
+            for (let i = 0;i < 4;i++) {
+                let div_ = document.createElement("div");
+                div_.setAttribute("id", "rating-circle");
+                src[j].appendChild(div_);
+            }
+        }
+    }
+    function onLoad() {
+        let images = document.getElementsByTagName("img");
+        for(let index = 0;index < images.length;index++) {
+            images[index].addEventListener('click', popUp);
+        }
+        document.addEventListener("DOMContentLoaded", setRatingScore());
+    }
+</script>
+<style>
+
+@font-face {
+    font-family: 'Trip Sans'; /* this value can be anything you wish - it gets used in the class definition below */
+    src: url('/fonts/TripSans-Regular.woff'); /* add the file path to your font here */
+}
+
+@font-face {
+    font-family: 'HYZhongYuan'; 
+    src: url('/fonts/HYZhongYuanJ.woff'); 
+}
+
+@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+
+    a:link {color: transparent;}      /* unvisited link */
+    a:visited {color: transparent;}   /* visited link */
+    a:hover {color: transparent;}     /* mouse over link */
+    a:active {color: transparent;}    /* selected link */
+
+    .xjbair {
+        position: fixed;
+        bottom: 10vh;
+        left: 20px;
+        height: 13rem;
+        width: 13rem;
+        z-index: 2;
+        border-radius: 15px;
+    }
+
+    .xjbai {
+        position: fixed;
+        bottom: 10vh;
+        right: 0;
+        height: 13rem;
+        width: 13rem;
+        z-index: 2;
+        border-radius: 15px;
+    }
+
+    .popup-quit-button {
+        border-radius: 5px;
+        margin: 0.5rem;
+        background-color: rgb(234, 147, 85);
+        height: 3rem;
+        width: 3rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+
+    .image-popup {
+        animation: fadeIn 0.1s;
+        animation-timing-function: ease-in;
+        opacity: 1;
+        position:fixed;
+        height: 50%;
+        width: 90%;
+        top: 50%; 
+        left: 50%;
+        /* margin-top: -252px; */
+        margin-top: -45%;
+        margin-left: -45%; /* 505 / 2 */
+        background-color: rgb(29, 29, 29);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 10px;
+        z-index: 3;
+    } 
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .image-background {
+        display: flex;
+        flex-direction: row;
+        overflow: visible;
+        /* background-color: red; */
+    }
+
+    .image-container {
+        height: 100%;
+    }
+
+    p {
+        margin: 0.8rem 0;
+    }
+
+    .review-header {
+        margin: 0.3rem 0;
+        font-size: 70px;
+        font-weight: bold;
+    }
+
+    #rating-text {
+        margin: 0 0.4rem 0 0;
+        font-size: 50px;
+        color: rgb(93, 93, 93);
+        text-align: center;
+    }
+
+    #rating-circle {
+      margin: 0 0.3rem 0 0;
+      width: 2.3rem;
+      height: 2.3rem;
+      background: rgb(234, 147, 85);
+      border-radius: 50%
+    }
+
+    .rating-score {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    body {
+        background-color: rgba(242,242,242,255);
+        font-size: 39px;
+        font-family: 'Trip Sans VF', 'Trip Sans', Arial, sans-serif !important;
+        /* font-family: HYZhongYuan; */
+    }
+    .main-header {
+        font-size: 6rem;
+        font-weight: bold;
+        width: 70%;
+        margin: 1rem auto;
+        display: flex;
+        justify-content: center;
+        /* background-color: white; */
+        padding: 1rem;
+        border-radius: 20px;
+        font-family: 'HYZhongYuan';
+    }
+    .content-background {
+        padding: 3rem;
+        border-radius: 20px;
+        background-color: white;
+        width: 70%;
+        margin: 0 auto;
+    }
+    .review-date {
+        margin: 1rem 0;
+    }
+}
+
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ 
+
+    a:link {color: transparent;}      /* unvisited link */
+    a:visited {color: transparent;}   /* visited link */
+    a:hover {color: transparent;}     /* mouse over link */
+    a:active {color: transparent;}    /* selected link */
+
+    .xjbair {
+        position: fixed;
+        top: 30vh;
+        left: 20px;
+        height: 10rem;
+        width: 10rem;
+        z-index: 2;
+        border-radius: 15px;
+    }
+
+    .xjbai {
+        position: fixed;
+        top: 30vh;
+        right: 0;
+        height: 10rem;
+        width: 10rem;
+        z-index: 2;
+        border-radius: 15px;
+    }
+
+    .popup-quit-button {
+        border-radius: 5px;
+        margin: 0.5rem;
+        background-color: rgb(234, 147, 85);
+        height: 1rem;
+        width: 1rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+
+    .image-popup {
+        animation: fadeIn 0.1s;
+        animation-timing-function: ease-in;
+        opacity: 1;
+        position:fixed;
+        top: 50%; 
+        left: 50%;
+
+        /* height: 505px;
+        width: 700px;
+        margin-top: -252px;
+        margin-left: -350px; */
+
+        height: 70%;
+        width: 80%;
+        margin-top: -35%;
+        margin-left: -40%;
+
+        background-color: rgb(29, 29, 29);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 10px;
+    } 
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .image-background {
+        display: flex;
+        height: 5rem;
+    }
+    .image-container {
+        height: 100%;
+    }
+
+    p {
+        margin: 0.8rem 0;
+    }
+
+    .review-header {
+        margin: 0.3rem 0;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    #rating-text {
+        margin: 0 0.4rem 0 0;
+        font-size: 17px;
+        color: rgb(93, 93, 93);
+        text-align: center;
+    }
+
+    #rating-circle {
+      margin: 0 0.3rem 0 0;
+      width: 1.3rem;
+      height: 1.3rem;
+      background: rgb(234, 147, 85);
+      border-radius: 50%
+    }
+
+    .rating-score {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    body {
+        background-color: rgba(242,242,242,255);
+        font-size: 19px;
+        font-family: 'Trip Sans VF', 'Trip Sans', Arial, sans-serif !important;
+        /* font-family: HYZhongYuan; */
+    }
+    .main-header {
+        font-size: 3rem;
+        font-weight: bold;
+        width: 30%;
+        margin: 1rem auto;
+        display: flex;
+        justify-content: center;
+        /* background-color: white; */
+        padding: 1rem;
+        border-radius: 20px;
+        font-family: 'HYZhongYuan';
+    }
+    .content-background {
+        padding: 3rem;
+        border-radius: 20px;
+        background-color: white;
+        width: 70%;
+        margin: 0 auto;
+    }
+    .review-date {
+        margin: 1rem 0;
+    }
+}
+</style>

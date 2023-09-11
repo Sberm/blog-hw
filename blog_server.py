@@ -10,6 +10,8 @@ import time
 from time import strftime, localtime
 from threading import Thread
 from fastapi import Body
+import psycopg2
+from pydantic import BaseModel
 
 # /docs 认证密码
 CORRECT_PASSWORD = "sbm"
@@ -67,7 +69,43 @@ async def create_upload_file(file: UploadFile):
         "msg": "success"
     }
 
+@app.post("/review/fetch-images")
+async def fetch_images(id: int = Body(..., embed = True)):
+    conn = psycopg2.connect("dbname=root user=root")
+    cur = conn.cursor()
+    cur.execute(f"SELECT * FROM review_img WHERE id = {id}")
+    records = cur.fetchall()
+    return_records = [x[2] for x in records]
 
+    return {
+        "code": 200, 
+        "msg": "success",
+        "return_images": return_records
+    }
+
+@app.post("/review/fetch-review")
+async def fetch_review():
+    conn = psycopg2.connect("dbname=root user=root")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM review")
+    records = cur.fetchall()
+    return_review = []
+    for re in records:
+        record_dict = {
+            "id": re[0],
+            "title": re[1],
+            "rating": re[2],
+            "review_date": re[3].strftime("%Y-%m-%d"),
+            "review_text": re[4],
+            "restaurant_name": re[5]
+        }
+        return_review.append(record_dict)
+
+    return {
+        "code": 200, 
+        "msg": "success",
+        "return_review": return_review
+    }
 
 # doc_html
 class Doc:

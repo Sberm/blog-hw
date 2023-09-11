@@ -1,0 +1,483 @@
+@font-face {
+    font-family: 'Trip Sans'; /* this value can be anything you wish - it gets used in the class definition below */
+    src: url('/fonts/TripSans-Regular.woff'); /* add the file path to your font here */
+}
+
+@font-face {
+    font-family: 'HYZhongYuan'; 
+    src: url('/fonts/HYZhongYuanJ.woff'); 
+}
+
+@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+
+    .left-arrow {
+        color: #ffffffdb;
+        filter: invert(100%) sepia(0%) saturate(4584%) hue-rotate(194deg) brightness(111%) contrast(101%);
+        position: absolute;
+        top: 50%;
+        left: 1vw;
+        max-height: 1000%;
+        max-width: 1000%;
+        height: 9rem;
+    }
+
+    .right-arrow {
+        filter: invert(100%) sepia(0%) saturate(4584%) hue-rotate(194deg) brightness(111%) contrast(101%);
+        position: absolute;
+        top: 50%;
+        right: 1vw;
+        max-height: 1000%;
+        max-width: 1000%;
+        height: 9rem;
+    }
+
+    .restaurant-name{
+        font-family: 'Trip Sans';
+        font-size: 4.4rem;
+        color: rgb(47, 47, 47);
+    }
+
+    a:link {color: transparent;}      /* unvisited link */
+    a:visited {color: transparent;}   /* visited link */
+    a:hover {color: transparent;}     /* mouse over link */
+    a:active {color: transparent;}    /* selected link */
+
+    .xjbair {
+        position: fixed;
+        bottom: 3vh;
+        left: 20px;
+        height: 13rem;
+        width: 13rem;
+        z-index: 2;
+        border-radius: 15px;
+    }
+
+    .xjbai {
+        position: fixed;
+        bottom: 3vh;
+        right: 0;
+        height: 13rem;
+        width: 13rem;
+        z-index: 2;
+        border-radius: 15px;
+    }
+
+    img:not(.popup-img) {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .popup-quit-button {
+        border-radius: 5px;
+        margin: 1.5rem;
+        background-color: rgb(234, 147, 85);
+        height: 3rem;
+        width: 3rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+
+    .image-popup {
+        animation: fadeIn 0.1s;
+        animation-timing-function: ease-in;
+        opacity: 1;
+        position:fixed;
+        top: 50vh; 
+        left: 50vw;
+
+        height: 100vh;
+        width: 100vw;
+        margin-top: -50vh;
+        margin-left: -50vw;
+
+        background-color: rgb(29, 29, 29);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 20px;
+        justify-content: center;
+        z-index: 3;
+    } 
+
+    .popup-img {
+        flex: 100;
+        max-width: 1000%;
+        max-height: 1000%;
+        /* object-fit: contain; */
+    }
+
+    .xjbai-img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .review-img {
+        width: 100%;
+        height: 20rem;
+        object-fit: cover;
+    }
+
+    .image-background {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .image-container {
+        width: 20rem;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .review-header {
+        margin: 0 0 3rem 0;
+        font-size: 4.0rem;
+    }
+
+    .review-text {
+        font-size: 2.7rem;
+        margin-bottom: 4rem;
+        color: rgb(79, 79, 79);
+        max-height: 100%;
+    }
+
+    .rating-text {
+        color: rgb(93, 93, 93);
+        text-align: center;
+        margin-right: 0.4rem;
+    }
+
+    .rating-digits {
+        color: rgb(93, 93, 93);
+        text-align: center;
+        margin-left: 0.7rem;
+    }
+
+    #rating-circle {
+        width: 3.5rem;
+        height: 3.5rem;
+        background: rgb(234, 147, 85);
+        border-radius: 50%;
+        margin-left: 0.2rem;
+    }
+
+    #rating-circle-half {
+        width: 1.75rem;
+        /* width: 1.3rem; */
+        height: 3.5rem;
+        background: rgb(234, 147, 85);
+        border-top-left-radius: 10rem;
+        border-bottom-left-radius: 10rem;
+        margin-left: 0.2rem;
+    }
+
+    .rating-score {
+        font-size: 3rem;
+        margin: 1.2rem 0 8.2rem 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    body {
+        background-color: rgba(242,242,242,255);
+        font-size: 1.9rem;
+        /* font-family: 'Trip Sans VF', 'Trip Sans', Arial, sans-serif !important; */
+        font-family: HYZhongYuan;
+    }
+    .main-header {
+        font-size: 5rem;
+        font-weight: bold;
+        width: 70%;
+        margin: 1rem auto;
+        display: flex;
+        justify-content: center;
+        /* background-color: white; */
+        padding: 1rem;
+        border-radius: 20px;
+        font-family: 'HYZhongYuan';
+    }
+
+    hr.custom-hr {
+        margin: 8.5rem auto;
+        border: 1px solid rgb(179, 179, 179);
+        border-radius: 5px;
+        width: 60%;
+    }
+
+    .content-container {
+    }
+
+    .content-background {
+        padding: 3rem;
+        border-radius: 20px;
+        background-color: white;
+        width: 80%;
+        margin: 0 auto 10rem auto;
+    }
+    .review-date {
+        font-family: 'Trip Sans';
+        font-size: 2.3rem;
+        margin: 2rem 0 0 0;
+        max-height: 100%;
+    }
+}
+
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ 
+
+    .left-arrow {
+        filter: invert(100%) sepia(0%) saturate(4584%) hue-rotate(194deg) brightness(111%) contrast(101%);
+        position: absolute;
+        top: 40%;
+        left: 1vw;
+        max-height: 1000%;
+        max-width: 1000%;
+        height: 5.5rem;
+    }
+
+    .right-arrow {
+        filter: invert(100%) sepia(0%) saturate(4584%) hue-rotate(194deg) brightness(111%) contrast(101%);
+        position: absolute;
+        top: 40%;
+        right: 1vw;
+        max-height: 1000%;
+        max-width: 1000%;
+        height: 5.5rem;
+    }
+
+    .restaurant-name{
+        font-family: 'Trip Sans';
+        font-size: 2.7rem;
+        color: rgb(47, 47, 47);
+    }
+
+    a:link {color: transparent;}      /* unvisited link */
+    a:visited {color: transparent;}   /* visited link */
+    a:hover {color: transparent;}     /* mouse over link */
+    a:active {color: transparent;}    /* selected link */
+
+    .xjbair {
+        position: fixed;
+        top: 30vh;
+        left: 20px;
+        height: 10rem;
+        width: 10rem;
+        z-index: 2;
+        border-radius: 15px;
+    }
+
+    .xjbai {
+        position: fixed;
+        top: 30vh;
+        right: 0;
+        height: 10rem;
+        width: 10rem;
+        z-index: 2;
+        border-radius: 15px;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .popup-quit-button {
+        border-radius: 5px;
+        margin: 1.5rem 2.5rem 0 0;
+        background-color: rgb(234, 147, 85);
+        height: 1rem;
+        width: 1rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+
+    .image-popup {
+        animation: fadeIn 0.1s;
+        animation-timing-function: ease-in;
+        opacity: 1;
+        position:fixed;
+
+        /* height: 505px;
+        width: 700px;
+        margin-top: -252px;
+        margin-left: -350px;  */
+
+        top: 50vh; 
+        left: 50vw;
+
+        height: 100vh;
+        width: 100vw;
+        margin-top: -50vh;
+        margin-left: -50vw;
+
+        background-color: rgb(29, 29, 29);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 10px;
+        justify-content: center;
+        z-index: 3;
+    } 
+
+    .popup-img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+    }
+
+    .xjbai-img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .review-img {
+        width: 100%;
+        height: 10.4rem;
+        object-fit: cover;
+    }
+
+    .image-background {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 0.2rem;
+        flex-wrap: wrap;
+    }
+
+    .image-container {
+        width: 16rem;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .review-header {
+        margin: 0 0 1rem 0;
+        font-size: 1.8rem;
+    }
+
+    .review-text {
+        margin-bottom: 2rem;
+        color: rgb(79, 79, 79);
+    }
+
+    .rating-text {
+        font-size: 17px;
+        color: rgb(93, 93, 93);
+        text-align: center;
+        margin-right: 0.4rem;
+    }
+
+    .rating-digits {
+        font-size: 17px;
+        color: rgb(93, 93, 93);
+        text-align: center;
+        margin-left: 0.7rem;
+    }
+
+    #rating-circle {
+        width: 1.3rem;
+        height: 1.3rem;
+        background: rgb(234, 147, 85);
+        border-radius: 50%;
+        margin-left: 0.2rem;
+    }
+
+    #rating-circle-half {
+        width: 0.75rem;
+        /* width: 1.3rem; */
+        height: 1.3rem;
+        background: rgb(234, 147, 85);
+        border-top-left-radius: 10rem;
+        border-bottom-left-radius: 10rem;
+        margin-left: 0.2rem;
+    }
+
+    .rating-score {
+        margin: 1.2rem 0 3.2rem 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    body {
+        background-color: rgba(242,242,242,255);
+        font-size: 19px;
+        /* font-family: 'Trip Sans VF', 'Trip Sans', Arial, sans-serif !important; */
+        font-family: HYZhongYuan;
+    }
+    .main-header {
+        font-size: 3rem;
+        font-weight: bold;
+        width: 30%;
+        margin: 1rem auto;
+        display: flex;
+        justify-content: center;
+        /* background-color: white; */
+        padding: 1rem;
+        border-radius: 20px;
+        font-family: 'HYZhongYuan';
+    }
+
+    hr.custom-hr {
+        margin: 2.5rem auto;
+        border: 1px solid rgb(179, 179, 179);
+        border-radius: 5px;
+        width: 60%;
+    }
+
+    .content-container {
+    }
+
+    .content-background {
+        padding: 3rem;
+        border-radius: 20px;
+        background-color: white;
+        width: 60rem;
+        margin: 0 auto 10rem auto;
+    }
+    .review-date {
+        font-family: 'Trip Sans';
+        font-size: 16px;
+        margin: 2rem 0 0 0;
+    }
+}
