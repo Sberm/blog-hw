@@ -9,12 +9,18 @@ import yaml
 import time
 from time import strftime, localtime
 from threading import Thread
-from fastapi import Body
+from fastapi import Body, File
 import psycopg2
-from pydantic import BaseModel
+import traceback
+from typing import List
 
 # /docs 认证密码
 CORRECT_PASSWORD = "sbm"
+
+# postgresql connection
+conn = psycopg2.connect("dbname=root user=root")
+
+os.chdir("/root/hw/blog-hw")
 
 app = FastAPI()
 
@@ -71,11 +77,19 @@ async def create_upload_file(file: UploadFile):
 
 @app.post("/review/fetch-images")
 async def fetch_images(id: int = Body(..., embed = True)):
-    conn = psycopg2.connect("dbname=root user=root")
-    cur = conn.cursor()
-    cur.execute(f"SELECT * FROM review_img WHERE id = {id}")
-    records = cur.fetchall()
-    return_records = [x[2] for x in records]
+    # print("fetching id", id)
+    if (id < 0):
+        return {
+            "code": 200, 
+            "msg": "success",
+            "return_images": [] 
+        }
+    with conn.cursor() as cur:
+        cur.execute("""SELECT * FROM review_img 
+                    WHERE id = %s;""",
+                    (id,))
+        records = cur.fetchall()
+        return_records = [x[2] for x in records]
 
     return {
         "code": 200, 
@@ -85,9 +99,9 @@ async def fetch_images(id: int = Body(..., embed = True)):
 
 @app.post("/review/fetch-review")
 async def fetch_review():
-    conn = psycopg2.connect("dbname=root user=root")
     cur = conn.cursor()
-    cur.execute("SELECT * FROM review")
+    cur.execute("""SELECT * FROM review
+                   ORDER BY review_date DESC;""")
     records = cur.fetchall()
     return_review = []
     for re in records:
@@ -106,6 +120,209 @@ async def fetch_review():
         "msg": "success",
         "return_review": return_review
     }
+
+@app.post("/review/fetch-review-id-resname")
+async def fetch_review_id_resname():
+    cur = conn.cursor()
+    cur.execute("""SELECT id, restaurant_name FROM review
+                   ORDER BY review_date DESC;""")
+    records = cur.fetchall()
+    return_review = []
+    for re in records:
+        record_dict = {
+            "id": re[0],
+            "restaurant_name": re[1]
+        }
+        return_review.append(record_dict)
+
+    return {
+        "code": 200, 
+        "msg": "success",
+        "return_review": return_review
+    }
+
+@app.get("/review/fetch-review-content")
+async def fetch_review_content(id: int):
+    cur = conn.cursor()
+    cur.execute(f"""SELECT * FROM review 
+                    WHERE id = {id};""")
+    re = cur.fetchall()[0]
+    return_review = {
+        "title": re[1],
+        "rating": re[2],
+        "review_text": re[4],
+        "restaurant_name": re[5]
+    }
+
+    return {
+        "code": 200, 
+        "msg": "success",
+        "return_review": return_review
+    }
+
+@app.post("/review/create-modify")
+async def create_modify(id: int = Body(...),
+                        title: str = Body(...),
+                        rating: float = Body(...),
+                        review_text: str = Body(...),
+                        restaurant_name: str = Body(...)):
+    cur = conn.cursor()
+    code = 200
+    return_result = {}
+    if id == -1:
+        msg = "insert new record success"
+        try:
+            cur.execute("""INSERT INTO review (title, rating, review_text, restaurant_name)
+                           VALUES (%s, %s, %s, %s)
+                           RETURNING id""",
+                           (title, rating, review_text, restaurant_name))
+            conn.commit()
+            id = cur.fetchone()[0]
+        except:
+            print("[ERROR] insert new record failed")
+            traceback.print_exc()
+            code = 400
+            msg = "insert new record failed"
+        finally:
+            return_result = {
+                "id": id,
+                "code" : code,
+                "msg": msg
+            }
+    else:
+        msg = "modify record success"
+        try:
+            cur.execute("""UPDATE review
+                            SET title = %s, rating = %s, review_text = %s, restaurant_name = %s
+                            WHERE id = %s;""",
+                            (title, rating, review_text, restaurant_name, id))
+            conn.commit()
+        except:
+            print("[ERROR] modify new record failed")
+            traceback.print_exc()
+            code = 400
+            msg = "modify record failed"
+        finally:
+            return_result = {
+                "code" : code,
+                "msg": msg
+            }
+    return return_result
+
+@app.post("/review/delete")
+async def delete_record(id: int = Body(..., embed=True)):
+    cur = conn.cursor()
+    code = 200
+    msg = "delete record success"
+    try:
+        cur.execute("""SELECT img from review_img
+                    WHERE id = %s;""",
+                    (id,))
+        imagePaths = cur.fetchall();
+        for imgp in imagePaths:
+            file_path_dot = f".{imgp[0]}"
+            if os.path.exists(file_path_dot):
+                os.remove(file_path_dot)
+        cur.execute("""DELETE from review_img
+                        WHERE id = %s;""",
+                    (id,))
+        cur.execute("""DELETE FROM review
+                       WHERE id = %s;""",
+                       (id,))
+        conn.commit()
+    except:
+        print("[ERROR] delete record failed")
+        traceback.print_exc()
+        code = 400
+        msg = "delete record failed"
+    finally:
+        result = {
+            "code" : code,
+            "msg": msg
+        }
+    return result
+
+@app.post("/review/save-image")
+async def save_image(file: UploadFile):
+    code = 200
+    msg = "success"
+    try:
+        contents = await file.read()
+        file_name = file.filename
+        print(f"received {file_name}")
+
+        async with aiofiles.open(f"./images/review/{file_name}", mode="wb") as af:
+            await af.write(contents)
+        
+    except:
+        code = 400
+        msg = "failed"
+
+    return {
+        "code": code,
+        "msg": msg
+    }
+
+@app.post("/review/db-insert-img")
+async def db_insert_image(id: int = Body(...),
+                          fileNames: List[str] = Body(...)):
+
+    if id < 0:
+        return {
+            "code": 401,
+            "msg": "id不能为负数"
+        }
+
+    code = 200
+    msg = "success"
+    try:
+        to_insert = [f"/images/review/{fn}" for fn in fileNames]
+        with conn.cursor() as cur:
+            for ti in to_insert:
+                cur.execute("""INSERT into review_img(id, img)
+                               VALUES(%s, %s)""",
+                               (id, ti))
+        conn.commit()
+    except:
+        code = 400
+        msg = "failed"
+        from traceback import print_exc
+        print_exc()
+    finally:
+        return {
+            "code": code,
+            "msg": msg
+        }
+
+
+@app.post("/review/delete-image")
+async def delete_image(id: int = Body(..., embed=True)):
+    code = 200
+    msg = "success"
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""SELECT img from review_img
+                        WHERE id = %s;""",
+                        (id,))
+            imagePaths = cur.fetchall();
+            for imgp in imagePaths:
+                file_path_dot = f".{imgp[0]}"
+                if os.path.exists(file_path_dot):
+                    os.remove(file_path_dot)
+            cur.execute("""DELETE from review_img
+                           WHERE id = %s;""",
+                        (id,))
+        conn.commit()
+        
+    except:
+        code = 400
+        msg = "failed"
+
+    return {
+        "code": code,
+        "msg": msg
+    }
+
 
 # doc_html
 class Doc:

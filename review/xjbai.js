@@ -5,12 +5,14 @@ function removePopUp() {
 
 function movePointerReload(offset) {
 
-    imagePointer = imagePointer + offset;
-    if(imagePointer < 0) {
-        imagePointer += popUpImageLength;
-    } else if (imagePointer >= popUpImageLength) {
-        imagePointer -= popUpImageLength;
+    let ip = imagePointer;
+    imagePointer = (imagePointer + offset < 0 || imagePointer + offset >= popUpImageLength) ? imagePointer : imagePointer + offset;
+    if (ip == imagePointer) {
+        return
     }
+
+    // console.log("image pointer is",imagePointer)
+
     let popUpWindowImage = document.getElementsByClassName("popup-img")[0];
     popUpWindowImage.src = REVIEW_IMG[imageArrayPointer].images[imagePointer];
 }
@@ -35,10 +37,18 @@ function popUp(imageSourceDiv) {
     popUpWindow.appendChild(quitButtonLink);
 
     let metaId = parseInt(imageSourceDiv.getAttribute("metaId"));
+    let imageSrc = imageSourceDiv.src;
 
     for (let index = 0;index < REVIEW_IMG.length; index++) {
         if (REVIEW_IMG[index].id == metaId) {
             imageArrayPointer = index;
+            for (let jndex = 0;jndex < REVIEW_IMG[imageArrayPointer].images.length; jndex++) {
+                imgReg = new RegExp(REVIEW_IMG[imageArrayPointer].images[jndex]);
+                if (imageSrc.match(imgReg)) {
+                    imagePointer = jndex;
+                    break;
+                }
+            }
             break;
         }
     }
@@ -78,12 +88,12 @@ async function fetchReviewData(kwargs) {
         url = "https://sberm.cn/review/fetch-review";
         data = {
             empty: "empty"
-        }
+        };
     } else if (kwargs.isImage == true) {
-        url = "https://sberm.cn/review/fetch-images"
+        url = "https://sberm.cn/review/fetch-images";
         data = {
             id: kwargs.id
-        }
+        };
     }
 
     const response = await fetch(url, {
@@ -101,93 +111,94 @@ async function fetchReviewData(kwargs) {
     return await response.json(); // parses JSON response into native JavaScript objects
 }
 
-async function setContent() {
-    let data = await fetchReviewData({isData: true});
+async function setContent(da, contentBackground) {
 
-    var contentBackground = document.createElement('div');
-    contentBackground.setAttribute("class", "content-background");
-    for(let i = 0;i < data.return_review.length; i++) {
-        let da = data.return_review[i];
-        const id = da.id;
-        const title = da.title;
-        const rating = da.rating;
-        const date = da.review_date;
-        const reviewText = da.review_text;
-        const restaurantName = da.restaurant_name;
+    const id = da.id;
+    const title = da.title;
+    const rating = da.rating;
+    const date = da.review_date;
+    const reviewText = da.review_text;
+    const restaurantName = da.restaurant_name;
 
-        let contentContainer = document.createElement('div');
-        contentContainer.setAttribute("class", "content-container");
+    let contentContainer = document.createElement('div');
+    contentContainer.setAttribute("class", "content-container");
 
-        let text = `
-            <div class = "restaurant-name">
-                <span>${restaurantName}</span>
-            </div>
-            <div class = "rating-score">
-                <div class = "rating-text">Rating: </div>
-            </div>
-            <div class = "review-header">
-                <p>${title}</p>
-            </div>
-            <div class = "review-text">
-                <p>${reviewText}</p>
-            </div>
-            <div class="image-background">
-            </div>
-            <div class = "review-date">Review date:&nbsp;&nbsp;${date}</div>
+    let text = `
+        <div class = "restaurant-name">
+            <span>${restaurantName}</span>
+        </div>
+        <div class = "rating-score">
+            <div class = "rating-text">Rating: </div>
+        </div>
+        <div class = "review-header">
+            <p>${title}</p>
+        </div>
+        <div class = "review-text">
+            <p>${reviewText}</p>
+        </div>
+        <div class="image-background">
+        </div>
+        <div class = "review-date">Review date:&nbsp;&nbsp;${date}</div>
+    `
+    contentContainer.innerHTML = text;
+
+    // image
+    let images = await fetchReviewData({isImage: true, id: id});
+    let imageBackground = contentContainer.getElementsByClassName("image-background")[0];
+    REVIEW_IMG.push({
+        id: id,
+        images: images.return_images
+    });
+    for (let j = 0;j < images.return_images.length; j++) {
+        let img = images.return_images[j];
+        let imageContainer = document.createElement("div");
+        imageContainer.setAttribute("class", "image-container");
+        imageContainer.innerHTML = `
+            <a href="javascript:void(0);"><img class="review-img" role = "button" alt = "${img}" src = "${img}" onclick = "popUp(this)" metaId = "${id}"/>  </a>
         `
-        contentContainer.innerHTML = text;
-
-        let images = await fetchReviewData({isImage: true, id: id});
-        let imageBackground = contentContainer.getElementsByClassName("image-background")[0];
-        REVIEW_IMG.push({
-            id: id,
-            images: images.return_images
-        });
-        for (let j = 0;j < images.return_images.length; j++) {
-            let img = images.return_images[j];
-            let imageContainer = document.createElement("div");
-            imageContainer.setAttribute("class", "image-container");
-            imageContainer.innerHTML = `
-                <a href="javascript:void(0);"><img class="review-img" role = "button" alt = "${img}" src = "${img}" onclick = "popUp(this)" metaId = "${id}"/>  </a>
-            `
-            imageBackground.appendChild(imageContainer);
-        }
-
-        // rating
-        let ratingRounded = Math.floor(rating);
-        let half_ = false;
-        if (rating - ratingRounded >= 0.5) {
-            half_ = true;
-        }
-        let ratingScore = contentContainer.getElementsByClassName("rating-score")[0];
-        for (let j = 0;j < ratingRounded; j++) {
-            let div_ = document.createElement("div");
-            div_.setAttribute("id", "rating-circle");
-            ratingScore.appendChild(div_);
-        }
-        if (half_) {
-            let div_ = document.createElement("div");
-            div_.setAttribute("id", "rating-circle-half");
-            ratingScore.appendChild(div_);
-        }
-        let ratingDigits = document.createElement("div");
-        ratingDigits.setAttribute("class", "rating-digits");
-        ratingDigits.innerHTML = `
-            <span>${rating}</span>
-        `;
-        ratingScore.appendChild(ratingDigits);
-
-        contentBackground.appendChild(contentContainer);
-        if (i != data.return_review.length - 1) {
-            contentBackground.innerHTML += '<hr class = "custom-hr">';
-       }
+        imageBackground.appendChild(imageContainer);
     }
-    document.body.appendChild(contentBackground);
+
+    // rating
+    let ratingRounded = Math.floor(rating);
+    let half_ = false;
+    if (rating - ratingRounded >= 0.5) {
+        half_ = true;
+    }
+    let ratingScore = contentContainer.getElementsByClassName("rating-score")[0];
+    for (let j = 0;j < ratingRounded; j++) {
+        let div_ = document.createElement("div");
+        div_.setAttribute("id", "rating-circle");
+        ratingScore.appendChild(div_);
+    }
+    if (half_) {
+        let div_ = document.createElement("div");
+        div_.setAttribute("id", "rating-circle-half");
+        ratingScore.appendChild(div_);
+    }
+    let ratingDigits = document.createElement("div");
+    ratingDigits.setAttribute("class", "rating-digits");
+    ratingDigits.innerHTML = `
+        <span>${rating}</span>
+    `;
+    ratingScore.appendChild(ratingDigits);
+
+    contentBackground.appendChild(contentContainer);
+    contentBackground.innerHTML += '<hr class = "custom-hr">';
 }
 
 
 async function onLoad() {
-    await setContent();
+    console.log("bitch");
+    let data = await fetchReviewData({isData: true});
+    var contentBackground = document.createElement('div');
+    contentBackground.setAttribute("class", "content-background");
+    document.body.appendChild(contentBackground);
+    for (let index = 0; index < data.return_review.length; index++) {
+        setContent(data.return_review[index], contentBackground);
+    }
+    // await setContent();
+    // document.body.appendChild(contentBackground);
 }
 
 // 存储图片路径

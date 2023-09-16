@@ -17,6 +17,7 @@ rewrite (/blog)/(\w+)$ $1/$2.html last;
 运行自动化:
 
 nohup python3 -u blog_server.py > blog_server.log &
+nohup python3 -u blog_server.py > /dev/null &
 
 url vunerabilities:
 doc/content/x
@@ -32,9 +33,12 @@ problems to be solved: use cookie to access content ----> server has to save a c
 
 博客功能
 
+3. 上传评分、评价(短文)、标题  ok
+3.5 修改 ok
+5. 删除 ok
+
 1. 上传图片
 2. 图片点击放大 ok
-3. 上传评分、评价(短文)、标题 
 4. 自动生成评价日期 ok
-5. 删除评价
 6. 评价的评论
+7. 不要取照片的时候取n次数据库，取1次

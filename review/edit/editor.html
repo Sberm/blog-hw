@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <link href="/images/favicon.ico" rel="icon" type="image/x-icon"/>
+        <link rel="stylesheet" href="editor.css">
+        <title>
+            小鸡拜编辑器
+        </title>
+    </head>
+    <body>
+        <div class="editor-background">
+            <h1>编辑器</h1>
+            <div class = "text-input">
+                <p class="input-type">
+                    <span class="must-have">*</span>
+                    餐厅名称
+                </p>
+                <textarea id="restaurant-name" rows="1" maxlength="100" placeholder=""></textarea>
+            </div>
+            <div class = "text-input">
+                <p class="input-type"> <span>标题</span> </p>
+                <textarea id="title" rows="2" maxlength="200" placeholder=""></textarea>
+            </div>
+            <div class = "text-input">
+                <p class="input-type">评分</p>
+                <textarea id="rating" rows="1" maxlength="4" placeholder="3.2"></textarea>
+            </div>
+            <div class = "text-input">
+                <p class="input-type">评论正文</p>
+                <textarea id="review-text" rows="7" maxlength="500" placeholder=""></textarea>
+            </div>
+            <div class = "preview-image-input">
+                <p class="input-type">添加图片</p>
+                <input type="file" id="filetag" accept="image/*" onchange="previewFiles();" multiple>
+                <div class="preview-image-background"></div>
+            </div>
+            <button class="button-5" role="button" onclick="createOrModify();">保存</button>
+            <button class="button-5" role="button" onclick="window.location.href= 'https://sberm.cn/review';">小鸡拜主页</button>
+            <div style="margin: 1rem 0;">
+                <button class="button-5" style="background-color: rgb(109, 109, 109);" role="button" onclick="deleteReview();">删除评价</button>
+                <button class="button-5" style="background-color: rgb(109, 109, 109);" role="button" onclick="deleteAllImages();">删除所有图片</button>
+            </div>
+            <div class="spacer"></div>
+        </div>
+        <div class="preview-background">
+            <div class="spacer"></div>
+        </div>
+    </body>
+</html>
+<script src="editor.js"></script>

@@ -10,6 +10,66 @@
 
 @media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
 
+    a {
+        max-height: 100%;
+        font-size: 3rem;
+        text-decoration: none;
+    }
+    
+    .p-then {
+        margin: 2rem 0;
+    }
+
+    .button-5 {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #fa6400;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 3rem;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0 0 5rem 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+    }
+
+    .button-5:hover,
+    .button-5:focus {
+    background-color: #fb8332;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    }
+
+    .button-5:hover {
+    transform: translateY(-1px);
+    }
+
+    .button-5:active {
+    background-color: #c85000;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+    }
+
+
+    h1 {
+        font-size: 5rem;
+    }
+
     .left-arrow {
         color: #ffffffdb;
         filter: invert(100%) sepia(0%) saturate(4584%) hue-rotate(194deg) brightness(111%) contrast(101%);
@@ -36,11 +96,6 @@
         font-size: 4.4rem;
         color: rgb(47, 47, 47);
     }
-
-    a:link {color: transparent;}      /* unvisited link */
-    a:visited {color: transparent;}   /* visited link */
-    a:hover {color: transparent;}     /* mouse over link */
-    a:active {color: transparent;}    /* selected link */
 
     .xjbair {
         position: fixed;
@@ -203,7 +258,6 @@
     body {
         background-color: rgba(242,242,242,255);
         font-size: 1.9rem;
-        /* font-family: 'Trip Sans VF', 'Trip Sans', Arial, sans-serif !important; */
         font-family: HYZhongYuan;
     }
     .main-header {
@@ -246,6 +300,59 @@
 
 @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ 
 
+    a {
+        text-decoration: none;
+    }
+
+    .p-then {
+        margin: 0.5rem 0;
+    }
+
+    .button-5 {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #fa6400;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+    }
+
+    .button-5:hover,
+    .button-5:focus {
+    background-color: #fb8332;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    }
+
+    .button-5:hover {
+    transform: translateY(-1px);
+    }
+
+    .button-5:active {
+    background-color: #c85000;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+    }
+
     .left-arrow {
         filter: invert(100%) sepia(0%) saturate(4584%) hue-rotate(194deg) brightness(111%) contrast(101%);
         position: absolute;
@@ -271,11 +378,6 @@
         font-size: 2.7rem;
         color: rgb(47, 47, 47);
     }
-
-    a:link {color: transparent;}      /* unvisited link */
-    a:visited {color: transparent;}   /* visited link */
-    a:hover {color: transparent;}     /* mouse over link */
-    a:active {color: transparent;}    /* selected link */
 
     .xjbair {
         position: fixed;
@@ -473,7 +575,10 @@
         border-radius: 20px;
         background-color: white;
         width: 60rem;
-        margin: 0 auto 10rem auto;
+        /* margin: 0 auto 10rem auto; */
+        margin: 1rem 0;
+        position: absolute;
+        left: 10vw;
     }
     .review-date {
         font-family: 'Trip Sans';
