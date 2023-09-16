@@ -189,7 +189,6 @@ async function setContent(da, contentBackground) {
 
 
 async function onLoad() {
-    console.log("bitch");
     let data = await fetchReviewData({isData: true});
     var contentBackground = document.createElement('div');
     contentBackground.setAttribute("class", "content-background");
