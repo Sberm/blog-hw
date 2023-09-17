@@ -464,7 +464,7 @@ def generate_blog(file_name: str):
     now = time.strftime("%H:%M:%S", time.localtime())
     print(f"blog updating {now}")
 
-    headers = {"Accept": "application/vnd.github+json", "Authorization": "Bearer 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", "X-GitHub-Api-Version": "2022-11-28"}
+    headers = {"Accept": "application/vnd.github+json", "Authorization": "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", "X-GitHub-Api-Version": "2022-11-28"}
     url = "https://api.github.com/markdown"
 
     doc_flag = False
@@ -554,7 +554,7 @@ def check_new_files():
 def generate_doc(file_path: str, dir_list: list[str]):
     now = time.strftime("%H:%M:%S", time.localtime())
     print(f"doc updating {now}")
-    headers = {"Accept": "application/vnd.github+json", "Authorization": "Bearer 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", "X-GitHub-Api-Version": "2022-11-28"}
+    headers = {"Accept": "application/vnd.github+json", "Authorization": "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", "X-GitHub-Api-Version": "2022-11-28"}
     url = "https://api.github.com/markdown"
     root_dir = "./docs/md"
     write_root = "./docs/content"

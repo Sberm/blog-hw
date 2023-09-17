@@ -49,4 +49,6 @@ word count
 find ./ -type f -regex ".*.html\|.*.css\|.*.js\|.*.conf\|.*.py\|.*.md\|.*.yaml"| xargs wc -l | tail -n 1
 
 
-新github token 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
+github token 
+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
+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
