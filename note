@@ -37,8 +37,16 @@ problems to be solved: use cookie to access content ----> server has to save a c
 3.5 修改 ok
 5. 删除 ok
 
-1. 上传图片
+1. 上传图片 ok
 2. 图片点击放大 ok
 4. 自动生成评价日期 ok
 6. 评价的评论
-7. 不要取照片的时候取n次数据库，取1次
+7. 不要取照片的时候取n次数据库，取1次 ok
+8. 分页
+
+
+word count
+find ./ -type f -regex ".*.html\|.*.css\|.*.js\|.*.conf\|.*.py\|.*.md\|.*.yaml"| xargs wc -l | tail -n 1
+
+
+新github token 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

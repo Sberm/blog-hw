@@ -73,3 +73,7 @@ b93:
 elixir_96:
   title: "使用mix启动elixir应用"
   date: "2023-9-6"
+ 
+systemctl:
+  title: "使用systemctl作为守护进程管理器时遇到的问题"
+  date: "2023-9-16"

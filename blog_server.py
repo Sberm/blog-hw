@@ -13,12 +13,17 @@ from fastapi import Body, File
 import psycopg2
 import traceback
 from typing import List
+from datetime import datetime
 
 # /docs 认证密码
 CORRECT_PASSWORD = "sbm"
 
 # postgresql connection
 conn = psycopg2.connect("dbname=root user=root")
+
+# 进入文档路由
+# real_doc_url = "/docs/qowidjqowidjqowid12091i32031h20i1/a0iosjd0asdq109w102ije1209iu0as9dmsdnalskdaj0wi1092ue"
+real_doc_url = "/docs/bd217ad3f277a9e82e2305377b1eb25d861117c78c9fa20e67184e232809c950/ba1e9359f249eae13818bf39a50bc305b313b6fc1c643057bcae187959ef2bf3"
 
 os.chdir("/root/hw/blog-hw")
 
@@ -51,7 +56,6 @@ def make_response(code: int, msg: str, url: str = None):
 @app.post("/validate")
 async def valiate(password: str = Body(...,description="password", examples="abc123"),
                   jwt: str = Body(...,description="json web token")):
-    real_doc_url = "/docs/qowidjqowidjqowid12091i32031h20i1/a0iosjd0asdq109w102ije1209iu0as9dmsdnalskdaj0wi1092ue"
     if password == CORRECT_PASSWORD:
         return make_response(200, "correct password", real_doc_url)
     else:
@@ -442,7 +446,15 @@ def update_blog():
                     html = f.read()
                     blog_item['sample'] = f"{(do_sample(html))[:50]}..."
                 blog_info.append(blog_item)
-        blog_info = sorted(blog_info, key=lambda x: x['date'], reverse=True)
+
+        def parseDate(date_str: str):
+            try: 
+                # 0000-00-00
+                return datetime.strptime(date_str,"%Y-%m-%d").timestamp()
+            except:
+                return -1
+
+        blog_info = sorted(blog_info, key=lambda x: parseDate(x['date']), reverse=True)
         blog.blog_info = blog_info
         update_html_blog()
 
@@ -452,7 +464,7 @@ def generate_blog(file_name: str):
     now = time.strftime("%H:%M:%S", time.localtime())
     print(f"blog updating {now}")
 
-    headers = {"Accept": "application/vnd.github+json", "Authorization": "Bearer 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", "X-GitHub-Api-Version": "2022-11-28"}
+    headers = {"Accept": "application/vnd.github+json", "Authorization": "Bearer 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", "X-GitHub-Api-Version": "2022-11-28"}
     url = "https://api.github.com/markdown"
 
     doc_flag = False
@@ -462,7 +474,7 @@ def generate_blog(file_name: str):
 
     file_path = f"{root_dir}/{file_name}"
 
-    with open(f"{file_path}", 'r') as f:
+    with open(f"{file_path}", 'r', encoding = "utf-8") as f:
         tmp = f.read()
 
     json_ = {
@@ -532,7 +544,8 @@ def check_new_files():
         for file in files:
             file_path = os.path.join(root, file)
             m_t = os.path.getmtime(file_path)
-            if m_t > l_m_f and '.md' in file:
+            # if m_t > l_m_f and '.md' in file:
+            if m_t > l_m_f and file.rsplit(".",1)[-1] == 'md' and file[0] != '.':
                 l_m_f = m_t
                 generate_blog(file)
 
@@ -541,7 +554,7 @@ def check_new_files():
 def generate_doc(file_path: str, dir_list: list[str]):
     now = time.strftime("%H:%M:%S", time.localtime())
     print(f"doc updating {now}")
-    headers = {"Accept": "application/vnd.github+json", "Authorization": "Bearer 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", "X-GitHub-Api-Version": "2022-11-28"}
+    headers = {"Accept": "application/vnd.github+json", "Authorization": "Bearer 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", "X-GitHub-Api-Version": "2022-11-28"}
     url = "https://api.github.com/markdown"
     root_dir = "./docs/md"
     write_root = "./docs/content"
@@ -550,7 +563,7 @@ def generate_doc(file_path: str, dir_list: list[str]):
     file_name_path = file_name.rsplit('/', 1)[0]
     os.makedirs(f"{write_root}/{file_name_path}", exist_ok = True) 
     file_path = f"{root_dir}/{file_name}"
-    with open(f"{file_path}", 'r') as f:
+    with open(f"{file_path}", 'r', encoding = "utf-9") as f:
         tmp = f.read()
     json_ = {
         "text": tmp

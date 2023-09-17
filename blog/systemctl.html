@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="github.css">
+</head>
+
+<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img src="/images/leave.png" class="leave-img"/></a></div></div>
+<div class = "spacing-div">
+<article class="markdown-body">
+<h2><a id="user-content-使用systemctl作为守护进程管理器时遇到的问题" class="anchor" aria-hidden="true" tabindex="-1" href="#使用systemctl作为守护进程管理器时遇到的问题"><span aria-hidden="true" class="octicon octicon-link"></span></a>使用systemctl作为守护进程管理器时遇到的问题</h2>
+<ol>
+<li>异步文件读写库asyncio上锁后SIGTERM无法终止程序。</li>
+<li>可以使用SIGKILL终止。</li>
+</ol>
+<p>解决办法:</p>
+<ol>
+<li>在blog-server.service中添加ExecStop=SIGKILL代表<code>systemctl stop blog-server.service</code>    时不使用默认的SIGTERM信号而是SIGKILL信号。</li>
+</ol>
+<pre lang="systemd"><code>[Unit]
+Description=Daemon for blog server
+
+[Service]
+Type=simple
+WorkingDirectory=/root/hw/blog-hw
+ExecStart=/bin/python3 /root/hw/blog-hw/blog_server.py
+;Restart=always
+;RestartSec=10
+KillSignal=SIGKILL
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<ol start="2">
+<li>
+<p>systemctl kill -s 9 blog-server.service</p>
+</li>
+<li>
+<p>kill -9 </p>
+</li>
+</ol>
+
+</article>
+
+<div id="footer-main">
+    <div id="footer-line">
+    </div>
+    <div id="footer-text-wrapper">
+        <p id="footer-text">
+            The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness.
+        </p>
+    </div>
+    <div id="footer-commu-background">
+        <div id="footer-commu">
+            <div class="footer-image-container">
+                <a href="https://www.youtube.com/watch?v=XqZsoesa55w">
+                    <img class="footer-image" src="../images/linux.png"/>
+                </a>
+            </div>
+            <div class="footer-image-container">
+                <a href="https://twitter.com/Fernand73827208">
+                    <img class="footer-image" src="../images/twitter.png"/>
+                </a>
+            </div>
+            <div class="footer-image-container">
+                <a href="https://github.com/torvalds">
+                    <img class="footer-image" src="../images/github.svg"/>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+</div>
+</div>
+</html>
