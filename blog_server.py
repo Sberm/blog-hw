@@ -22,8 +22,10 @@ CORRECT_PASSWORD = "sbm"
 conn = psycopg2.connect("dbname=root user=root")
 
 # 进入文档路由
-# real_doc_url = "/docs/qowidjqowidjqowid12091i32031h20i1/a0iosjd0asdq109w102ije1209iu0as9dmsdnalskdaj0wi1092ue"
 real_doc_url = "/docs/bd217ad3f277a9e82e2305377b1eb25d861117c78c9fa20e67184e232809c950/ba1e9359f249eae13818bf39a50bc305b313b6fc1c643057bcae187959ef2bf3"
+
+# github api 请求token
+github_token = os.getenv("github_token")
 
 os.chdir("/root/hw/blog-hw")
 
@@ -464,7 +466,7 @@ def generate_blog(file_name: str):
     now = time.strftime("%H:%M:%S", time.localtime())
     print(f"blog updating {now}")
 
-    headers = {"Accept": "application/vnd.github+json", "Authorization": "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", "X-GitHub-Api-Version": "2022-11-28"}
+    headers = {"Accept": "application/vnd.github+json", "Authorization": github_token, "X-GitHub-Api-Version": "2022-11-28"}
     url = "https://api.github.com/markdown"
 
     doc_flag = False
@@ -554,7 +556,7 @@ def check_new_files():
 def generate_doc(file_path: str, dir_list: list[str]):
     now = time.strftime("%H:%M:%S", time.localtime())
     print(f"doc updating {now}")
-    headers = {"Accept": "application/vnd.github+json", "Authorization": "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", "X-GitHub-Api-Version": "2022-11-28"}
+    headers = {"Accept": "application/vnd.github+json", "Authorization": github_token, "X-GitHub-Api-Version": "2022-11-28"}
     url = "https://api.github.com/markdown"
     root_dir = "./docs/md"
     write_root = "./docs/content"
