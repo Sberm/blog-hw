@@ -563,7 +563,7 @@ def generate_doc(file_path: str, dir_list: list[str]):
     file_name_path = file_name.rsplit('/', 1)[0]
     os.makedirs(f"{write_root}/{file_name_path}", exist_ok = True) 
     file_path = f"{root_dir}/{file_name}"
-    with open(f"{file_path}", 'r', encoding = "utf-9") as f:
+    with open(f"{file_path}", 'r', encoding = "utf-8") as f:
         tmp = f.read()
     json_ = {
         "text": tmp

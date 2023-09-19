@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/docs/github.css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<pre><code>" vim 退出时不清空剪贴板
+autocmd VimLeave * call system("xsel -ib", getreg('+'))
+noremap &lt;S-Y&gt; "+y&lt;CR&gt;
+</code></pre>
+<p>先安装xsel</p>
+<pre><code>yum install -y xsel
+</code></pre>
+
+</article>
+<div>
+</div>
+</div>
+</html>

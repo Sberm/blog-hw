@@ -52,3 +52,9 @@ find ./ -type f -regex ".*.html\|.*.css\|.*.js\|.*.conf\|.*.py\|.*.md\|.*.yaml"|
 github token 
 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
 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
+
+
+#看git log好用
+git log --oneline | fzf --multi --preview 'git show {+1}'
+
+/root/hw/blog-hw

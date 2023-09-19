@@ -79,5 +79,5 @@ systemctl:
   date: "2023-9-16"
 
 b917:
-  title: "hey"
+  title: "ssh共享远程vim剪贴板"
   date: "2023-9-17"
