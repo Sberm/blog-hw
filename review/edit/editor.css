@@ -13,21 +13,25 @@ html * {max-height:1000000px;}
 
 @media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
 
+	.delete-buttons {
+		margin-top: 4rem;
+	}
+
     input[type=file] {
         margin: 1rem 0;
         font-size: 3rem;
     }
 
     input[type=file]::file-selector-button {
-    margin-right: 20px;
-    border: none;
-    /* background: #084cdf; */
-    background: #ff4314;
-    padding: 10px 20px;
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    transition: background .2s ease-in-out;
+		margin-right: 20px;
+		border: none;
+		/* background: #084cdf; */
+		background: #ff4314;
+		padding: 10px 20px;
+		border-radius: 10px;
+		color: #fff;
+		cursor: pointer;
+		transition: background .2s ease-in-out;
     }
 
     input[type=file]::file-selector-button:hover {
@@ -128,39 +132,39 @@ html * {max-height:1000000px;}
 
     /* CSS */
     .button-5 {
-    align-items: center;
-    background-clip: padding-box;
-    background-color: #fa6400;
-    border: 1px solid transparent;
-    border-radius: 20px;
-    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
-    box-sizing: border-box;
-    color: #fff;
-    cursor: pointer;
-    display: inline-flex;
-    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 4rem;
-    font-weight: 600;
-    justify-content: center;
-    line-height: 1.25;
-    margin: 0;
-    min-height: 3rem;
-    /* padding: calc(.875rem - 1px) calc(1.5rem - 1px); */
-    padding: 1.5rem;
-    position: relative;
-    text-decoration: none;
-    transition: all 250ms;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    vertical-align: baseline;
-    width: auto;
+		align-items: center;
+		background-clip: padding-box;
+		background-color: #fa6400;
+		border: 1px solid transparent;
+		border-radius: 20px;
+		box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+		box-sizing: border-box;
+		color: #fff;
+		cursor: pointer;
+		display: inline-flex;
+		font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+		font-size: 3rem;
+		font-weight: 600;
+		justify-content: center;
+		line-height: 1.25;
+		margin: 0;
+		min-height: 3rem;
+		/* padding: calc(.875rem - 1px) calc(1.5rem - 1px); */
+		padding: 1.5rem;
+		position: relative;
+		text-decoration: none;
+		transition: all 250ms;
+		user-select: none;
+		-webkit-user-select: none;
+		touch-action: manipulation;
+		vertical-align: baseline;
+		width: auto;
     }
 
     .button-5:hover,
     .button-5:focus {
-    background-color: #fb8332;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+		background-color: #fb8332;
+		box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
     }
 
     .button-5:hover {
@@ -441,6 +445,10 @@ html * {max-height:1000000px;}
 }
 
 @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ 
+
+	.delete-buttons {
+		margin-top: 1rem;
+	}
 
     input[type=file] {
         margin: 1rem 0;

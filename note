@@ -50,8 +50,10 @@ find ./ -type f -regex ".*.html\|.*.css\|.*.js\|.*.conf\|.*.py\|.*.md\|.*.yaml"|
 
 
 github token 
-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
-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
+/*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*/
+/*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*/
+上面这两个都用不了了
+all purpose: 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
 
 
 #看git log好用

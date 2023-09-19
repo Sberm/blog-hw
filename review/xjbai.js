@@ -37,21 +37,25 @@ function popUp(imageSourceDiv) {
     popUpWindow.appendChild(quitButtonLink);
 
     let metaId = parseInt(imageSourceDiv.getAttribute("metaId"));
-    let imageSrc = imageSourceDiv.src;
+	let temp = imageSourceDiv.src.replace("%20", " ").split("/images/");
+	let imageSrc = "/images/" + temp[temp.length - 1];
+
+	console.log("imageSrc:",imageSrc);
 
     for (let index = 0;index < REVIEW_IMG.length; index++) {
         if (REVIEW_IMG[index].id == metaId) {
             imageArrayPointer = index;
             for (let jndex = 0;jndex < REVIEW_IMG[imageArrayPointer].images.length; jndex++) {
-                imgReg = new RegExp(REVIEW_IMG[imageArrayPointer].images[jndex]);
-                if (imageSrc.match(imgReg)) {
-                    imagePointer = jndex;
-                    break;
-                }
+				if (imageSrc == REVIEW_IMG[imageArrayPointer].images[jndex]) {
+					imagePointer = jndex;
+					break;
+				}
             }
             break;
         }
     }
+
+	console.log("current index is", imagePointer);
 
     popUpImageLength = REVIEW_IMG[imageArrayPointer].images.length;
 

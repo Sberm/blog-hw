@@ -270,7 +270,8 @@
 
     .restaurant-name{
         font-family: 'Trip Sans';
-        font-size: 2.7rem;
+        /*font-size: 2.7rem;*/
+		font-size: 2.3rem;
         color: rgb(47, 47, 47);
     }
 
@@ -371,7 +372,7 @@
 
     .review-img {
         width: 100%;
-        height: 16rem;
+        height: 12rem;
         object-fit: cover;
     }
 
@@ -385,7 +386,7 @@
     }
 
     .image-container {
-        width: 16rem;
+        width: 12rem;
     }
 
     p {
@@ -394,40 +395,42 @@
 
     .review-header {
         margin: 0 0 1rem 0;
-        font-size: 1.8rem;
+		/*font-size: 1.8rem;*/
+		font-size: 1.6rem;
     }
 
     .review-text {
-        margin-bottom: 2rem;
+		font-size: 1.0rem;
+		margin-bottom: 2rem;
         color: rgb(79, 79, 79);
     }
 
     .rating-text {
-        font-size: 17px;
+        font-size: 15px;
         color: rgb(93, 93, 93);
         text-align: center;
         margin-right: 0.4rem;
     }
 
     .rating-digits {
-        font-size: 17px;
+        font-size: 15px;
         color: rgb(93, 93, 93);
         text-align: center;
-        margin-left: 0.7rem;
+        margin-left: 0.4rem;
     }
 
     #rating-circle {
-        width: 1.3rem;
-        height: 1.3rem;
+        width: 1.2rem;
+        height: 1.2rem;
         background: rgb(234, 147, 85);
         border-radius: 50%;
-        margin-left: 0.2rem;
+        margin-left: 0.1rem;
     }
 
     #rating-circle-half {
-        width: 0.75rem;
+        width: 0.6rem;
         /* width: 1.3rem; */
-        height: 1.3rem;
+        height: 1.2rem;
         background: rgb(234, 147, 85);
         border-top-left-radius: 10rem;
         border-bottom-left-radius: 10rem;
@@ -435,7 +438,7 @@
     }
 
     .rating-score {
-        margin: 1.2rem 0 3.2rem 0;
+        margin: 1.2rem 0 2.0rem 0;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -475,7 +478,7 @@
         padding: 3rem;
         border-radius: 20px;
         background-color: white;
-        width: 50rem;
+        width: 40rem;
         margin: 0 auto 10rem auto;
     }
     .review-date {
