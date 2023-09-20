@@ -90,7 +90,7 @@ async function deleteAllImages() {
         body: JSON.stringify(data)
     });
     const response = await responseR.json();
-    console.log(response);
+    //console.log(response);
     if(response.code == 200){
         images.return_images = [];
         clearSelectPreviewImage();
@@ -166,7 +166,7 @@ async function createOrModify() {
 
     if (id == -1) {
         id = response.id;
-        console.log("new id:", id);
+        //console.log("new id:", id);
         refresh = true;
     }
 
@@ -209,7 +209,7 @@ async function createOrModify() {
     // upload images
     const requests = [fetchDBInsertImage].concat(fetchSaveImage);
     const responseImage = await Promise.all(requests);
-    console.log(responseImage);
+    //console.log(responseImage);
 
     // 更新照片用于preview
     images = await fetchImages();
@@ -283,8 +283,8 @@ function previewFiles() {
     let previewBackground = document.getElementsByClassName("preview-image-background")[0];
     function readAndPreview(file, fileIndex) {
 
-        console.log("file set", fileSet);
-        console.log("files are", files);
+        //console.log("file set", fileSet);
+        //console.log("files are", files);
 
         // console.log("file name is", file.name);
         if (fileSet.has(file.name)) {

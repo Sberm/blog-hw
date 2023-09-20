@@ -41,7 +41,7 @@ function createReview() {
 
 async function main() {
     let data = await fetchAllIdsAndRestaurantName();
-    console.log(data);
+    //console.log(data);
     setContent(data);
 }
 
