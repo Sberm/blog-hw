@@ -71,3 +71,7 @@ git reset --hard origin/main
 # 重要
 git merge origin/main # 然后手动解决冲突
 ```
+
+git revert HEAD revert最后一次commit. 如果是revert某一次的commit，git revert不会顺带revert这之后的每一个commit，而是只revert这一次。范围revert要使用 <ref1>...<ref2>
+
+git checkout <ref> 也需要注意，因为进入detached head state, commit将会丢失，不会存储在当前的branch内，如果需要回退到这个commit并发展，使用这个commit新建一个branch再进行工作。detached head state的文章[ref](https://circleci.com/blog/git-detached-head-state/)

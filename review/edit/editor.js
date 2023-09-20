@@ -9,6 +9,9 @@ function preview() {
     let reviewText = document.getElementById("review-text").value;
     let restaurantName = document.getElementById("restaurant-name").value;
 
+	// 保留review text缩进换行
+	const reviewTextProcessed = reviewText.replaceAll("\t", "&emsp;").replaceAll("    ", "&emsp;").replaceAll("\n", "<br>");
+
     let text = `
         <div class = "restaurant-name">
             <span>${restaurantName}</span>
@@ -20,7 +23,7 @@ function preview() {
             <p>${title}</p>
         </div>
         <div class = "review-text">
-            <p>${reviewText}</p>
+            <p>${reviewTextProcessed}</p>
         </div>
         <div class="image-background">
         </div>

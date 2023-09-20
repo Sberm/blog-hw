@@ -40,7 +40,7 @@ function popUp(imageSourceDiv) {
 	let temp = imageSourceDiv.src.replace("%20", " ").split("/images/");
 	let imageSrc = "/images/" + temp[temp.length - 1];
 
-	console.log("imageSrc:",imageSrc);
+	//console.log("imageSrc:",imageSrc);
 
     for (let index = 0;index < REVIEW_IMG.length; index++) {
         if (REVIEW_IMG[index].id == metaId) {
@@ -127,24 +127,28 @@ async function setContent(da, contentBackground) {
     let contentContainer = document.createElement('div');
     contentContainer.setAttribute("class", "content-container");
 
-    let text = `
-        <div class = "restaurant-name">
-            <span>${restaurantName}</span>
-        </div>
-        <div class = "rating-score">
-            <div class = "rating-text">Rating: </div>
-        </div>
-        <div class = "review-header">
-            <p>${title}</p>
-        </div>
-        <div class = "review-text">
-            <p>${reviewText}</p>
-        </div>
-        <div class="image-background">
-        </div>
-        <div class = "review-date">Review date:&nbsp;&nbsp;${date}</div>
-    `
-    contentContainer.innerHTML = text;
+	// 保留review text缩进换行
+	const reviewTextProcessed = reviewText.replaceAll("\t", "&emsp;").replaceAll("    ", "&emsp;").replaceAll("\n", "<br>");
+	
+	let text = `
+		<div class = "restaurant-name">
+			<span>${restaurantName}</span>
+		</div>
+		<div class = "rating-score">
+			<div class = "rating-text">Rating: </div>
+		</div>
+		<div class = "review-header">
+			<p>${title}</p>
+		</div>
+		<div class = "review-text">
+			<p>${reviewTextProcessed}</p>
+		</div>
+		<div class="image-background">
+		</div>
+		<div class = "review-date">Review date:&nbsp;&nbsp;${date}</div>
+	`
+
+	contentContainer.innerHTML = text;
 
     // image
     let images = await fetchReviewData({isImage: true, id: id});
