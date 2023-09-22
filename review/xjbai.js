@@ -37,8 +37,8 @@ function popUp(imageSourceDiv) {
     popUpWindow.appendChild(quitButtonLink);
 
     let metaId = parseInt(imageSourceDiv.getAttribute("metaId"));
-	let temp = imageSourceDiv.src.replace("%20", " ").split("/images/");
-	let imageSrc = "/images/" + temp[temp.length - 1];
+	let temp = imageSourceDiv.src.split("/images/");
+	let imageSrc = decodeURIComponent("/images/" + temp[temp.length - 1]);
 
 	//console.log("imageSrc:",imageSrc);
 
@@ -46,6 +46,9 @@ function popUp(imageSourceDiv) {
         if (REVIEW_IMG[index].id == metaId) {
             imageArrayPointer = index;
             for (let jndex = 0;jndex < REVIEW_IMG[imageArrayPointer].images.length; jndex++) {
+
+				//console.log("imageSrc in set:",REVIEW_IMG[imageArrayPointer].images[jndex])
+
 				if (imageSrc == REVIEW_IMG[imageArrayPointer].images[jndex]) {
 					imagePointer = jndex;
 					break;
@@ -167,10 +170,13 @@ async function setContent(da, contentBackground) {
         imageBackground.appendChild(imageContainer);
     }
 
+	const MAX_SCORE = 10;
+
     // rating
-    let ratingRounded = Math.floor(rating);
+	let ratingOutOfFive = rating / 2;
+    let ratingRounded = Math.floor(ratingOutOfFive) > MAX_SCORE ? MAX_SCORE : Math.floor(ratingOutOfFive);
     let half_ = false;
-    if (rating - ratingRounded >= 0.5) {
+    if (ratingOutOfFive - ratingRounded >= 0.5) {
         half_ = true;
     }
     let ratingScore = contentContainer.getElementsByClassName("rating-score")[0];
