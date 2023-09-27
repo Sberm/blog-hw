@@ -21,8 +21,6 @@ function movePointerReload(offset) {
         return
     }
 
-    // console.log("image pointer is",imagePointer)
-
     let popUpWindowImage = document.getElementsByClassName("popup-img")[0];
     popUpWindowImage.src = REVIEW_IMG[imageArrayPointer].images[imagePointer];
 }
