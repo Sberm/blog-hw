@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/docs/github.css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<ol>
+<li>改变webui端口</li>
+</ol>
+<p>使用streamlit, 配置文件路径在~/.streamlit/config.toml中。
+如下：</p>
+<div class="highlight highlight-source-toml"><pre>[<span class="pl-en">server</span>]
+<span class="pl-smi">port</span> = <span class="pl-c1">80</span></pre></div>
+<ol start="2">
+<li>webui登录账号与密码</li>
+</ol>
+<p>在langchain根目录的webui.py中有明确设置入口。想要更改账号和密码，修改其中写死的账号和密码便可以。</p>
+<ol start="3">
+<li>导入数据</li>
+</ol>
+<p>新建并命名一个知识库-&gt;在langchain根目录会有一个<code>knowledge_base</code>文件夹,新建知识库后，会发现里面多了个和刚刚新建的知识库的名字相同的文件夹,进入这个文件夹下的<code>content</code>文件夹，并把所有知识库文件(.txt，.csv)放入进来，接下来回到webui,刷新，会发现webui的知识库管理中多出了这些新添加的文件。按下创建向量索引，等待右上角跑动小人跑完，便可以使用新建的知识库向量。</p>
+<ol start="4">
+<li>killu命令</li>
+</ol>
+<p>对于多进程uvicorn接口，新建了一个更快速的杀进程的命令，叫做<code>killu</code>命令。<code>killu &lt;PID&gt;</code>可以杀掉uvicorn父进程和worker子进程。</p>
+
+</article>
+<div>
+</div>
+</div>
+</html>

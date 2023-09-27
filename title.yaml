@@ -81,3 +81,7 @@ systemctl:
 b917:
   title: "ssh共享远程vim剪贴板"
   date: "2023-9-17"
+
+rustFirstImpression:
+  title: "rust: the `?` operator can only be used on `Result`s, not `Option`s, in a function that returns `Result`"
+  date: "2023-9-20"

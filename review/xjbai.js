@@ -1,3 +1,13 @@
+function currentPage() {
+	const queryString = window.location.search;
+	const parameters = new URLSearchParams(queryString);
+	let page = parameters.get('page');
+	if (page == null) {
+		page = 1;
+	}
+	return page;
+}
+
 function removePopUp() {
     var popUpWindow = document.getElementsByClassName("image-popup")[0];
     popUpWindow.remove();
@@ -37,8 +47,8 @@ function popUp(imageSourceDiv) {
     popUpWindow.appendChild(quitButtonLink);
 
     let metaId = parseInt(imageSourceDiv.getAttribute("metaId"));
-	let temp = imageSourceDiv.src.replace("%20", " ").split("/images/");
-	let imageSrc = "/images/" + temp[temp.length - 1];
+	let temp = imageSourceDiv.src.split("/images/");
+	let imageSrc = decodeURIComponent("/images/" + temp[temp.length - 1]);
 
 	//console.log("imageSrc:",imageSrc);
 
@@ -46,6 +56,9 @@ function popUp(imageSourceDiv) {
         if (REVIEW_IMG[index].id == metaId) {
             imageArrayPointer = index;
             for (let jndex = 0;jndex < REVIEW_IMG[imageArrayPointer].images.length; jndex++) {
+
+				//console.log("imageSrc in set:",REVIEW_IMG[imageArrayPointer].images[jndex])
+
 				if (imageSrc == REVIEW_IMG[imageArrayPointer].images[jndex]) {
 					imagePointer = jndex;
 					break;
@@ -167,10 +180,13 @@ async function setContent(da, contentBackground) {
         imageBackground.appendChild(imageContainer);
     }
 
+	const MAX_SCORE = 10;
+
     // rating
-    let ratingRounded = Math.floor(rating);
+	let ratingOutOfFive = rating / 2;
+    let ratingRounded = Math.floor(ratingOutOfFive) > MAX_SCORE ? MAX_SCORE : Math.floor(ratingOutOfFive);
     let half_ = false;
-    if (rating - ratingRounded >= 0.5) {
+    if (ratingOutOfFive - ratingRounded >= 0.5) {
         half_ = true;
     }
     let ratingScore = contentContainer.getElementsByClassName("rating-score")[0];
@@ -191,21 +207,53 @@ async function setContent(da, contentBackground) {
     `;
     ratingScore.appendChild(ratingDigits);
 
-    contentBackground.appendChild(contentContainer);
-    contentBackground.innerHTML += '<hr class = "custom-hr">';
+	//contentBackground.appendChild(contentContainer);
+	//contentBackground.innerHTML += '<hr class = "custom-hr">';
+	contentContainer.innerHTML += '<hr class = "custom-hr">'
+	
+	const lastChild = contentBackground.lastChild;
+	contentBackground.insertBefore(contentContainer, lastChild);
+}
+
+async function setPaginationBar(pages, cPage) {
+	console.log("pages", pages);
+	let pBar = document.getElementById("pagination-bar");
+	for (let i = Math.max(1, cPage - 5);i <= Math.min(cPage + 5, pages);i++) {
+		let numberDiv = document.createElement("div");
+		numberDiv.setAttribute("class", "pagination-number");
+		numberDiv.innerHTML = `
+			<a href = "/review?page=${i}"><span>${i}</span></a>
+		`
+		let className;
+		if (i == cPage) {
+			className = "page current";
+		} else {
+			className = "page";
+		}
+		numberDiv.children[0].setAttribute("class", className);
+		pBar.appendChild(numberDiv);
+	}
+	console.log(pBar);
 }
 
 
 async function onLoad() {
     let data = await fetchReviewData({isData: true});
+
     var contentBackground = document.createElement('div');
     contentBackground.setAttribute("class", "content-background");
     document.body.appendChild(contentBackground);
-    for (let index = 0; index < data.return_review.length; index++) {
-        setContent(data.return_review[index], contentBackground);
+
+	const cPage = currentPage();
+	const pBar = document.createElement("div");
+	pBar.setAttribute("id", "pagination-bar");
+	contentBackground.appendChild(pBar);
+	const pages = Math.ceil(data.return_review.length / RECORD_PER_PAGE);
+	await setPaginationBar(pages, cPage);
+
+	for (let index = RECORD_PER_PAGE * (cPage - 1); index < Math.min(RECORD_PER_PAGE * (cPage) - 1, data.return_review.length); index++) {
+        await setContent(data.return_review[index], contentBackground);
     }
-    // await setContent();
-    // document.body.appendChild(contentBackground);
 }
 
 // 存储图片路径
@@ -213,3 +261,4 @@ let REVIEW_IMG = [];
 let popUpImageLength = 0;
 let imageArrayPointer = 0;
 let imagePointer = 0;
+const RECORD_PER_PAGE = 6;

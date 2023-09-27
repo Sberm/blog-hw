@@ -16,8 +16,8 @@ rewrite (/blog)/(\w+)$ $1/$2.html last;
 
 运行自动化:
 
-nohup python3 -u blog_server.py > blog_server.log &
-nohup python3 -u blog_server.py > /dev/null &
+nohup python3.9 -u blog_server.py > blog_server.log &
+nohup python3.9 -u blog_server.py > /dev/null &
 
 url vunerabilities:
 doc/content/x
