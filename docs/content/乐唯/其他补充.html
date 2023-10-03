@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/docs/github.css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<ol>
+<li>killu命令</li>
+</ol>
+<p>对于多进程uvicorn接口，新建了一个更快速的杀进程的命令，<code>killu</code>命令。<code>killu</code>可以杀掉uvicorn父进程和worker子进程。</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> 使用格式</span>
+killu <span class="pl-k">&lt;</span>PID<span class="pl-k">&gt;</span></pre></div>
+<ol start="2">
+<li>kill -2 命令</li>
+</ol>
+<p>杀掉uvicorn多进程接口，除了使用killu 命令，还可以直接使用 <code>kill -2 </code>命令, 由于没有服务器权限，我没有测试该命令，所以请测试命令能否杀掉所有子进程后再使用。</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> 使用格式</span>
+<span class="pl-c1">kill</span> -2 <span class="pl-k">&lt;</span>PID<span class="pl-k">&gt;</span></pre></div>
+<ol start="3">
+<li>
+<p>testd，api，killu等命令的定义都在~/.bashrc中，如有疑问请查看</p>
+</li>
+<li>
+<p>后台进程使用的都是nohup命令启动，可以保证稳定性但缺乏一定高级功能。如果对退出重启、高级的日志管理有需求，请使用systemd工具和systemctl命令来重新配置所有守护进程。</p>
+</li>
+</ol>
+<p><a href="https://blog.csdn.net/easylife206/article/details/101730416" rel="nofollow">systemd文档</a></p>
+
+</article>
+<div>
+</div>
+</div>
+</html>

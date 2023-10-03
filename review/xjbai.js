@@ -216,7 +216,12 @@ async function setContent(da, contentBackground) {
 async function setPaginationBar(pages, cPage) {
 	console.log("pages", pages);
 	let pBar = document.getElementById("pagination-bar");
-	for (let i = Math.max(1, cPage - 5);i <= Math.min(cPage + 5, pages);i++) {
+
+	// 底下显示的页数
+	const MAXPAGE = 6;
+
+	const maxPageCal = Math.ceil(MAXPAGE / 2);
+	for (let i = Math.max(1, cPage - maxPageCal);i <= Math.min(cPage + maxPageCal, pages);i++) {
 		let numberDiv = document.createElement("div");
 		numberDiv.setAttribute("class", "pagination-number");
 		numberDiv.innerHTML = `
@@ -249,7 +254,7 @@ async function onLoad() {
 	const pages = Math.ceil(data.return_review.length / RECORD_PER_PAGE);
 	await setPaginationBar(pages, cPage);
 
-	for (let index = RECORD_PER_PAGE * (cPage - 1); index < Math.min(RECORD_PER_PAGE * (cPage) - 1, data.return_review.length); index++) {
+	for (let index = Math.max(RECORD_PER_PAGE * (cPage - 1) , 0); index < Math.min(RECORD_PER_PAGE * cPage, data.return_review.length); index++) {
         await setContent(data.return_review[index], contentBackground);
     }
 }
@@ -259,4 +264,4 @@ let REVIEW_IMG = [];
 let popUpImageLength = 0;
 let imageArrayPointer = 0;
 let imagePointer = 0;
-const RECORD_PER_PAGE = 6;
+const RECORD_PER_PAGE = 5;

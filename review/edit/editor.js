@@ -43,9 +43,9 @@ function preview() {
     }
 
     // rating
-    let ratingRounded = Math.floor(rating);
+    let ratingRounded = Math.floor(rating / 2);
     let half_ = false;
-    if (rating - ratingRounded >= 0.5) {
+    if (rating / 2 - ratingRounded >= 0.5) {
         half_ = true;
     }
     let ratingScore = contentContainer.getElementsByClassName("rating-score")[0];

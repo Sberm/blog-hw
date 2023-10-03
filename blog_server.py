@@ -33,8 +33,6 @@ conn = psycopg2.connect(f"dbname=root user=root password={postgre_password}")
 # 进入文档路由
 real_doc_url = "/docs/bd217ad3f277a9e82e2305377b1eb25d861117c78c9fa20e67184e232809c950/ba1e9359f249eae13818bf39a50bc305b313b6fc1c643057bcae187959ef2bf3"
 
-
-
 app = FastAPI()
 
 async def change_index(file_name: str):

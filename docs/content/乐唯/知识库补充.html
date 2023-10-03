@@ -10,24 +10,28 @@
 <div class = "spacing-div">
 <article class="markdown-body">
 <ol>
+<li>导入数据</li>
+</ol>
+<p>在webui中，新建并命名一个知识库;</p>
+<p>在langchain根目录会有一个<code>knowledge_base</code>文件夹,新建知识库后，<code>knowledge_base</code>文件夹中会多出同名的文件夹;</p>
+<p>进入这个文件夹下的<code>content</code>文件夹，并把所有知识库文件(知识库备份文件夹中的.txt，.csv等文件)放进来;</p>
+<p>回到webui,刷新，会发现webui的知识库管理中多出了这些新添加的文件。按下创建向量索引，等待右上角跑动小人跑完，便可以使用新建的知识库向量。</p>
+<ol start="2">
 <li>改变webui端口</li>
 </ol>
 <p>使用streamlit, 配置文件路径在~/.streamlit/config.toml中。
-如下：</p>
+端口配置文件如下：</p>
 <div class="highlight highlight-source-toml"><pre>[<span class="pl-en">server</span>]
 <span class="pl-smi">port</span> = <span class="pl-c1">80</span></pre></div>
-<ol start="2">
+<ol start="3">
 <li>webui登录账号与密码</li>
 </ol>
-<p>在langchain根目录的webui.py中有明确设置入口。想要更改账号和密码，修改其中写死的账号和密码便可以。</p>
-<ol start="3">
-<li>导入数据</li>
-</ol>
-<p>新建并命名一个知识库-&gt;在langchain根目录会有一个<code>knowledge_base</code>文件夹,新建知识库后，会发现里面多了个和刚刚新建的知识库的名字相同的文件夹,进入这个文件夹下的<code>content</code>文件夹，并把所有知识库文件(.txt，.csv)放入进来，接下来回到webui,刷新，会发现webui的知识库管理中多出了这些新添加的文件。按下创建向量索引，等待右上角跑动小人跑完，便可以使用新建的知识库向量。</p>
+<p>在langchain根目录的webui.py中有明确的设置代码。想要更改账号和密码，修改其中写死的账号和密码便可以。</p>
 <ol start="4">
-<li>killu命令</li>
+<li>密码组件</li>
 </ol>
-<p>对于多进程uvicorn接口，新建了一个更快速的杀进程的命令，叫做<code>killu</code>命令。<code>killu &lt;PID&gt;</code>可以杀掉uvicorn父进程和worker子进程。</p>
+<p>使用<code>streamlit_authenticator</code>组件实现账号和密码验证。如有相关问题和迭代需要请查看以下文档。</p>
+<p><a href="https://blog.streamlit.io/streamlit-authenticator-part-1-adding-an-authentication-component-to-your-app/" rel="nofollow">Streamlit-Authenticator的详细文档</a></p>
 
 </article>
 <div>

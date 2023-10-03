@@ -83,5 +83,5 @@ b917:
   date: "2023-9-17"
 
 rustFirstImpression:
-  title: "rust: the `?` operator can only be used on `Result`s, not `Option`s, in a function that returns `Result`"
+  title: "Rust: 在返回Result函数中调用返回Option的函数"
   date: "2023-9-20"
