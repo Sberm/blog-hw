@@ -18,16 +18,13 @@ from datetime import datetime
 os.chdir("/root/hw/blog-hw")
 
 # /docs 认证密码
-CORRECT_PASSWORD = "sbm"
+CORRECT_PASSWORD = "akiha"
 
 # github api 请求token
 github_token = os.getenv("github_token")
-print("[GITHUB TOKEN]", github_token)
 
 # postgresql connection
 postgre_password = os.getenv("psql_password")
-# postgre_password = "112358"
-print("[POSTGRE_PASSWORD]", postgre_password)
 conn = psycopg2.connect(f"dbname=root user=root password={postgre_password}")
 
 # 进入文档路由
@@ -501,7 +498,7 @@ def generate_blog(file_name: str):
     <div id="footer-commu-background">
         <div id="footer-commu">
             <div class="footer-image-container">
-                <a href="https://www.youtube.com/watch?v=XqZsoesa55w">
+                <a href="https://sberm.cn/review/">
                     <img class="footer-image" src="../images/linux.png"/>
                 </a>
             </div>
@@ -511,7 +508,7 @@ def generate_blog(file_name: str):
                 </a>
             </div>
             <div class="footer-image-container">
-                <a href="https://github.com/torvalds">
+                <a href="https://github.com/sberm">
                     <img class="footer-image" src="../images/github.svg"/>
                 </a>
             </div>

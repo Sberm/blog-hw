@@ -66,7 +66,7 @@ function popUp(imageSourceDiv) {
         }
     }
 
-	console.log("current index is", imagePointer);
+	// console.log("current index is", imagePointer);
 
     popUpImageLength = REVIEW_IMG[imageArrayPointer].images.length;
 
@@ -126,6 +126,27 @@ async function fetchReviewData(kwargs) {
     return await response.json(); // parses JSON response into native JavaScript objects
 }
 
+async function setImage(index, da, contentBackground) {
+	const id = da.id;
+	// image
+    let images = await fetchReviewData({isImage: true, id: id});
+    let imageBackground = contentBackground.getElementsByClassName("content-container")[index].getElementsByClassName("image-background")[0];
+    REVIEW_IMG.push({
+        id: id,
+        images: images.return_images
+    });
+	imageBackground.removeChild(imageBackground.lastChild);
+    for (let j = 0;j < images.return_images.length; j++) {
+        let img = images.return_images[j];
+        let imageContainer = document.createElement("div");
+        imageContainer.setAttribute("class", "image-container");
+        imageContainer.innerHTML = `
+            <a href="javascript:void(0);"><img class="review-img" role = "button" alt = "${img}" src = "${img}" onclick = "popUp(this)" metaId = "${id}"/>  </a>
+        `
+        imageBackground.appendChild(imageContainer);
+    }
+}
+
 async function setContent(da, contentBackground) {
 
     const id = da.id;
@@ -160,20 +181,14 @@ async function setContent(da, contentBackground) {
 	`
 
 	contentContainer.innerHTML = text;
-
-    // image
-    let images = await fetchReviewData({isImage: true, id: id});
-    let imageBackground = contentContainer.getElementsByClassName("image-background")[0];
-    REVIEW_IMG.push({
-        id: id,
-        images: images.return_images
-    });
-    for (let j = 0;j < images.return_images.length; j++) {
-        let img = images.return_images[j];
+	
+	let imageBackground = contentContainer.getElementsByClassName("image-background")[0];
+    for (let j = 0;j < 1; j++) {
+        let img = "/images/ZKZg.gif";
         let imageContainer = document.createElement("div");
         imageContainer.setAttribute("class", "image-container");
         imageContainer.innerHTML = `
-            <a href="javascript:void(0);"><img class="review-img" role = "button" alt = "${img}" src = "${img}" onclick = "popUp(this)" metaId = "${id}"/>  </a>
+            <a href="javascript:void(0);"><img class="review-img" role = "button" alt = "${img}" src = "${img}" onclick = "popUp(this)" metaId = "${id}" style="max-height: 3rem; max-width: 3rem; "/>  </a>
         `
         imageBackground.appendChild(imageContainer);
     }
@@ -214,14 +229,23 @@ async function setContent(da, contentBackground) {
 }
 
 async function setPaginationBar(pages, cPage) {
-	console.log("pages", pages);
+	// console.log("pages", pages);
 	let pBar = document.getElementById("pagination-bar");
 
-	// 底下显示的页数
+	// 底下显示的页数(实际显示的页数是MAXPAGE+1)
 	const MAXPAGE = 6;
 
 	const maxPageCal = Math.ceil(MAXPAGE / 2);
-	for (let i = Math.max(1, cPage - maxPageCal);i <= Math.min(cPage + maxPageCal, pages);i++) {
+	//for (let i = Math.max(1, cPage - maxPageCal);i <= Math.min(cPage + maxPageCal, pages);i++) {
+	let left = Math.max(1, cPage - maxPageCal);
+	let right = Math.min(cPage + maxPageCal, pages);
+	if (left == 1) {
+		right =Math.min(2*maxPageCal + 1, pages);
+	}
+	if (right == pages) {
+		left = Math.max(pages - 2 * maxPageCal, 1);
+	}
+	for (let i = left;i <= right; i++) {
 		let numberDiv = document.createElement("div");
 		numberDiv.setAttribute("class", "pagination-number");
 		numberDiv.innerHTML = `
@@ -236,7 +260,7 @@ async function setPaginationBar(pages, cPage) {
 		numberDiv.children[0].setAttribute("class", className);
 		pBar.appendChild(numberDiv);
 	}
-	console.log(pBar);
+	// console.log(pBar);
 }
 
 
@@ -254,8 +278,15 @@ async function onLoad() {
 	const pages = Math.ceil(data.return_review.length / RECORD_PER_PAGE);
 	await setPaginationBar(pages, cPage);
 
+	//content
 	for (let index = Math.max(RECORD_PER_PAGE * (cPage - 1) , 0); index < Math.min(RECORD_PER_PAGE * cPage, data.return_review.length); index++) {
         await setContent(data.return_review[index], contentBackground);
+    }
+	let ite = 0;
+	//image
+	for (let index = Math.max(RECORD_PER_PAGE * (cPage - 1) , 0); index < Math.min(RECORD_PER_PAGE * cPage, data.return_review.length); index++) {
+		await setImage(ite, data.return_review[index], contentBackground);
+		ite++;
     }
 }
 
@@ -264,4 +295,4 @@ let REVIEW_IMG = [];
 let popUpImageLength = 0;
 let imageArrayPointer = 0;
 let imagePointer = 0;
-const RECORD_PER_PAGE = 5;
+const RECORD_PER_PAGE = 4;

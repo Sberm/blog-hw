@@ -1,11 +1,11 @@
 @font-face {
     font-family: 'Trip Sans'; /* this value can be anything you wish - it gets used in the class definition below */
-    src: url('/fonts/TripSans-Regular.woff'); /* add the file path to your font here */
+	src: url('/fonts/TripSans-Regular.woff'); /* add the file path to your font here */
 }
 
 @font-face {
     font-family: 'HYZhongYuan'; 
-    src: url('/fonts/HYZhongYuanJ.woff'); 
+    /*src: url('/fonts/HYZhongYuanJ.woff'); */
 }
 
 @media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
@@ -575,7 +575,6 @@
         border-radius: 20px;
         background-color: white;
         width: 60rem;
-        /* margin: 0 auto 10rem auto; */
         margin: 1rem 0;
         position: absolute;
         left: 10vw;
