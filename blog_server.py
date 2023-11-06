@@ -1,3 +1,4 @@
+
 import uvicorn
 from fastapi import FastAPI, UploadFile
 from bs4 import BeautifulSoup as bs
@@ -424,6 +425,9 @@ def update_blog():
     mod_t = 0.0
     for root, _, files in os.walk(blog.blog_path):
         for file in files:
+            # .#github.css, .swp, etc., or file ext is not .md
+            if (file[0] == "." or not (file.rsplit(".",1)[-1] == 'md')):
+                continue
             mod_t = max(os.path.getmtime(os.path.join(root, file)), mod_t)
 
     if mod_t > blog.last_read:
@@ -492,7 +496,13 @@ def generate_blog(file_name: str):
     </div>
     <div id="footer-text-wrapper">
         <p id="footer-text">
-            The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness.
+    void remove_elegant(list *l, list_item *target)
+    {
+    list_item **p = &l->head;
+    while (*p != target)
+    p = &(*p)->next;
+    *p = target->next;
+    }
         </p>
     </div>
     <div id="footer-commu-background">
@@ -517,7 +527,7 @@ def generate_blog(file_name: str):
 </div>""" if not doc_flag else ""
 
     akiha = """
-<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img src="/images/leave.png" class="leave-img"/></a></div></div>"""if not doc_flag else ""
+<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave.png" class="leave-img"/></a></div></div>"""if not doc_flag else ""
 
     write_path = "./blog" if not doc_flag else "./docs"
     with open(f"{write_path}/{file_name.rsplit('.md',)[0]}.html", "w") as f:
@@ -528,7 +538,7 @@ def generate_blog(file_name: str):
     <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="github.css">
+    <link id = "sberm-blog-css" href="/blog/github.css" type="text/css" rel="stylesheet">
 </head>
 {akiha}
 <div class = "spacing-div">
@@ -539,16 +549,29 @@ def generate_blog(file_name: str):
 <div>
 </div>
 </div>
-</html>""")
+</html>
+<script>
+  applyCss();
+  function applyCss() {{
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {{
+        let css = document.getElementById("sberm-blog-css");
+	css.href = "/blog/github-markdown-dark.css";
+        let akihaImage = document.getElementById("akiha-img");
+        akihaImage.src = "/images/leave-dark.png";
+    }}  
+  }}  
+</script>""")
 
 def check_new_files():
     global l_m_f
     for root,_, files in os.walk("./md"):
         for file in files:
+            if file[0] == '.':
+                continue
             file_path = os.path.join(root, file)
             m_t = os.path.getmtime(file_path)
             # if m_t > l_m_f and '.md' in file:
-            if m_t > l_m_f and file.rsplit(".",1)[-1] == 'md' and file[0] != '.':
+            if m_t > l_m_f and file.rsplit(".",1)[-1] == 'md':
                 l_m_f = m_t
                 generate_blog(file)
 
@@ -567,6 +590,7 @@ def generate_doc(file_path: str, dir_list: list[str]):
     os.makedirs(f"{write_root}/{file_name_path}", exist_ok = True) 
     file_path = f"{root_dir}/{file_name}"
     with open(f"{file_path}", 'r', encoding = "utf-8") as f:
+        # print("[DEBUG] i am", file_path)
         tmp = f.read()
     json_ = {
         "text": tmp
@@ -597,9 +621,12 @@ def check_new_docs():
     dir_list = []
     for root, dirs, files in os.walk("./docs/md"):
         for file in files:
+            # hidden file
+            if file[0] == '.':
+                continue
             file_path = os.path.join(root, file)
             m_t = os.path.getmtime(file_path)
-            if m_t > l_m_d and '.md' in file and file[0] != '.':
+            if m_t > l_m_d and '.md' in file:
                 for dir in dirs:
                     dir_list.append(os.path.join(root, dir).rsplit('md/', 1)[-1])
                 l_m_d = m_t
@@ -637,12 +664,12 @@ def update_root():
     l_m_f = l_m_d = time.time()
     while True:
         try:
-            # doc_html
-            update_doc()
-            # update_html
+            # update html
             update_blog()
             # convert
             check_new_files() # blog
+            # doc_html
+            update_doc()
             # convert_doc
             check_new_docs()
         except:

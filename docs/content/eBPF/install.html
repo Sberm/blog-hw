@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/docs/github.css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<h2 id="user-content-centos-85---source"><a class="heading-link" href="#centos-85---source">Centos-8.5 - Source<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<h4 id="user-content-install-build-dependencies"><a class="heading-link" href="#install-build-dependencies">Install build dependencies<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
+<pre><code>dnf install -y bison cmake ethtool flex git iperf3 libstdc++-devel python3-netaddr python3-pip gcc gcc-c++ make zlib-devel elfutils-libelf-devel
+# dnf install -y luajit luajit-devel ## if use luajit, will report some lua function(which in lua5.3) undefined problem 
+dnf install -y clang clang-devel llvm llvm-devel llvm-static ncurses-devel
+dnf -y install netperf
+pip3 install pyroute2
+ln -s /usr/bin/python3 /usr/bin/python
+</code></pre>
+<h4 id="user-content-install-and-compile-bcc"><a class="heading-link" href="#install-and-compile-bcc">Install and Compile bcc<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
+<pre><code>git clone https://github.com/iovisor/bcc.git
+
+mkdir bcc-build
+cd bcc-build/
+
+## here llvm should always link shared library
+cmake ../bcc -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_LLVM_SHARED=1
+make -j10
+make install
+</code></pre>
+<p>记得<code>make install</code>(安装library到/usr/include/bcc)</p>
+<pre><code>bcc-build &gt; cd /usr/include/bcc
+bcc &gt; ls
+BPF.h       bcc_common.h  bcc_exception.h  bcc_syms.h  bcc_version.h  compat       libbpf.h       table_desc.h
+BPFTable.h  bcc_elf.h     bcc_proc.h       bcc_usdt.h  bpf_module.h   file_desc.h  perf_reader.h  table_storage.h
+</code></pre>
+
+</article>
+<div>
+</div>
+</div>
+</html>

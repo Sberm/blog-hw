@@ -23,7 +23,7 @@ end
 
 输出
 ```bash
-server > mix run main.ex 
+server > mix run main.ex
 Compiling 1 file (.ex)
 Generated server app
 {:ok,

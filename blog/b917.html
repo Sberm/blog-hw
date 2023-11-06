@@ -5,10 +5,10 @@
     <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="github.css">
+    <link id = "sberm-blog-css" href="/blog/github.css" type="text/css" rel="stylesheet">
 </head>
 
-<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img src="/images/leave.png" class="leave-img"/></a></div></div>
+<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave.png" class="leave-img"/></a></div></div>
 <div class = "spacing-div">
 <article class="markdown-body">
 <h2 id="user-content-ssh共享远程vim剪贴板"><a class="heading-link" href="#ssh共享远程vim剪贴板">ssh共享远程vim剪贴板<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
@@ -29,7 +29,7 @@ PS C:\Users\Sberm<span class="pl-k">&gt;</span> echo <span class="pl-smi">$<span
 </li>
 <li>centos需要使用gvim(ubuntu的叫做vim-gtk)，它们支持剪贴板X11功能。</li>
 </ol>
-<pre><code># centos -&gt; 开启命令gvim或vimx
+<pre lang="something"><code># centos -&gt; 开启命令gvim或vimx
 yum install vim-X11.x86_64
 
 # ubuntu
@@ -65,13 +65,19 @@ sudo apt-get install vim-gtk
     </div>
     <div id="footer-text-wrapper">
         <p id="footer-text">
-            The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness.
+    void remove_elegant(list *l, list_item *target)
+    {
+    list_item **p = &l->head;
+    while (*p != target)
+    p = &(*p)->next;
+    *p = target->next;
+    }
         </p>
     </div>
     <div id="footer-commu-background">
         <div id="footer-commu">
             <div class="footer-image-container">
-                <a href="https://www.youtube.com/watch?v=XqZsoesa55w">
+                <a href="https://sberm.cn/review/">
                     <img class="footer-image" src="../images/linux.png"/>
                 </a>
             </div>
@@ -81,7 +87,7 @@ sudo apt-get install vim-gtk
                 </a>
             </div>
             <div class="footer-image-container">
-                <a href="https://github.com/torvalds">
+                <a href="https://github.com/sberm">
                     <img class="footer-image" src="../images/github.svg"/>
                 </a>
             </div>
@@ -92,3 +98,14 @@ sudo apt-get install vim-gtk
 </div>
 </div>
 </html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        let css = document.getElementById("sberm-blog-css");
+	css.href = "/blog/github-markdown-dark.css";
+        let akihaImage = document.getElementById("akiha-img");
+        akihaImage.src = "/images/leave-dark.png";
+    }  
+  }  
+</script>

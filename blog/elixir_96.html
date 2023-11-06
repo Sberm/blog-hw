@@ -5,10 +5,10 @@
     <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="github.css">
+    <link id = "sberm-blog-css" href="/blog/github.css" type="text/css" rel="stylesheet">
 </head>
 
-<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img src="/images/leave.png" class="leave-img"/></a></div></div>
+<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave.png" class="leave-img"/></a></div></div>
 <div class = "spacing-div">
 <article class="markdown-body">
 <h2 id="user-content-使用mix启动elixir应用"><a class="heading-link" href="#使用mix启动elixir应用">使用mix启动elixir应用<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
@@ -27,7 +27,7 @@
   <span class="pl-k">end</span>
 <span class="pl-k">end</span></pre></div>
 <p>输出</p>
-<div class="highlight highlight-source-shell"><pre>server <span class="pl-k">&gt;</span> mix run main.ex 
+<div class="highlight highlight-source-shell"><pre>server <span class="pl-k">&gt;</span> mix run main.ex
 Compiling 1 file (.ex)
 Generated server app
 {:ok,
@@ -119,13 +119,19 @@ server <span class="pl-k">&gt;</span> </pre></div>
     </div>
     <div id="footer-text-wrapper">
         <p id="footer-text">
-            The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness.
+    void remove_elegant(list *l, list_item *target)
+    {
+    list_item **p = &l->head;
+    while (*p != target)
+    p = &(*p)->next;
+    *p = target->next;
+    }
         </p>
     </div>
     <div id="footer-commu-background">
         <div id="footer-commu">
             <div class="footer-image-container">
-                <a href="https://www.youtube.com/watch?v=XqZsoesa55w">
+                <a href="https://sberm.cn/review/">
                     <img class="footer-image" src="../images/linux.png"/>
                 </a>
             </div>
@@ -135,7 +141,7 @@ server <span class="pl-k">&gt;</span> </pre></div>
                 </a>
             </div>
             <div class="footer-image-container">
-                <a href="https://github.com/torvalds">
+                <a href="https://github.com/sberm">
                     <img class="footer-image" src="../images/github.svg"/>
                 </a>
             </div>
@@ -146,3 +152,14 @@ server <span class="pl-k">&gt;</span> </pre></div>
 </div>
 </div>
 </html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        let css = document.getElementById("sberm-blog-css");
+	css.href = "/blog/github-markdown-dark.css";
+        let akihaImage = document.getElementById("akiha-img");
+        akihaImage.src = "/images/leave-dark.png";
+    }  
+  }  
+</script>
