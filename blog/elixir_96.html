@@ -5,10 +5,10 @@
     <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link id = "sberm-blog-css" href="/blog/github.css" type="text/css" rel="stylesheet">
+    <link id = "sberm-blog-css" href="/blog/github-markdown-dark.css" type="text/css" rel="stylesheet">
 </head>
 
-<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave.png" class="leave-img"/></a></div></div>
+<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave-dark.png" class="leave-img"/></a></div></div>
 <div class = "spacing-div">
 <article class="markdown-body">
 <h2 id="user-content-使用mix启动elixir应用"><a class="heading-link" href="#使用mix启动elixir应用">使用mix启动elixir应用<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
@@ -155,11 +155,11 @@ server <span class="pl-k">&gt;</span> </pre></div>
 <script>
   applyCss();
   function applyCss() {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         let css = document.getElementById("sberm-blog-css");
-	css.href = "/blog/github-markdown-dark.css";
+	css.href = "/blog/github.css";
         let akihaImage = document.getElementById("akiha-img");
-        akihaImage.src = "/images/leave-dark.png";
+        akihaImage.src = "/images/leave.png";
     }  
   }  
 </script>

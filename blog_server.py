@@ -1,4 +1,3 @@
-
 import uvicorn
 from fastapi import FastAPI, UploadFile
 from bs4 import BeautifulSoup as bs
@@ -527,7 +526,7 @@ def generate_blog(file_name: str):
 </div>""" if not doc_flag else ""
 
     akiha = """
-<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave.png" class="leave-img"/></a></div></div>"""if not doc_flag else ""
+<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave-dark.png" class="leave-img"/></a></div></div>"""if not doc_flag else ""
 
     write_path = "./blog" if not doc_flag else "./docs"
     with open(f"{write_path}/{file_name.rsplit('.md',)[0]}.html", "w") as f:
@@ -538,7 +537,7 @@ def generate_blog(file_name: str):
     <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link id = "sberm-blog-css" href="/blog/github.css" type="text/css" rel="stylesheet">
+    <link id = "sberm-blog-css" href="/blog/github-markdown-dark.css" type="text/css" rel="stylesheet">
 </head>
 {akiha}
 <div class = "spacing-div">
@@ -553,11 +552,11 @@ def generate_blog(file_name: str):
 <script>
   applyCss();
   function applyCss() {{
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {{
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {{
         let css = document.getElementById("sberm-blog-css");
-	css.href = "/blog/github-markdown-dark.css";
+	css.href = "/blog/github.css";
         let akihaImage = document.getElementById("akiha-img");
-        akihaImage.src = "/images/leave-dark.png";
+        akihaImage.src = "/images/leave.png";
     }}  
   }}  
 </script>""")
@@ -585,12 +584,12 @@ def generate_doc(file_path: str, dir_list: list[str]):
     root_dir = "./docs/md"
     write_root = "./docs/content"
     # 乐唯/123/hello.md
-    file_name = file_path.rsplit('md/', 1)[-1]
+    file_name = file_path.split('md/', 1)[-1]
     file_name_path = file_name.rsplit('/', 1)[0]
     os.makedirs(f"{write_root}/{file_name_path}", exist_ok = True) 
     file_path = f"{root_dir}/{file_name}"
+
     with open(f"{file_path}", 'r', encoding = "utf-8") as f:
-        # print("[DEBUG] i am", file_path)
         tmp = f.read()
     json_ = {
         "text": tmp
@@ -605,7 +604,7 @@ def generate_doc(file_path: str, dir_list: list[str]):
     <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/docs/github.css">
+    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
 </head>
 <div class = "spacing-div">
 <article class="markdown-body">
@@ -614,7 +613,16 @@ def generate_doc(file_path: str, dir_list: list[str]):
 <div>
 </div>
 </div>
-</html>""")
+</html>
+<script>
+  applyCss();
+  function applyCss() {{
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {{
+        let css = document.getElementById("sberm-docs-css");
+    	css.href = "/docs/github.css";
+    }}  
+  }}  
+</script>""")
 
 def check_new_docs():
     global l_m_d

@@ -5,11 +5,20 @@ html {
 	-moz-text-size-adjust: none;
 }
 
-@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+/* 使用internal storage保存色彩数据 */
+:root {
+	--background: rgb(51, 51, 51);
+	--foreground: rgb(243, 243, 243);
+	--visited: rgb(19, 117, 185);
+	--unvisited: rgb(0, 162, 190);
+	--footer-background: rgb(40, 40, 40);
+}
+	
+@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */
 
 	body {
-		background: rgb(51, 51, 51);
-		color: rgb(243, 243, 243);
+		background: var(--background);
+		color: var(--foreground);
 	}
 	
 	#seasonal-img-container {
@@ -37,7 +46,7 @@ html {
 	}
 
 	.sample {
-		color: rgb(243, 243, 243);
+		color: var(--foreground);
 		font-size: 2.3rem;
 		font-family: Arial;
 		margin-top: 0.7rem;
@@ -54,13 +63,13 @@ html {
 	}
 
 	#footer-line {
-		color: rgb(243, 243, 243);
+		color: var(--foreground);
 		border-radius: 3px;
 	}
 
 	#footer-text {
 		font-weight: normal;
-		color: rgb(243, 243, 243) ;
+		color: var(--foreground) ;
 		font-family: Arial;
 		font-size: 1.2rem;
 	}
@@ -93,7 +102,7 @@ html {
 
 	.date {
 		font-size: 2.2rem;
-		color: rgb(243, 243, 243);
+		color: var(--foreground);
 		font-family: Monaco;
 	}
 	
@@ -115,7 +124,7 @@ html {
 	}
 
 	#title {
-		color:rgb(243, 243, 243);
+		color:var(--foreground);
 		text-decoration: none; 
 		font-weight: bold;
 		width: 60%;
@@ -149,13 +158,13 @@ html {
 	}
 
 	a:link:not(#title) {
-		color: rgb(0, 162, 190);
+		color: var(--unvisited);
 		background-color: transparent;
 		text-decoration: none;
 	}
 
 	a:visited:not(.blog-name) {
-		color: rgb(0, 75, 128);
+		color: var(--visited);
 		background-color: transparent;
 		text-decoration: none;
 	}
@@ -165,7 +174,7 @@ html {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		background-color: rgb(40, 40, 40);
+		background-color: var(--footer-background);
 		height: 13rem;
 		border-radius: 20px;
 		justify-content: center;
@@ -196,8 +205,8 @@ html {
 @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */
 	
 	body {
-		background: rgb(51, 51, 51);
-		color: rgb(243, 243, 243);
+		background: var(--background);
+		color: var(--foreground);
 	}
 
 	#seasonal-img-container {
@@ -225,7 +234,7 @@ html {
 	}
 
 	.sample {
-		color:rgb(243, 243, 243);
+		color:var(--foreground);
 		font-size: 14px;
 		font-family: Monaco;
 		margin-top: 0.3rem;
@@ -244,13 +253,13 @@ html {
 	}
 
 	#footer-line {
-		border: 2px rgb(243, 243, 243) solid;
+		border: 2px var(--foreground) solid;
 		border-radius: 3px;
 	}
 
 	#footer-text {
 		font-weight: normal;
-		color: rgb(243, 243, 243);
+		color: var(--foreground);
 		font-family: Verdana Tahoma;
 		font-size: 10px;
 	}
@@ -284,7 +293,7 @@ html {
 
 	.date {
 		font-size: 14px;
-		color: rgb(243, 243, 243);
+		color: var(--foreground);
 		font-family: Monaco;
 	}
 
@@ -313,7 +322,7 @@ html {
 	}
 
 	#title{
-		color: rgb(243, 243, 243);
+		color: var(--foreground);
 		text-decoration: none; 
 		font-weight: bold;
 		width: 60%;
@@ -354,13 +363,13 @@ html {
 	}
 
 	a:link:not(#title) {
-		color: rgb(0, 162, 190);
+		color: var(--unvisited);
 		background-color: transparent;
 		text-decoration: none;
 	}
 
 	a:visited:not(.blog-name) {
-		color: rgb(0, 75, 128);
+		color: var(--visited);
 		background-color: transparent;
 		text-decoration: none;
 	}
@@ -370,7 +379,7 @@ html {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		background-color: rgb(40, 40, 40);
+		background-color: var(--footer-background);
 		height: 7rem;
 		border-radius: 20px;
 		justify-content: center;

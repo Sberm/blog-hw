@@ -5,7 +5,7 @@
     <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/docs/github.css">
+    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
 </head>
 <div class = "spacing-div">
 <article class="markdown-body">
@@ -87,9 +87,19 @@ echo | gcc -xc++ -E -v -
 <p>share(.so) static(.a)</p>
 <h4 id="user-content-很显然你可以直接使用-o指定-c生成的object-file的名称即helloworldc不一定要生成helloworldo"><a class="heading-link" href="#很显然你可以直接使用-o指定-c生成的object-file的名称即helloworldc不一定要生成helloworldo">很显然你可以直接使用-o指定-c生成的object file的名称(即helloworld.c不一定要生成helloworld.o)<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
 <p>gcc -c helloworld.c -o helloworld2.o</p>
+<p>我不想再看到皮屑了。 反皮屑运动</p>
 
 </article>
 <div>
 </div>
 </div>
 </html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        let css = document.getElementById("sberm-docs-css");
+    	css.href = "/docs/github.css";
+    }  
+  }  
+</script>

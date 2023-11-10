@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8"/>
         <link href="/images/favicon.ico" rel="icon" type="image/x-icon"/>
-        <link href="/sberm.css" id="sberm-css" rel="stylesheet" type="text/css"/>
+        <link href="/sberm-dark.css" id="sberm-css" rel="stylesheet" type="text/css"/>
         <title>
             朱皓炜博客
         </title>
@@ -17,7 +17,7 @@
                 </a>
                 <div id="title-img">
                     <a href="https://sberm.cn">
-                        <img alt="akiha" id="akiha-img" src="images/akiha.png"/>
+                        <img alt="akiha" id="akiha-img" src="images/akiha-dark.png"/>
                     </a>
                 </div>
             </div>
@@ -79,12 +79,17 @@ windows电脑下载MobaXterm或Xming, mac下载XQu...</p></div><div class="blog-
 <script>
     applyCss();
   function applyCss() {
-	  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-		  // dark mode
-		  let css = document.getElementById("sberm-css");
-		  css.href = "/sberm-dark.css";
-		  let akihaImage = document.getElementById("akiha-img");
-		  akihaImage.src = "images/akiha-dark.png";
-	  }
-  }
+		if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+			// light mode
+			let root = document.querySelector(":root");
+			root.style.setProperty("--background", 'white');
+			root.style.setProperty("--foreground", 'black'); // black
+			root.style.setProperty("--visited", 'rgb(0, 75, 128)');
+			root.style.setProperty("--unvisited", 'rgb(0, 162, 190)');
+			root.style.setProperty("--footer-background", 'rgb(247, 247, 247)');
+			let akihaImage = document.getElementById("akiha-img");
+			akihaImage.src = "images/akiha.png";
+		}
+		
+	}
 </script>

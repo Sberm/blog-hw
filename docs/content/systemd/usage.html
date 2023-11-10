@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<p>Place to put .service file</p>
+<p>The best place to put system unit files: <code>/etc/systemd/system</code> Just be sure to add a target under the [Install] section, read "How does it know?" for details. UPDATE: /usr/local/lib/systemd/system is another option, read "Gray Area" for details."</p>
+<p>.service file example</p>
+<pre><code>[Unit]
+Description=Daemon for blog server
+
+[Service]
+Type=simple
+WorkingDirectory=/root/hw/blog-hw
+ExecStart=/bin/python3.9 /root/hw/blog-hw/blog_server.py
+Restart=always
+RestartSec=3
+KillSignal=SIGKILL
+;Wants=checkin.service
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>current services:</p>
+<ol>
+<li>blog-server.service</li>
+<li>checkin.service</li>
+<li>hackernews.service</li>
+</ol>
+<pre><code>systemctl start/stop/status/enable
+</code></pre>
+<p>use <code>Wants=</code> to start multiple services</p>
+<pre><code>Wants=checkin.service
+</code></pre>
+
+</article>
+<div>
+</div>
+</div>
+</html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        let css = document.getElementById("sberm-docs-css");
+    	css.href = "/docs/github.css";
+    }  
+  }  
+</script>

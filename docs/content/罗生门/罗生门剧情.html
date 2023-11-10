@@ -5,11 +5,11 @@
     <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/docs/github.css">
+    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
 </head>
 <div class = "spacing-div">
 <article class="markdown-body">
-<h4><a id="user-content-角色" class="anchor" aria-hidden="true" tabindex="-1" href="#角色"><span aria-hidden="true" class="octicon octicon-link"></span></a>角色</h4>
+<h4 id="user-content-角色"><a class="heading-link" href="#角色">角色<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
 <p>张刘时江</p>
 <p>性格: 脆弱敏感</p>
 <p>罗老师的终极粉丝。</p>
@@ -19,3 +19,12 @@
 </div>
 </div>
 </html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        let css = document.getElementById("sberm-docs-css");
+    	css.href = "/docs/github.css";
+    }  
+  }  
+</script>

@@ -1,0 +1,428 @@
+@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+	#password-container{
+		height: 60rem;
+		width: 90%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		user-select: none;
+	}
+
+	#input-password-parent{
+		height: 8rem;
+		width: 25rem;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 3.5rem;
+		font-weight: bold;
+	}
+
+	#input-password{
+		border: none;
+		background-color: transparent;
+		width: 100%;
+		font-size: 3.5rem;
+		outline: none;
+	}
+
+	.doc-header {
+		font-size: 4.3rem;
+		font-weight: bold;
+		margin: 0 0 0.7rem 0;
+	}
+
+	div.doc-item {
+		margin: 0.2rem 0;
+	}
+
+	a.doc-item {
+		color: rgb(31, 24, 192);
+		background-color: transparent;
+		text-decoration: none;
+	}
+
+	p.doc-item {
+		background-color: transparent;
+		text-decoration: none;
+		margin: 0;
+	}
+
+	p:not(.doc-header) {
+		font-family: Monaco;
+		font-size: 50px;
+		font-weight: bold;
+	}
+
+	.sample {
+		color:rgb(170, 170, 170);
+		font-size: 2.5rem;
+		font-family: Arial;
+		margin-top: 0rem;
+	}
+
+	#video-preview {
+		margin-left: auto;
+		display: flex;
+		align-items: flex-end;
+	}
+
+	#footer-main {
+		margin-top: 10rem;
+	}
+
+	#footer-line {
+		border: 1px rgb(100, 100, 100) solid;
+		border-radius: 3px;
+	}
+
+	#footer-text {
+		font-weight: normal;
+		color: rgba(0, 0, 0, 0.301) ;
+		font-family: Arial;
+		font-size: 1.2rem;
+	}
+
+	#footer-text-wrapper {
+		text-align: center;
+		width: 90%;
+		margin-top: 1rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	html {
+		font-size: 16px;
+	}
+
+	.blog-item {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#blog-index {
+		/* 对于font-boost的解决办法，就是设置父div的max-height: 100% */
+		max-height: 100%;
+		width: 70%;
+		margin: 4rem auto;
+		display: flex;
+		flex-direction: column;
+		gap: 3.7rem;
+	}
+
+	.date {
+		font-size: 2.1rem;
+		color: rgb(74, 74, 74);
+		font-family: Monaco;
+	}
+	
+	#akiha-img {
+		margin-left: auto; 
+		max-height: 37%;
+		margin-top: 2rem;
+		margin-right: 2rem;
+	}
+
+	.center {
+		width: 95%;
+		margin: 0 auto 20rem auto;
+	}
+
+	#title-and-img {
+		display: flex;
+		height: 35rem;
+		margin-top: 2rem;
+	}
+
+	#title {
+		color: black;
+		text-decoration: none; 
+		font-weight: bold;
+		width: 60%;
+		font-size: 2.6rem;
+		align-self: flex-end;
+		margin-left: 3rem;
+		margin-bottom: 0;
+		font-family: Georgia, 'Times New Roman', Times, serif;
+	}
+
+	#title-img {
+		margin-left: auto;
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.motto {
+		font-weight: bold;
+		font-size: 1.7rem;
+		word-wrap: normal;
+		font-family: 游明朝体;
+		flex: 1 1 0;
+	}
+
+	.blog-link {
+		display: inline-block;
+		font-family: Monaco;
+		font-weight:bold;
+		text-decoration:none;
+		font-size: 3.8rem;
+	}
+
+	#footer-commu-background {
+		margin-top: 6rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: rgb(247, 247, 247);
+		height: 13rem;
+		border-radius: 20px;
+		justify-content: center;
+	}
+
+	#footer-commu {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8rem;
+		/* image size */
+		height: 32%;
+	}
+
+	.footer-image-container {
+		height: 100%;
+		flex-basis: 1;
+	}
+
+	.footer-image {
+		max-height: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		height: 100%;
+	}
+}
+
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ 
+
+	#password-container{
+		height: 45rem;
+		width: 90%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		user-select: none;
+	}
+
+	#input-password-parent{
+		height: 4rem;
+		width: 30rem;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 3rem; /*大于号*/
+		font-weight: bold;
+	}
+
+	#input-password{
+		border: none;
+		background-color: transparent;
+		width: 100%;
+		font-size: 3.2rem;
+		outline: none;
+	}
+
+    .doc-header {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin: 0 0 0.7rem 0;
+    }
+
+    div.doc-item {
+        margin: 0.2rem 0;
+    }
+
+    a.doc-item {
+        color: rgb(31, 24, 192);
+		background-color: transparent;
+		text-decoration: none;
+    }
+
+    p.doc-item {
+		background-color: transparent;
+		text-decoration: none;
+        margin: 0;
+		font-weight: bold;
+    }
+
+	p:not(.doc-header) {
+		font-family: Monaco;
+		font-size: 20px;
+		font-weight: bold;
+	}
+
+	.sample {
+		color:rgb(170, 170, 170);
+		font-size: 1rem;
+		font-family: Monaco;
+		margin-top: 0.8rem;
+	}
+
+	#video-preview {
+		flex-basis: 2;
+		/* margin-left: auto; */
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+	}
+
+	#footer-main {
+		margin-top: 10rem;
+	}
+
+	#footer-line {
+		border: 2px rgb(100, 100, 100) solid;
+		border-radius: 3px;
+	}
+
+	#footer-text {
+		font-weight: normal;
+		color: rgba(0, 0, 0, 0.301);
+		font-family: Arial;
+		font-size: 0.7rem;
+	}
+
+	#footer-text-wrapper {
+		text-align: center;
+		width: 90%;
+		margin-top: 1rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	html {
+		font-size: 16px;
+	}
+
+	.blog-item {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#blog-index {
+		/* 对于font-boost的解决办法，就是设置父div的max-height: 100% */
+		max-height: 100%;
+		width: 70%;
+		margin: 4rem auto;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.date {
+		font-size: 1.1rem;
+		color: rgb(74, 74, 74);
+		font-family: Monaco;
+	}
+
+	.motto {
+		font-weight: bold;
+		font-size: 1.3rem;
+		word-wrap: normal;
+		font-family: 游明朝体;
+		flex: 1 1 0;
+	}
+
+	#akiha-img {
+		margin-left: auto; 
+		max-height: 34%;
+		flex-basis: 1;
+	}
+
+	.center {
+		width: 100%;
+		margin: 0 auto 10rem auto;
+	}
+
+	#title-and-img {
+		display: flex;
+		height: 14rem;
+		margin-top: 2rem;
+	}
+
+	#title{
+		color: black;
+		text-decoration: none; 
+		font-weight: bold;
+		width: 60%;
+		width: 40%;
+		font-size: 2.0rem;
+		font-family: KaiTi;
+		align-self: flex-end;
+		margin-left: 3rem;
+		margin-bottom: 0;
+	}
+
+	#title-img {
+		margin-left: auto;
+		display: flex;
+		align-items: flex-start;
+	}
+
+
+	#motto {
+		font-size: 1.3rem;
+	}
+
+
+	.doctor-image {
+		width: 50rem;
+		margin: auto;
+	}
+
+	.blog-link {
+		display: inline-block;
+		font-family: Monaco;
+		transition: .3s;
+		font-weight:bold;
+		text-decoration:none;
+		font-size: 25px;
+	}
+
+	#footer-commu-background {
+		margin-top: 2rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: rgb(247, 247, 247);
+		height: 7rem;
+		border-radius: 20px;
+		justify-content: center;
+	}
+
+	#footer-commu {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 5rem;
+		/* this controls the image size */
+		height: 20%;
+	}
+
+	.footer-image-container {
+		height: 100%;
+		flex-basis: 1;
+	}
+
+	.footer-image {
+		max-height: 100%;
+		max-width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		height: 100%;
+	}
+}

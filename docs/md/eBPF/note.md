@@ -107,3 +107,5 @@ share(.so) static(.a)
 
 #### 很显然你可以直接使用-o指定-c生成的object file的名称(即helloworld.c不一定要生成helloworld.o)
 gcc -c helloworld.c -o helloworld2.o
+
+我不想再看到皮屑了。 反皮屑运动
