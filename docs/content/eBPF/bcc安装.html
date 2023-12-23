@@ -9,8 +9,8 @@
 </head>
 <div class = "spacing-div">
 <article class="markdown-body">
-<h2 id="user-content-centos-85---source"><a class="heading-link" href="#centos-85---source">Centos-8.5 - Source<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
-<h4 id="user-content-install-build-dependencies"><a class="heading-link" href="#install-build-dependencies">Install build dependencies<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
+<h2><a id="user-content-centos-85---source" class="anchor" aria-hidden="true" tabindex="-1" href="#centos-85---source"><span aria-hidden="true" class="octicon octicon-link"></span></a>Centos-8.5 - Source</h2>
+<h4><a id="user-content-install-build-dependencies" class="anchor" aria-hidden="true" tabindex="-1" href="#install-build-dependencies"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install build dependencies</h4>
 <pre><code>dnf install -y bison cmake ethtool flex git iperf3 libstdc++-devel python3-netaddr python3-pip gcc gcc-c++ make zlib-devel elfutils-libelf-devel
 # dnf install -y luajit luajit-devel ## if use luajit, will report some lua function(which in lua5.3) undefined problem 
 dnf install -y clang clang-devel llvm llvm-devel llvm-static ncurses-devel
@@ -18,7 +18,7 @@ dnf -y install netperf
 pip3 install pyroute2
 ln -s /usr/bin/python3 /usr/bin/python
 </code></pre>
-<h4 id="user-content-install-and-compile-bcc"><a class="heading-link" href="#install-and-compile-bcc">Install and Compile bcc<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
+<h4><a id="user-content-install-and-compile-bcc" class="anchor" aria-hidden="true" tabindex="-1" href="#install-and-compile-bcc"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install and Compile bcc</h4>
 <pre><code>git clone https://github.com/iovisor/bcc.git
 
 mkdir bcc-build

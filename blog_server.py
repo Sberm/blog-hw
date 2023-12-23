@@ -353,7 +353,7 @@ def update_html_doc():
         tmp = di.split('/', 1)[0]
         if folder_name != tmp:
             folder_name = tmp
-            # docs += '<br/>'
+            docs += '<br/>'
         docs += f'<div class = "doc-item"><a href="content/{name_without_ext}" class = "doc-item"><p class = "doc-item">{name_without_ext}</p></a></div>'
 
     old_text.replace_with(f"<div id=\"doc-container\">{docs}</div>")
@@ -569,7 +569,6 @@ def check_new_files():
                 continue
             file_path = os.path.join(root, file)
             m_t = os.path.getmtime(file_path)
-            # if m_t > l_m_f and '.md' in file:
             if m_t > l_m_f and file.rsplit(".",1)[-1] == 'md':
                 l_m_f = m_t
                 generate_blog(file)
