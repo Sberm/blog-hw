@@ -2,6 +2,10 @@ body {
 	background-color: rgb(51, 51, 51);
 }
 
+.leave-img {
+  max-height: 100%;
+}
+
 .markdown-body {
   color-scheme: dark;
   -ms-text-size-adjust: 100%;
@@ -1041,9 +1045,6 @@ body {
       align-items: flex-end;
       margin-bottom: 0.6rem;
     }
-    .leave-img {
-      max-height: 100%;
-    }
 
 
     #footer-main {
@@ -1133,9 +1134,6 @@ body {
       display: flex;
       align-items: flex-end;
       margin-bottom: 0.6rem;
-    }
-    .leave-img {
-      max-height: 100%;
     }
 
     #footer-main {
