@@ -229,22 +229,21 @@ async function setContent(da, contentBackground) {
 }
 
 async function setPaginationBar(pages, cPage) {
-	// console.log("pages", pages);
+	cPage = parseInt(cPage);
 	let pBar = document.getElementById("pagination-bar");
-
-	// 底下显示的页数(实际显示的页数是MAXPAGE+1)
-	const MAXPAGE = 6;
-
-	const maxPageCal = Math.ceil(MAXPAGE / 2);
-	//for (let i = Math.max(1, cPage - maxPageCal);i <= Math.min(cPage + maxPageCal, pages);i++) {
+	const MAXPAGE = 5;
+	const maxPageCal = Math.ceil(MAXPAGE / 2) - 1; 
 	let left = Math.max(1, cPage - maxPageCal);
 	let right = Math.min(cPage + maxPageCal, pages);
+
+	// keep the digits same as MAXPAGE
 	if (left == 1) {
-		right =Math.min(2*maxPageCal + 1, pages);
+		right = Math.min(MAXPAGE, parseInt(pages));
 	}
 	if (right == pages) {
-		left = Math.max(pages - 2 * maxPageCal, 1);
+		left = Math.max(parseInt(pages) - MAXPAGE + 1, 1);
 	}
+	
 	for (let i = left;i <= right; i++) {
 		let numberDiv = document.createElement("div");
 		numberDiv.setAttribute("class", "pagination-number");
@@ -260,7 +259,6 @@ async function setPaginationBar(pages, cPage) {
 		numberDiv.children[0].setAttribute("class", className);
 		pBar.appendChild(numberDiv);
 	}
-	// console.log(pBar);
 }
 
 
