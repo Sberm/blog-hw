@@ -512,7 +512,7 @@ def generate_blog(file_name: str):
                 </a>
             </div>
             <div class="footer-image-container">
-                <a href="https://twitter.com/Fernand73827208">
+                <a href="https://twitter.com/howardchu_">
                     <img class="footer-image" src="../images/twitter.png"/>
                 </a>
             </div>
