@@ -5,7 +5,24 @@ html {
 	-moz-text-size-adjust: none;
 }
 
-/* 使用internal storage保存色彩数据 */
+a:link:not(#title:#info-link) {
+	color: var(--unvisited);
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a:visited:not(.blog-name) {
+	color: var(--visited);
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a#info-link {
+	color: var(--foreground);
+	background-color: transparent;
+	text-decoration: none;
+}
+
 :root {
 	--background: rgb(51, 51, 51);
 	--foreground: rgb(243, 243, 243);
@@ -13,21 +30,39 @@ html {
 	--unvisited: rgb(0, 162, 190);
 	--footer-background: rgb(40, 40, 40);
 	--navi-background: rgb(51, 51, 51); /*255, 255, 255*/
-	--navi-shadow: rgb(77, 77, 77); /*233 233 233*/
+	--navi-shadow: rgb(20, 20, 20); /*233 233 233*/
+}
+
+
+html {
+	font-size: 16px;
 }
 
 .leave-img {
-  max-height: 100%;
+	max-height: 100%;
 }
 	
 @media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */
+
+	.info {
+		margin: auto 0 0 1.8rem;
+		align-self: end;
+		padding: 1rem;
+		display: inline-block;
+		border-radius: 40px;
+		background-color: var(--navi-background);
+		box-shadow: 0px 9px 9px 0.03px var(--navi-shadow);
+		color: var(--foreground);
+		font-size: 1.7rem;
+		flex-basis: 1;
+	}
 
     .image-container {
       height: 80%;
       place-self: center;
       display: flex;
       align-items: flex-end;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.7rem;
     }
 
     .link-wrapper {
@@ -35,19 +70,24 @@ html {
 		width: 40%;
     }
 
+	/*因为没有设置viewport, 临时补救*/
+	.leave-img {
+		max-height: 320%;
+	}
+
     .navi {
-      height: 7.0rem;
+      height: 21.0rem;
       width: 100%;
-      margin-top:-4.3rem;
+      margin-top:-12.9rem;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: 3rem;
-      border-radius: 40px;
+      margin-bottom: 1rem;
+      border-radius:120px;
 	  background-color: var(--navi-background);
       display: flex;
       justify-content: flex-end;
       flex-direction: column;
-	  box-shadow: 0px 4px 3px 0.01px var(--navi-shadow);
+	  box-shadow: 0px 12px 9px 0.03px var(--navi-shadow);
     }
 
 	body {
@@ -116,9 +156,6 @@ html {
 		margin-right: auto;
 	}
 
-	html {
-		font-size: 16px;
-	}
 
 	.blog-item {
 		display: flex;
@@ -142,9 +179,11 @@ html {
 	
 	#akiha-img {
 		margin-left: auto; 
-		max-height: 37%;
+		max-height: 100%;
+		max-width: 100%;
 		margin-top: 2rem;
 		margin-right: 2rem;
+		flex-basis: 1;
 	}
 
 	.center {
@@ -161,7 +200,7 @@ html {
 		color:var(--foreground);
 		text-decoration: none; 
 		font-weight: bold;
-		width: 60%;
+		display: inline-block;
 		font-size: 2.6rem;
 		align-self: flex-end;
 		margin-left: 3rem;
@@ -173,6 +212,7 @@ html {
 		margin-left: auto;
 		display: flex;
 		align-items: flex-start;
+		flex-direction: column;
 	}
 
 	.motto {
@@ -189,18 +229,6 @@ html {
 		font-weight:bold;
 		text-decoration:none;
 		font-size: 3.3rem;
-	}
-
-	a:link:not(#title) {
-		color: var(--unvisited);
-		background-color: transparent;
-		text-decoration: none;
-	}
-
-	a:visited:not(.blog-name) {
-		color: var(--visited);
-		background-color: transparent;
-		text-decoration: none;
 	}
 
 	#footer-commu-background {
@@ -238,6 +266,19 @@ html {
 
 @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */
 
+	.info {
+		align-self: start;
+		flex-basis: 1;
+		margin: auto 0 0 1rem;
+		padding: 0.6rem;
+		display: inline-block;
+		border-radius: 40px;
+		background-color: var(--navi-background);
+		box-shadow: 0px 3px 3px 0.01px var(--navi-shadow);
+		color: var(--foreground);
+		font-size: 0.8rem;
+	}
+
     .image-container {
       height: 80%;
       place-self: center;
@@ -257,7 +298,7 @@ html {
       margin-top:-4.3rem;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: 3rem;
+      margin-bottom: 1rem;
       border-radius: 40px;
       /* background-color: rgb(255, 255, 255); */
 	  background-color: var(--navi-background);
@@ -335,10 +376,6 @@ html {
 		margin-right: auto;
 	}
 
-	html {
-		font-size: 16px;
-	}
-
 	.blog-item {
 		display: flex;
 		flex-direction: column;
@@ -388,8 +425,7 @@ html {
 		color: var(--foreground);
 		text-decoration: none; 
 		font-weight: bold;
-		width: 60%;
-		width: 40%;
+		display: inline-block;
 		font-size: 1.5rem;
 		font-family: KaiTi;
 		align-self: flex-end;
@@ -403,6 +439,7 @@ html {
 		display: flex;
 		align-items: flex-start;
 		margin-right: 3rem;
+		flex-direction: column;
 	}
 
 	p {
@@ -423,18 +460,6 @@ html {
 		font-weight:bold;
 		text-decoration:none;
 		font-size: 19px;
-	}
-
-	a:link:not(#title) {
-		color: var(--unvisited);
-		background-color: transparent;
-		text-decoration: none;
-	}
-
-	a:visited:not(.blog-name) {
-		color: var(--visited);
-		background-color: transparent;
-		text-decoration: none;
 	}
 
 	#footer-commu-background {

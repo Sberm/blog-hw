@@ -9,9 +9,114 @@
 </head>
 <div class = "spacing-div">
 <article class="markdown-body">
-<pre><code>foo
-https://wwx.lanzoui.com/iOmg7t4dm0d
+<h1><a id="user-content-sberf开发文档" class="anchor" aria-hidden="true" tabindex="-1" href="#sberf开发文档"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sberf开发文档</h1>
+<p>user-space APIs:</p>
+<ul>
+<li>
+<a href="https://github.com/libbpf/libbpf/blob/master/src/libbpf.h">libbpf.h</a>;</li>
+</ul>
+<pre><code>libbpf.h很详细，相当于文档。但是比如bpf_map_update_elem, 要加个下划线, 变成bpf_map__update_elem才能搜到
 </code></pre>
+<ul>
+<li>
+<a href="https://github.com/libbpf/libbpf/blob/master/src/bpf.h">bpf.h</a>;</li>
+<li>
+<a href="https://github.com/libbpf/libbpf/blob/master/src/btf.h">btf.h</a>;</li>
+</ul>
+<p>BPF map type:</p>
+<ul>
+<li>
+<a href="https://github.com/libbpf/libbpf/blob/master/include/uapi/linux/bpf.h">bpf.h</a>中</li>
+</ul>
+<p>BPF-side APIs:</p>
+<ul>
+<li>
+<a href="https://github.com/libbpf/libbpf/blob/master/src/bpf_helper_defs.h">bpf_helpers.h</a>;</li>
+<li>
+<a href="https://github.com/libbpf/libbpf/blob/master/src/bpf_tracing.h">bpf_tracing.h</a>;</li>
+<li>
+<a href="https://github.com/libbpf/libbpf/blob/master/src/bpf_core_read.h">bpf_core_read.h</a>;</li>
+<li>
+<a href="https://github.com/libbpf/libbpf/blob/master/src/usdt.bpf.h">usdt.bpf.h</a>;</li>
+<li>
+<a href="https://github.com/libbpf/libbpf/blob/master/src/bpf_endian.h">bpf_endian.h</a>.</li>
+</ul>
+<p>好用的BPF示例</p>
+<ul>
+<li><a href="https://github.com/iovisor/bcc/blob/master/libbpf-tools/execsnoop.c">bcc中的libbpf示例</a></li>
+</ul>
+<p>bootstrap</p>
+<ul>
+<li><a href="https://github.com/libbpf/libbpf-bootstrap/tree/master/examples/c">bootstrap</a></li>
+</ul>
+<hr>
+<p>本地grep路径</p>
+<p><code>/usr/include/bpf/</code></p>
+<hr>
+<p>debug</p>
+<div class="highlight highlight-source-shell"><pre>cat /sys/kernel/debug/tracing/trace_pipe</pre></div>
+<hr>
+<p>SEC中内容:</p>
+<p><code>/sys/kernel/debug/tracing/available_events</code></p>
+<p><code>&lt;category&gt;:&lt;name&gt;</code> -&gt; <code>SEC("tracepoint/&lt;category&gt;/&lt;name&gt;")</code></p>
+<p>通过查看 <code>/sys/kernel/debug/tracing/events/&lt;category&gt;/&lt;name&gt;/format</code> 得到可获取信息。</p>
+<hr>
+<p>map</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-k">enum</span> <span class="pl-smi">bpf_map_type</span> {
+	<span class="pl-c1">BPF_MAP_TYPE_UNSPEC</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_HASH</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_ARRAY</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_PROG_ARRAY</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_PERF_EVENT_ARRAY</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_PERCPU_HASH</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_PERCPU_ARRAY</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_STACK_TRACE</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_CGROUP_ARRAY</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_LRU_HASH</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_LRU_PERCPU_HASH</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_LPM_TRIE</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_ARRAY_OF_MAPS</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_HASH_OF_MAPS</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_DEVMAP</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_SOCKMAP</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_CPUMAP</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_XSKMAP</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_SOCKHASH</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_CGROUP_STORAGE_DEPRECATED</span>,
+	<span class="pl-c">/* BPF_MAP_TYPE_CGROUP_STORAGE is available to bpf programs attaching</span>
+<span class="pl-c">	 * to a cgroup. The newer BPF_MAP_TYPE_CGRP_STORAGE is available to</span>
+<span class="pl-c">	 * both cgroup-attached and other progs and supports all functionality</span>
+<span class="pl-c">	 * provided by BPF_MAP_TYPE_CGROUP_STORAGE. So mark</span>
+<span class="pl-c">	 * BPF_MAP_TYPE_CGROUP_STORAGE deprecated.</span>
+<span class="pl-c">	 */</span>
+	<span class="pl-c1">BPF_MAP_TYPE_CGROUP_STORAGE</span> <span class="pl-c1">=</span> <span class="pl-c1">BPF_MAP_TYPE_CGROUP_STORAGE_DEPRECATED</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_REUSEPORT_SOCKARRAY</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE_DEPRECATED</span>,
+	<span class="pl-c">/* BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE is available to bpf programs</span>
+<span class="pl-c">	 * attaching to a cgroup. The new mechanism (BPF_MAP_TYPE_CGRP_STORAGE +</span>
+<span class="pl-c">	 * local percpu kptr) supports all BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE</span>
+<span class="pl-c">	 * functionality and more. So mark * BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE</span>
+<span class="pl-c">	 * deprecated.</span>
+<span class="pl-c">	 */</span>
+	<span class="pl-c1">BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE</span> <span class="pl-c1">=</span> <span class="pl-c1">BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE_DEPRECATED</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_QUEUE</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_STACK</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_SK_STORAGE</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_DEVMAP_HASH</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_STRUCT_OPS</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_RINGBUF</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_INODE_STORAGE</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_TASK_STORAGE</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_BLOOM_FILTER</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_USER_RINGBUF</span>,
+	<span class="pl-c1">BPF_MAP_TYPE_CGRP_STORAGE</span>,
+};</pre></div>
+<p>Linux页大小 <code>4KB</code></p>
+<p>libbpf version <code>1.3</code></p>
+<p>cpu 信息 <code>/sys/devices/system/cpu/online</code></p>
+<br>
+<br>
+<br>
 
 </article>
 <div>

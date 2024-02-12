@@ -13,6 +13,17 @@
     </body>
 </html>
 <script>
+	// 自动匹配颜色主题
+    applyCss();
+  	function applyCss() {
+		if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+			// light mode
+			let root = document.querySelector(":root");
+			root.style.setProperty("--background", 'white');
+			root.style.setProperty("--foreground", 'black'); // black
+		}
+	}
+
     async function loadBlog() {
 		const response = await fetch("https://sberm.cn/blog-info");
 		const blog_list = await response.json();
@@ -58,10 +69,22 @@
 	}
 </script>
 <style>
+
+
+	:root {
+		--background: rgb(51, 51, 51);
+		--foreground: rgb(243, 243, 243);
+		--visited: rgb(19, 117, 185);
+		--unvisited: rgb(0, 162, 190);
+		--footer-background: rgb(40, 40, 40);
+		--navi-background: rgb(51, 51, 51); /*255, 255, 255*/
+		--navi-shadow: rgb(77, 77, 77); /*233 233 233*/
+	}
+
     @media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
 
 	body {
-		background: rgb(51, 51, 51);
+		background: var(--background);
 		color: rgb(243, 243, 243);
 	}
 
@@ -294,12 +317,12 @@
 @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ 
 
 	body {
-		background: rgb(51, 51, 51);
-		color: rgb(243, 243, 243);
+		background: var(--background);
+		color: var(--foreground);
 	}
 
 	input, select, textarea{
-    	color: rgb(243, 243, 243);
+    	color: var(--foreground);
 	}
 
 	#password-container{

@@ -46,7 +46,7 @@
 	}
 
 	a.doc-item {
-		color: rgb(90, 113, 242);
+		color: rgb(104, 127, 255);
 		background-color: transparent;
 		text-decoration: none;
 	}
@@ -258,7 +258,7 @@
     }
 
     a.doc-item {
-        color: rgb(90, 113, 242);
+		color: rgb(104, 127, 255);
 		background-color: transparent;
 		text-decoration: none;
     }
