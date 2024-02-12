@@ -5,13 +5,13 @@ html {
 	-moz-text-size-adjust: none;
 }
 
-a:link:not(#title:#info-link) {
+a:link:not(#title){
 	color: var(--unvisited);
 	background-color: transparent;
 	text-decoration: none;
 }
 
-a:visited:not(.blog-name) {
+a:visited {
 	color: var(--visited);
 	background-color: transparent;
 	text-decoration: none;
