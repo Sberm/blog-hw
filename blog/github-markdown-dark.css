@@ -1060,7 +1060,7 @@ body {
       font-weight: normal;
       color: rgb(243, 243, 243) ;
       font-family: Arial;
-      font-size: 0.7rem;
+      font-size: 1.2rem;
     }
 
     #footer-text-wrapper {
@@ -1148,7 +1148,7 @@ body {
       font-weight: normal;
       color: rgb(243, 243, 243);
       font-family: Arial;
-      font-size: 0.7rem;
+      font-size: 10px;
     }
 
     #footer-text-wrapper {

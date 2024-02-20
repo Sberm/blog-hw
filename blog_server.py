@@ -554,7 +554,7 @@ def generate_blog(file_name: str):
   function applyCss() {{
     if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {{
         let css = document.getElementById("sberm-blog-css");
-	css.href = "/blog/github.css";
+	    css.href = "/blog/github.css";
         let akihaImage = document.getElementById("akiha-img");
         akihaImage.src = "/images/leave.png";
     }}  

@@ -11,8 +11,8 @@
 <div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave-dark.png" class="leave-img"/></a></div></div>
 <div class = "spacing-div">
 <article class="markdown-body">
-<h2 id="user-content-使用mix启动elixir应用"><a class="heading-link" href="#使用mix启动elixir应用">使用mix启动elixir应用<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
-<h4 id="user-content-05-定义mainex-使用mix-run-mainex和2重复"><a class="heading-link" href="#05-定义mainex-使用mix-run-mainex和2重复">0.5 定义<code>main.ex</code>, 使用<code>mix run main.ex</code>(和2.重复)<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
+<h2><a id="user-content-使用mix启动elixir应用" class="anchor" aria-hidden="true" tabindex="-1" href="#使用mix启动elixir应用"><span aria-hidden="true" class="octicon octicon-link"></span></a>使用mix启动elixir应用</h2>
+<h4><a id="user-content-05-定义mainex-使用mix-run-mainex和2重复" class="anchor" aria-hidden="true" tabindex="-1" href="#05-定义mainex-使用mix-run-mainex和2重复"><span aria-hidden="true" class="octicon octicon-link"></span></a>0.5 定义<code>main.ex</code>, 使用<code>mix run main.ex</code>(和2.重复)</h4>
 <p>main.ex:</p>
 <div class="highlight highlight-source-elixir"><pre><span class="pl-k">defmodule</span> <span class="pl-v">Main</span> <span class="pl-k">do</span>
   <span class="pl-v">Server</span><span class="pl-c1">.</span><span class="pl-en">main</span><span class="pl-kos">(</span><span class="pl-kos">)</span>
@@ -32,8 +32,8 @@ Compiling 1 file (.ex)
 Generated server app
 {:ok,
  %{</pre></div>
-<h4 id="user-content-1-使用-iex--s-mix-或-mix-run--e"><a class="heading-link" href="#1-使用-iex--s-mix-或-mix-run--e">1. 使用 <code>iex -S mix</code> 或 <code>mix run -e</code>
-<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
+<h4><a id="user-content-1-使用-iex--s-mix-或-mix-run--e" class="anchor" aria-hidden="true" tabindex="-1" href="#1-使用-iex--s-mix-或-mix-run--e"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. 使用 <code>iex -S mix</code> 或 <code>mix run -e</code>
+</h4>
 <p>在Server模块中定义主函数main</p>
 <div class="highlight highlight-source-elixir"><pre><span class="pl-k">defmodule</span> <span class="pl-v">Server</span> <span class="pl-k">do</span>
 
@@ -53,11 +53,11 @@ Interactive Elixir (1.15.4) - press Ctrl+C to <span class="pl-c1">exit</span> (t
 iex(1)<span class="pl-k">&gt;</span> <span class="pl-en">Server.main</span>()</pre></div>
 <p>与iex -S mix起到同样作用的</p>
 <div class="highlight highlight-source-elixir"><pre><span class="pl-en">mix</span> <span class="pl-en">run</span> <span class="pl-c1">-</span><span class="pl-en">e</span> <span class="pl-s">"Server.main()"</span></pre></div>
-<h4 id="user-content-2-使用-mix-run-pathtocodeex"><a class="heading-link" href="#2-使用-mix-run-pathtocodeex">2. 使用 <code>mix run path/to/code.ex</code>
-<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
+<h4><a id="user-content-2-使用-mix-run-pathtocodeex" class="anchor" aria-hidden="true" tabindex="-1" href="#2-使用-mix-run-pathtocodeex"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 使用 <code>mix run path/to/code.ex</code>
+</h4>
 <p>自动编译和解决依赖, 需要指定文件路径</p>
-<h4 id="user-content-3-使用-mix-run-无参数-或者mix-appstart"><a class="heading-link" href="#3-使用-mix-run-无参数-或者mix-appstart">3. 使用 <code>mix run</code> 无参数, 或者<code>mix app.start</code>
-<span aria-hidden="true" class="octicon octicon-link"></span></a></h4>
+<h4><a id="user-content-3-使用-mix-run-无参数-或者mix-appstart" class="anchor" aria-hidden="true" tabindex="-1" href="#3-使用-mix-run-无参数-或者mix-appstart"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. 使用 <code>mix run</code> 无参数, 或者<code>mix app.start</code>
+</h4>
 <p><code>mix run</code>无参数时，会读取<code>mix.exs</code>中定义的application，为用户项目的启动单位。</p>
 <p><code>mix run --no-halt</code>时无反应，由于用户未在mix.exs中注册应用。</p>
 <p>需要在<code>mix.exs</code>的application中加入自定义应用MyApp</p>
@@ -157,7 +157,7 @@ server <span class="pl-k">&gt;</span> </pre></div>
   function applyCss() {
     if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         let css = document.getElementById("sberm-blog-css");
-		css.href = "/blog/github.css";
+	    css.href = "/blog/github.css";
         let akihaImage = document.getElementById("akiha-img");
         akihaImage.src = "/images/leave.png";
     }  

@@ -1053,9 +1053,9 @@
 
     #footer-text {
       font-weight: normal;
-      color: rgba(0, 0, 0, 0.301) ;
+      color: rgb(0, 0, 0);
       font-family: Arial;
-      font-size: 0.7rem;
+      font-size: 1.2rem;
     }
 
     #footer-text-wrapper {
@@ -1144,9 +1144,9 @@
 
     #footer-text {
       font-weight: normal;
-      color: rgba(0, 0, 0, 0.301);
+      color: rgb(0,0,0);
       font-family: Arial;
-      font-size: 0.7rem;
+      font-size: 10px;
     }
 
     #footer-text-wrapper {
