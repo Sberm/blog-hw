@@ -1,3 +1,10 @@
+html {
+    text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+}
+
 body {
 	background-color: rgb(51, 51, 51);
 }
@@ -1060,7 +1067,7 @@ body {
       font-weight: normal;
       color: rgb(243, 243, 243) ;
       font-family: Arial;
-      font-size: 1.2rem;
+      font-size: 0.5rem;
     }
 
     #footer-text-wrapper {

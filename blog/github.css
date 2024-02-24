@@ -1,3 +1,10 @@
+html {
+    text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+}
+
 .markdown-body {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -1055,7 +1062,7 @@
       font-weight: normal;
       color: rgb(0, 0, 0);
       font-family: Arial;
-      font-size: 1.2rem;
+      font-size: 0.5rem;
     }
 
     #footer-text-wrapper {
