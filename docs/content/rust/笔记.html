@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<p>Trait: a set of functions a type must provide</p>
+<div class="highlight highlight-source-rust"><pre><span class="pl-c">// T is a type that has to provide functions defined in HasArea trait</span>
+<span class="pl-k">fn</span> <span class="pl-en">print_area</span><span class="pl-kos">&lt;</span><span class="pl-smi">T</span><span class="pl-kos">:</span> <span class="pl-smi">HasArea</span><span class="pl-kos">&gt;</span><span class="pl-kos">(</span><span class="pl-s1">shape</span><span class="pl-kos">:</span> <span class="pl-smi">T</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <span class="pl-en">println</span><span class="pl-en">!</span><span class="pl-kos">(</span><span class="pl-s">"This shape has an area of {}"</span>, shape.area<span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span></pre></div>
+<p>include</p>
+<div class="highlight highlight-source-rust"><pre><span class="pl-k">use</span> <span class="pl-k">crate</span><span class="pl-kos">::</span>house<span class="pl-kos">::</span>diner<span class="pl-kos">;</span>
+
+<span class="pl-c1">#<span class="pl-kos">[</span>path = <span class="pl-s">"./welcome-home.rs"</span><span class="pl-kos">]</span></span>
+<span class="pl-k">mod</span> welcome_home<span class="pl-kos">;</span>
+
+<span class="pl-c">// Includes the function directly</span>
+<span class="pl-c">// When using crate, you use the root directory to include everything.</span>
+<span class="pl-k">use</span> <span class="pl-k">crate</span><span class="pl-kos">::</span>house<span class="pl-kos">::</span>diner<span class="pl-kos">;</span></pre></div>
+
+</article>
+<div>
+</div>
+</div>
+</html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        let css = document.getElementById("sberm-docs-css");
+    	css.href = "/docs/github.css";
+    }  
+  }  
+</script>

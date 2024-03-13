@@ -9,7 +9,39 @@
 </head>
 <div class = "spacing-div">
 <article class="markdown-body">
-<h1><a id="user-content-sberf开发文档" class="anchor" aria-hidden="true" tabindex="-1" href="#sberf开发文档"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sberf开发文档</h1>
+<div class="markdown-heading"><h1 class="heading-element">Sberf开发文档</h1><a id="user-content-sberf开发文档" class="anchor" aria-label="Permalink: Sberf开发文档" href="#sberf开发文档"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<pre lang="todo"><code>TODO: 
+
+NUMA(bpf_get_numa_node_id) &amp; (OFF-CPU/ePoll)
+
+调研
+	调研市面上主流的分析软件, 它们有哪些功能，它们还缺一些什么功能
+
+栈太多爆了怎么办(现在entries只有8192个)
+	方法1: So I suggest using a map-in-map array/hash map and replacing the inner map once in a while, and adding back the desired entries.You can create the new map while the old one is still being used and swap out once you are ready. Performance depends on the amount of entries to add to the new map.
+
+可视化
+	host一个服务器在后端
+
+record时进程退出, 会出segfault
+
+使用addr的相等来insert stack, 而不是字符串匹配
+
+调试svg输出 字体、缩放、最短大小、动态改变长宽
+
+events
+
+memory
+
+usdt
+
+events + trace
+
+dwarf
+
+docker
+
+</code></pre>
 <p>user-space APIs:</p>
 <ul>
 <li>
@@ -50,13 +82,13 @@
 <li><a href="https://github.com/libbpf/libbpf-bootstrap/tree/master/examples/c">bootstrap</a></li>
 </ul>
 <hr>
-<p>本地grep路径</p>
+<div class="markdown-heading"><h3 class="heading-element">本地grep路径</h3><a id="user-content-本地grep路径" class="anchor" aria-label="Permalink: 本地grep路径" href="#本地grep路径"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><code>/usr/include/bpf/</code></p>
 <hr>
-<p>debug</p>
+<div class="markdown-heading"><h3 class="heading-element">debug</h3><a id="user-content-debug" class="anchor" aria-label="Permalink: debug" href="#debug"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <div class="highlight highlight-source-shell"><pre>cat /sys/kernel/debug/tracing/trace_pipe</pre></div>
 <hr>
-<p>SEC中内容:</p>
+<div class="markdown-heading"><h3 class="heading-element">SEC中内容:</h3><a id="user-content-sec中内容" class="anchor" aria-label="Permalink: SEC中内容:" href="#sec中内容"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><code>/sys/kernel/debug/tracing/available_events</code></p>
 <p><code>&lt;category&gt;:&lt;name&gt;</code> -&gt; <code>SEC("tracepoint/&lt;category&gt;/&lt;name&gt;")</code></p>
 <p>通过查看 <code>/sys/kernel/debug/tracing/events/&lt;category&gt;/&lt;name&gt;/format</code> 得到可获取信息。</p>
@@ -65,6 +97,54 @@
 <p>libbpf version <code>1.3</code></p>
 <p>cpu 信息 <code>/sys/devices/system/cpu/online</code></p>
 <p>numa相关 <code>/sys/kernel/debug/tracing/events/sched/sched_move_numa/format</code></p>
+<p>max sample rate <code> /proc/sys/kernel/perf_event_max_sample_rate</code></p>
+<p>bpf可以查看内核symbol <code>static long (*bpf_kallsyms_lookup_name)(const char *name, int name_sz, int flags, __u64 *res) = (void *) 179;</code></p>
+<div class="highlight highlight-source-shell"><pre>perf record -F 99 -p 181 -g -- sleep 60
+<span class="pl-c"><span class="pl-c">#</span> -g                    enables call-graph recording</span></pre></div>
+<hr>
+<div class="markdown-heading"><h3 class="heading-element">Resolving address to symbol:</h3><a id="user-content-resolving-address-to-symbol" class="anchor" aria-label="Permalink: Resolving address to symbol:" href="#resolving-address-to-symbol"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>bcc方式 <a href="https://github.com/iovisor/bcc/blob/6cd272189771bbc7120d9d834e2588b93d8e9cfa/src/python/bcc/__init__.py#L1586">https://github.com/iovisor/bcc/blob/6cd272189771bbc7120d9d834e2588b93d8e9cfa/src/python/bcc/<strong>init</strong>.py#L1586</a></p>
+<p>libbacktrace <a href="https://github.com/ianlancetaylor/libbacktrace">https://github.com/ianlancetaylor/libbacktrace</a></p>
+<p>perf原生 <a href="https://github.com/torvalds/linux/blob/87adedeba51a822533649b143232418b9e26d08b/tools/perf/builtin-kallsyms.c">https://github.com/torvalds/linux/blob/87adedeba51a822533649b143232418b9e26d08b/tools/perf/builtin-kallsyms.c</a></p>
+<p>cpp profiler <a href="https://github.com/zq-david-wang/linux-tools/blob/main/perf/profiler/profiler.cpp#L152">https://github.com/zq-david-wang/linux-tools/blob/main/perf/profiler/profiler.cpp#L152</a></p>
+<p>user space <code>/proc/%ld/maps</code></p>
+<p>kernel <code>/proc/kallsyms</code></p>
+<hr>
+<p>存在的问题：</p>
+<p>默认编译参数 <code>-fomit-frame-pointer</code>
+出于优化目的，很多软件在正式编译时都会指定 -fomit-frame-pointer， 导致无法使用 frame-pointer 这种 stack walking 方式
+很多系统上这都是默认选项，尤其是性能敏感的软件，例如 C 标准库、JVM。 很多时候用 frame pointer 方式展开调用栈时，会看到 unknown symbol 之类的错误，就是因为这个原因。</p>
+<hr>
+<div class="markdown-heading"><h3 class="heading-element">增加function</h3><a id="user-content-增加function" class="anchor" aria-label="Permalink: 增加function" href="#增加function"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><code>bpf_program__attach_ksyscall</code>
+<code>bpf_program__attach_uprobe</code>
+<code>bpf_program__attach_usdt</code></p>
+<hr>
+<p>in bpf_helper_defs.h:
+bpf_read_branch_records
+bpf_get_task_stack
+bpf_get_stack
+bpf_get_current_task_btf
+bpf_sys_bpf
+bpf_timer_set_callback
+bpf_get_func_ip
+bpf_get_attach_cookie
+bpf_task_pt_regs
+bpf_trace_vprintk/bpf_trace_printk
+bpf_tail_call
+bpf_get_func_arg/bpf_get_func_ret
+bpf_strncmp
+bpf_get_retval
+bpf_map_lookup_percpu_elem)
+bpf_kptr_xchg</p>
+<p>bpf_local_storage(not a function)</p>
+<p>in bpf_helpers.h:
+bpf_for_each</p>
+<p>in libbpf.h:
+bpf_program__attach_tracepoint</p>
+<p>in usdt.bpf.c
+BPF_USDT</p>
+<hr>
 <br>
 <br>
 <br>

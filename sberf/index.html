@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+        <meta charset="utf-8"/>
+        <link href="/images/favicon.ico" rel="icon" type="image/x-icon"/>
+        <link href="/sberm-dark.css" id="sberm-css" rel="stylesheet" type="text/css"/>
+        <title>
+            朱皓炜博客
+        </title>
+    </head>
+    <!-- <body onload="loadBlog();"> -->
+    <body>
+        <div class="navi">
+            <div class="image-container">
+                <a class="link-wrapper" href="https://sberm.cn">
+                    <img class="leave-img" id="navi-img" src="/images/leave-dark.png"/>
+                </a>
+            </div>
+        </div>
+		<!--navi end-->
+
+		<h1>Sberf</h1>
+		<img src="/images/sberf-transparent.png" />
+
+		<iframe frameborder=0 height=100% width=100% src="http://givemereddit.eu/soccer/manutd.html" allowfullscreen scrolling=no allowtransparency></iframe>
+
+    </body>
+</html>
+<script>
+    applyCss();
+  function applyCss() {
+		if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+			// light mode
+			let root = document.querySelector(":root");
+			root.style.setProperty("--background", 'white');
+			root.style.setProperty("--foreground", 'black'); // black
+			root.style.setProperty("--visited", 'rgb(0, 75, 128)');
+			root.style.setProperty("--unvisited", 'rgb(0, 162, 190)');
+			root.style.setProperty("--footer-background", 'rgb(247, 247, 247)');
+			root.style.setProperty("--navi-background", 'rgb(255, 255, 255)');
+			root.style.setProperty("--navi-shadow", 'rgb(233, 233, 233)');
+			let naviImage = document.getElementById("navi-img");
+			naviImage.src = "/images/leave.png";
+		}
+		
+	}
+</script>
