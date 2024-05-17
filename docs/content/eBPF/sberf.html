@@ -10,26 +10,32 @@
 <div class = "spacing-div">
 <article class="markdown-body">
 <div class="markdown-heading"><h1 class="heading-element">Sberf开发文档</h1><a id="user-content-sberf开发文档" class="anchor" aria-label="Permalink: Sberf开发文档" href="#sberf开发文档"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<pre lang="todo"><code>TODO: 
+<div class="markdown-heading"><h2 class="heading-element">BUG</h2><a id="user-content-bug" class="anchor" aria-label="Permalink: BUG" href="#bug"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>./sberf record -f 10000 -a 卡住
+多个进程，dso导入的位置重合(都是虚存)</p>
+<pre lang="todo"><code>
+TODO:
 
-NUMA(bpf_get_numa_node_id) &amp; (OFF-CPU/ePoll)
+c &amp; t
 
-调研
-	调研市面上主流的分析软件, 它们有哪些功能，它们还缺一些什么功能
+内存
 
-栈太多爆了怎么办(现在entries只有8192个)
-	方法1: So I suggest using a map-in-map array/hash map and replacing the inner map once in a while, and adding back the desired entries.You can create the new map while the old one is still being used and swap out once you are ready. Performance depends on the amount of entries to add to the new map.
+锁
 
-可视化
-	host一个服务器在后端
+实时
 
-record时进程退出, 会出segfault
+负载
 
-使用addr的相等来insert stack, 而不是字符串匹配
+benchmark
 
-调试svg输出 字体、缩放、最短大小、动态改变长宽
 
-events
+
+
+**GRANDIOSE TODO: 
+
+File I/O
+
+可视化 host一个服务器在后端
 
 memory
 
@@ -41,6 +47,47 @@ dwarf
 
 docker
 
+支持rust
+
+android性能分析(?)
+
+opentelemetry
+
+gpu(?)
+
+Specifically, we aim to enable the export of performance data to formats such as Firefox's Gecko profile format and Chrome's trace event format,
+
+tracelog(锁时间) / trace compass支持
+
+malloc support
+
+32进制ELF文件
+
+NUMA(bpf_get_numa_node_id) &amp; (OFF-CPU/ePoll)
+
+
+
+
+
+</code></pre>
+<pre><code>https://bugzilla.kernel.org/show_bug.cgi?id=207323
+&gt; Naturally I went to my standby for profiling, perf. I found some stuff, and I
+&gt; fixed it all, and surprise surprise the numbers didn’t change. Clearly there
+&gt; was some blocking going on that was affecting the frames. Could the
+&gt; flamegraph tools for perf highlight this issue for me?
+
+&gt;
+&gt; No.
+
+&gt;
+&gt; An average Monday in the life of a zink developer.
+
+&gt;
+&gt; New tools would be needed to figure out what’s going on here.
+
+&gt;
+&gt; Do such tools already exist? Maybe. Post in the comments if you have tools
+&gt; you use for this type of thing.
 </code></pre>
 <p>user-space APIs:</p>
 <ul>
@@ -120,30 +167,156 @@ docker
 <code>bpf_program__attach_uprobe</code>
 <code>bpf_program__attach_usdt</code></p>
 <hr>
-<p>in bpf_helper_defs.h:
-bpf_read_branch_records
-bpf_get_task_stack
-bpf_get_stack
-bpf_get_current_task_btf
-bpf_sys_bpf
-bpf_timer_set_callback
-bpf_get_func_ip
-bpf_get_attach_cookie
-bpf_task_pt_regs
-bpf_trace_vprintk/bpf_trace_printk
-bpf_tail_call
-bpf_get_func_arg/bpf_get_func_ret
-bpf_strncmp
-bpf_get_retval
-bpf_map_lookup_percpu_elem)
-bpf_kptr_xchg</p>
+<p>in bpf_helper_defs.h:</p>
+<ul>
+<li>
+<p>bpf_read_branch_records</p>
+</li>
+<li>
+<p>bpf_get_task_stack</p>
+</li>
+<li>
+<p>bpf_get_stack</p>
+</li>
+<li>
+<p>bpf_get_current_task_btf</p>
+</li>
+<li>
+<p>bpf_sys_bpf</p>
+</li>
+<li>
+<p>bpf_timer_set_callback</p>
+</li>
+<li>
+<p>bpf_get_func_ip</p>
+</li>
+<li>
+<p>bpf_get_attach_cookie</p>
+</li>
+<li>
+<p>bpf_task_pt_regs</p>
+</li>
+<li>
+<p>bpf_trace_vprintk/bpf_trace_printk</p>
+</li>
+<li>
+<p>bpf_tail_call</p>
+</li>
+<li>
+<p>bpf_get_func_arg/bpf_get_func_ret</p>
+</li>
+<li>
+<p>bpf_strncmp</p>
+</li>
+<li>
+<p>bpf_get_retval</p>
+</li>
+<li>
+<p>bpf_map_lookup_percpu_elem)</p>
+</li>
+<li>
+<p>bpf_kptr_xchg</p>
+</li>
+<li>
 <p>bpf_local_storage(not a function)</p>
-<p>in bpf_helpers.h:
-bpf_for_each</p>
-<p>in libbpf.h:
-bpf_program__attach_tracepoint</p>
-<p>in usdt.bpf.c
-BPF_USDT</p>
+</li>
+</ul>
+<p>in bpf_helpers.h:</p>
+<ul>
+<li>bpf_for_each</li>
+</ul>
+<p>in libbpf.h:</p>
+<ul>
+<li>bpf_program__attach_tracepoint</li>
+<li>libbpf_num_possible_cpus</li>
+</ul>
+<p>in usdt.bpf.c</p>
+<ul>
+<li>BPF_USDT</li>
+</ul>
+<p>in a lot of bcc's example:</p>
+<ul>
+<li>uapi/linux/ptrace.h</li>
+</ul>
+<p>good macro:</p>
+<ul>
+<li>BPF_KPROBE</li>
+</ul>
+<hr>
+<div class="highlight highlight-source-c"><pre><span class="pl-smi">int</span> <span class="pl-en">BPF_KPROBE</span>(<span class="pl-smi">malloc_enter</span>, <span class="pl-smi">size_t</span> <span class="pl-s1">size</span>)
+{
+    <span class="pl-k">return</span> <span class="pl-en">gen_alloc_enter</span>(<span class="pl-s1">size</span>);
+}</pre></div>
+<p>btf</p>
+<p>SEC("tp_btf/sys_enter")</p>
+<hr>
+<div class="markdown-heading"><h3 class="heading-element">sberf related</h3><a id="user-content-sberf-related" class="anchor" aria-label="Permalink: sberf related" href="#sberf-related"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="highlight highlight-source-shell"><pre>./sberf record -t <span class="pl-s"><span class="pl-pds">"</span>sched:sched_process_exit<span class="pl-pds">"</span></span></pre></div>
+<div class="markdown-heading"><h3 class="heading-element">笔记</h3><a id="user-content-笔记" class="anchor" aria-label="Permalink: 笔记" href="#笔记"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<pre><code>eBPF没有锁，可以用map来作为eBPF的锁，因为map同时只能由一个cpu访问
+
+</code></pre>
+<p><a href="https://github.com/iovisor/bcc/blob/master/libbpf-tools/trace_helpers.c#L1214">https://github.com/iovisor/bcc/blob/master/libbpf-tools/trace_helpers.c#L1214</a></p>
+<div class="highlight highlight-source-c"><pre><span class="pl-smi">bool</span> <span class="pl-en">probe_tp_btf</span>(<span class="pl-k">const</span> <span class="pl-smi">char</span> <span class="pl-c1">*</span><span class="pl-s1">name</span>)
+{
+	<span class="pl-en">LIBBPF_OPTS</span>(<span class="pl-s1">bpf_prog_load_opts</span>, <span class="pl-s1">opts</span>, .<span class="pl-s1">expected_attach_type</span> <span class="pl-c1">=</span> <span class="pl-c1">BPF_TRACE_RAW_TP</span>);
+	<span class="pl-k">struct</span> <span class="pl-smi">bpf_insn</span> <span class="pl-s1">insns</span>[] <span class="pl-c1">=</span> {
+		{ .<span class="pl-c1">code</span> <span class="pl-c1">=</span> <span class="pl-c1">BPF_ALU64</span> | <span class="pl-c1">BPF_MOV</span> | <span class="pl-c1">BPF_K</span>, .<span class="pl-c1">dst_reg</span> <span class="pl-c1">=</span> <span class="pl-c1">BPF_REG_0</span>, .<span class="pl-c1">imm</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span> },
+		{ .<span class="pl-c1">code</span> <span class="pl-c1">=</span> <span class="pl-c1">BPF_JMP</span> | <span class="pl-c1">BPF_EXIT</span> },
+	};
+	<span class="pl-smi">int</span> <span class="pl-s1">fd</span>, <span class="pl-s1">insn_cnt</span> <span class="pl-c1">=</span> <span class="pl-k">sizeof</span>(<span class="pl-smi">insns</span>) / <span class="pl-k">sizeof</span>(<span class="pl-k">struct</span> <span class="pl-smi">bpf_insn</span>);
+
+	<span class="pl-s1">opts</span>.<span class="pl-c1">attach_btf_id</span> <span class="pl-c1">=</span> <span class="pl-en">libbpf_find_vmlinux_btf_id</span>(<span class="pl-s1">name</span>, <span class="pl-c1">BPF_TRACE_RAW_TP</span>);
+	<span class="pl-s1">fd</span> <span class="pl-c1">=</span> <span class="pl-en">bpf_prog_load</span>(<span class="pl-c1">BPF_PROG_TYPE_TRACING</span>, <span class="pl-c1">NULL</span>, <span class="pl-s">"GPL"</span>, <span class="pl-s1">insns</span>, <span class="pl-s1">insn_cnt</span>, <span class="pl-c1">&amp;</span><span class="pl-s1">opts</span>);
+	<span class="pl-k">if</span> (<span class="pl-s1">fd</span> &gt;= <span class="pl-c1">0</span>)
+		<span class="pl-en">close</span>(<span class="pl-s1">fd</span>);
+	<span class="pl-k">return</span> <span class="pl-s1">fd</span> &gt;= <span class="pl-c1">0</span>;
+}</pre></div>
+<p><code>LIBBPF_OPTS</code></p>
+<div class="highlight highlight-source-c"><pre><span class="pl-k">#define</span> <span class="pl-c1">DEBUGFS</span> "/sys/kernel/debug/tracing"
+<span class="pl-k">#define</span> <span class="pl-c1">TRACEFS</span> "/sys/kernel/tracing"
+
+	<span class="pl-k">return</span> <span class="pl-en">use_debugfs</span>() ? <span class="pl-c1">DEBUGFS</span><span class="pl-s">"/available_filter_functions"</span> :
+			       <span class="pl-c1">TRACEFS</span><span class="pl-s">"/available_filter_functions"</span>;
+
+/<span class="pl-s1">sys</span>/<span class="pl-s1">kernel</span>/<span class="pl-s1">debug</span>/<span class="pl-s1">kprobes</span>/<span class="pl-s1">blacklist</span>
+/<span class="pl-s1">sys</span>/<span class="pl-s1">kernel</span>/<span class="pl-s1">debug</span>/<span class="pl-s1">kprobes</span>/<span class="pl-s1">list</span>: <span class="pl-s1">列出内核中已经设置kprobe断点的函数</span>
+
+/<span class="pl-s1">sys</span>/<span class="pl-s1">kernel</span>/<span class="pl-s1">debug</span>/<span class="pl-s1">kprobes</span>/<span class="pl-s1">enabled</span>: <span class="pl-s1">kprobe开启</span>/<span class="pl-s1">关闭开关</span>
+
+/<span class="pl-s1">sys</span>/<span class="pl-s1">kernel</span>/<span class="pl-s1">debug</span>/<span class="pl-s1">kprobes</span>/<span class="pl-s1">blacklist</span>: <span class="pl-smi">kprobe黑名单</span>（<span class="pl-s1">无法设置断点函数</span>）
+
+/<span class="pl-s1">proc</span>/<span class="pl-s1">sys</span>/<span class="pl-s1">debug</span>/<span class="pl-s1">kprobes</span><span class="pl-c1">-</span><span class="pl-s1">optimization</span>: <span class="pl-s1">Turn</span> <span class="pl-s1">kprobes</span> <span class="pl-s1">optimization</span> <span class="pl-c1">ON</span>/<span class="pl-c1">OFF</span>.</pre></div>
+<p>可以看到这里多了几行，后面去读取的什么.debug文件里的东西是什么？注意到后面有个build-id，好像perf中也有和这个相关的功能，我们不妨来看看build-id是什么：buildid是一个用于标识可执行文件和共享库的唯一标识符。它是由编译器在编译时生成的，通常包含在ELF格式的可执行文件和共享库中。buildid可以用来识别不同版本的程序，以及检查程序是否被篡改过。在调试时，它还可以用来定位程序崩溃的原因。我们用file查看负载文件信息：
+可以看出来，当源目录和$HOME/.debug/.build-id目录下不存在时，perf script还会去找/usr/lob/debug下的一些文件，尝试去寻找到源文件，或者说源文件对应的debug信息。
+至此，我们可以得出一个结论：perf script需要依赖源文件的信息进行解析，首先会去寻找源目录下的文件，当找不到时会去寻找$HOME/.debug目录下的文件，最后会去/usr/lib下的信息，当都找不到时，perf script会解析成[unknown]</p>
+<p>from: <a href="https://blog.csdn.net/weixin_43079395/article/details/131271547" rel="nofollow">link</a></p>
+<p>valgrind, heap profiler: <a href="https://valgrind.org/docs/manual/ms-manual.html" rel="nofollow">https://valgrind.org/docs/manual/ms-manual.html</a></p>
+<p>a man's word on memleak &amp; memory usage: <a href="https://github.com/netdata/netdata/issues/8112">https://github.com/netdata/netdata/issues/8112</a></p>
+<p>插桩和多参数: <a href="https://www.cnxct.com/using-ebpf-kprobe-to-file-notify/#ftoc-heading-2" rel="nofollow">https://www.cnxct.com/using-ebpf-kprobe-to-file-notify/#ftoc-heading-2</a></p>
+<p>ebpf的文件系统: <a href="https://ebpf.io/blog/ebpf-updates-2021-01/#did-you-know-ebpf-virtual-filesystem" rel="nofollow">https://ebpf.io/blog/ebpf-updates-2021-01/#did-you-know-ebpf-virtual-filesystem</a></p>
+<p>ebpf lifetime: <a href="https://facebookmicrosites.github.io/bpf/blog/2018/08/31/object-lifetime.html" rel="nofollow">https://facebookmicrosites.github.io/bpf/blog/2018/08/31/object-lifetime.html</a></p>
+<p>试下</p>
+<div class="highlight highlight-source-c"><pre>	<span class="pl-s1">stack_id</span> <span class="pl-c1">=</span> <span class="pl-en">bpf_get_stackid</span>(<span class="pl-s1">ctx</span>, <span class="pl-c1">&amp;</span><span class="pl-s1">stacks</span>,
+				   <span class="pl-c1">BPF_F_FAST_STACK_CMP</span> | <span class="pl-c1">BPF_F_USER_STACK</span>);</pre></div>
+<p>Map In Map</p>
+<p>eBPF 提供了两种特殊的 Map 类型，BPF_MAP_TYPE_ARRAY_OF_MAPS 和 BPF_MAP_TYPE_HASH_OF_MAPS，实现了 map-in-map，也就是 eBPF Map 中每一个 entry 的 Value 也是一个 Map</p>
+<p>bpf.attach_uprobe(name="pthread", sym="pthread_mutex_init", fn_name="probe_mutex_init", pid=pid)
+bpf.attach_uprobe(name="pthread", sym="pthread_mutex_lock", fn_name="probe_mutex_lock", pid=pid)
+bpf.attach_uretprobe(name="pthread", sym="pthread_mutex_lock", fn_name="probe_mutex_lock_return", pid=pid)
+bpf.attach_uprobe(name="pthread", sym="pthread_mutex_unlock", fn_name="probe_mutex_unlock", pid=pid)</p>
+<p>白学了 sched_switch</p>
+<pre><code># centos
+/usr/src/kernels/4.18.0-348.7.1.el8_5.x86_64/include/trace/events/sched.h
+
+# arch
+/usr/lib/modules/6.8.4-arch1-1/build/include/trace/events/sched.h
+</code></pre>
+<p>如果某个cpu忙应该看到什么现象, 我们可以去获取cpu runqueue的长度</p>
+<p>如果我们已经有了cpu视角和task视角, 我们看到大量cpu idle而只有某个task在跑, 那么一种合理的推测是该task是否阻塞其他task了 调试其实就是把很多现象关联起来, 也就是说孤立地去看一种现象往往收获不大. 一般来说我们可以通过时间轴把这些事件关联起来, 从资源的角度(比如每个cpu的在任意时间的使用情况), 从消费者的角度(比如每个进程的运行状态/路径)</p>
+<p>如果某个cpu忙其他cpu闲会有什么现象, 以每个cpu为视角, 通过时间轴把所有的cpu关联起来, 使用不同的颜色表示runqueue的长度, 这样生成的图可以很容易看出migration是否及时, 这样的资源利用图是非常有必要的, 有点类似htop, 但是更加精细</p>
+<div class="markdown-heading"><h2 class="heading-element">自动补全</h2><a id="user-content-自动补全" class="anchor" aria-label="Permalink: 自动补全" href="#自动补全"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>perf自动补全在/etc/bash_completion.d/perf</p>
 <hr>
 <br>
 <br>

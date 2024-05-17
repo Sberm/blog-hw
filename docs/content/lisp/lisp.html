@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">lisp cheatsheet</h1><a id="user-content-lisp-cheatsheet" class="anchor" aria-label="Permalink: lisp cheatsheet" href="#lisp-cheatsheet"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>quick reload</p>
+<div class="highlight highlight-source-commonlisp"><pre>(<span class="pl-k">let</span> (fn)
+  (<span class="pl-k">defun</span> <span class="pl-en">l</span> (<span class="pl-k">&amp;optional</span> filename)
+    (<span class="pl-k">if</span> filename
+      (<span class="pl-k">setf</span> fn filename))
+    (<span class="pl-c1">load</span> fn)))</pre></div>
+
+</article>
+<div>
+</div>
+</div>
+</html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        let css = document.getElementById("sberm-docs-css");
+    	css.href = "/docs/github.css";
+    }  
+  }  
+</script>

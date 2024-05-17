@@ -229,9 +229,9 @@ html {
 	.blog-link {
 		display: inline-block;
 		font-family: Monaco;
-		font-weight:bold;
 		text-decoration:none;
-		font-size: 3.3rem;
+		font-size: 2.9rem;
+		font-weight: bold;
 	}
 
 	#footer-commu-background {
@@ -345,7 +345,7 @@ html {
 
 	.sample {
 		color:var(--foreground);
-		font-size: 14px;
+		font-size: 12px;
 		font-family: Monaco;
 		margin-top: 0.3rem;
 	}
@@ -398,14 +398,14 @@ html {
 	}
 
 	.date {
-		font-size: 14px;
+		font-size: 12px;
 		color: var(--foreground);
 		font-family: Monaco;
 	}
 
 	.motto {
 		margin: 0.7rem 1rem 0rem 1rem;
-		font-size: 13px;
+		font-size: 12px;
 		word-wrap: normal;
 		flex: 1 1 0;
 	}
@@ -463,9 +463,9 @@ html {
 		display: inline-block;
 		font-family: Monaco;
 		transition: .3s;
-		font-weight:bold;
 		text-decoration:none;
-		font-size: 19px;
+		font-size: 17px;
+		font-weight: bold;
 	}
 
 	#footer-commu-background {

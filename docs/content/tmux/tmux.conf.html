@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<div class="markdown-heading"><h2 class="heading-element">tmux</h2><a id="user-content-tmux" class="anchor" aria-label="Permalink: tmux" href="#tmux"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>clear</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-k">if</span> [[ <span class="pl-smi">$TMUX</span> ]]<span class="pl-k">;</span> <span class="pl-k">then</span>
+	<span class="pl-c1">alias</span> clear=<span class="pl-s"><span class="pl-pds">'</span>clear &amp;&amp; tmux clear-history<span class="pl-pds">'</span></span>
+<span class="pl-k">fi</span></pre></div>
+
+</article>
+<div>
+</div>
+</div>
+</html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        let css = document.getElementById("sberm-docs-css");
+    	css.href = "/docs/github.css";
+    }  
+  }  
+</script>

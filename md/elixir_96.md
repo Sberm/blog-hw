@@ -1,6 +1,4 @@
-## 使用mix启动elixir应用
-
-#### 0.5 定义`main.ex`, 使用`mix run main.ex`(和2.重复)
+#### 0.5 define`main.ex`, use`mix run main.ex`(duplicates with 2.)
 main.ex:
 
 ```elixir
@@ -12,7 +10,7 @@ end
 server.ex:
 ```elixir
 defmodule Server do
-  # 无需import 
+  # no need to import 
   def main do
     path = Path.join(File.cwd!(), "title.yaml")
     yaml_list = YamlElixir.read_from_file(path)
@@ -21,7 +19,7 @@ defmodule Server do
 end
 ```
 
-输出
+output
 ```bash
 server > mix run main.ex
 Compiling 1 file (.ex)
@@ -30,9 +28,9 @@ Generated server app
  %{
 ```
 
-#### 1. 使用 `iex -S mix` 或 `mix run -e`
+#### 1. Use `iex -S mix` or `mix run -e`
 
-在Server模块中定义主函数main
+define main function in Server module
 ```elixir
 defmodule Server do
 
@@ -44,7 +42,7 @@ defmodule Server do
 end
 ```
 
-`iex -S mix`，交互命令行中启动Server.main()主函数作为项目启动入口
+`iex -S mix`，In interactive command line, call Server.main() as the entrance of the project
 ```bash
 server > iex -S mix
 Compiling 1 file (.ex)
@@ -55,22 +53,22 @@ Interactive Elixir (1.15.4) - press Ctrl+C to exit (type h() ENTER for help)
 iex(1)> Server.main()
 ```
 
-与iex -S mix起到同样作用的
+works the same as `iex -S mix`
 ```elixir
 mix run -e "Server.main()"
 ```
 
-#### 2. 使用 `mix run path/to/code.ex`
+#### 2. Use `mix run path/to/code.ex`
 
-自动编译和解决依赖, 需要指定文件路径
+Compile and solves dependencies automatically, specifying file path is needed
 
-#### 3. 使用 `mix run` 无参数, 或者`mix app.start`
+#### 3. Use `mix run` with no arguments, or`mix app.start`
 
-`mix run`无参数时，会读取`mix.exs`中定义的application，为用户项目的启动单位。
+when `mix run` with no arguments，mix will read application defined in `mix.exs`, this is the launching unit of the project 
 
-`mix run --no-halt`时无反应，由于用户未在mix.exs中注册应用。
+`mix run --no-halt` doesn't have any effect, is because the app isn't registered in `mix.exs`
 
-需要在`mix.exs`的application中加入自定义应用MyApp
+it is required to add user's app MyApp to `mix.exs`'s application
 
 ```elixir
 def application do
@@ -78,7 +76,7 @@ def application do
 end
 ```
 
-自定义应用MyApp中，要implement Application中的start方法，作为mix启动您应用的启动函数。
+Within the custom application MyApp, you need to implement the start method in the Application as the startup function for launching your application using mix.
 
 ```elixir
 defmodule MyApp do
@@ -91,14 +89,12 @@ defmodule MyApp do
 end
 ```
 
-在start函数中，需要返回一个符合{:ok, pid} or {:ok, pid, state}的supervisor。为了符合这个格式，需要将child process的list输入`Supervisor.start_link()`中。
+In the start function, you need to return a supervisor that conforms to `{:ok, pid}` or `{:ok, pid, state}`. To meet this format, you need to input the list of child processes into `Supervisor.start_link()`.
 
-mix对Application的回调格式，参照: [Application](https://hexdocs.pm/elixir/1.12/Application.html)
+The callback format of mix for Application, refer to: [Application](https://hexdocs.pm/elixir/1.12/Application.html)
+Supervisor and child processes, refer to: [Supervisor](https://hexdocs.pm/elixir/1.12/Supervisor.html)
 
-Supervisor和child process等，参照: [Supervisor](https://hexdocs.pm/elixir/1.12/Supervisor.html)
-
-
-Supervisor start_link的child process得是process, 而不能是一个直接返回的函数
+The child processes passed to Supervisor's `start_link` must be actual processes, not directly returned functions.
 ```elixir
 defmodule Child do
   def foo do
@@ -119,7 +115,7 @@ defmodule Foo do
 end
 ```
 
-输出
+output
 
 ```bash
 server > mix run

@@ -11,46 +11,44 @@
 <div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave-dark.png" class="leave-img"/></a></div></div>
 <div class = "spacing-div">
 <article class="markdown-body">
-<h2><a id="user-content-ssh共享远程vim剪贴板" class="anchor" aria-hidden="true" tabindex="-1" href="#ssh共享远程vim剪贴板"><span aria-hidden="true" class="octicon octicon-link"></span></a>ssh共享远程vim剪贴板</h2>
 <ol>
-<li>windows电脑下载MobaXterm或Xming, mac下载XQuartz作为X server, 下载后开启</li>
-<li>服务器ssh配置文件/etc/ssh/sshd_config设置开启X11: X11Forwarding yes</li>
-<li>个人经验，使用MobaXterm中给出的X server地址，设置windows环境变量$env:DISPLAY为该地址。可以在"编辑系统环境变量"中设置。</li>
+<li>For Windows, download MobaXterm or Xming; for Mac, download XQuartz as the X server. After downloading, open the application.</li>
+<li>In the server's SSH configuration file located at <code>/etc/ssh/sshd_config</code>, enable <code>X11Forwarding yes</code>.</li>
+<li>Based on personal experience, use the X server address provided in MobaXterm and set the Windows environment variable <code>$env:DISPLAY</code> to that address. This can be done in <code>Edit System Environment Variables</code>.</li>
 </ol>
-<div class="highlight highlight-source-powershell"><pre><span class="pl-c"><span class="pl-c">#</span> 设置</span>
+<div class="highlight highlight-source-powershell"><pre><span class="pl-c"><span class="pl-c">#</span> configure</span>
 PS C:\Users\Sberm<span class="pl-k">&gt;</span> <span class="pl-smi">$<span class="pl-c1">env:</span>DISPLAY</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>127.0.0.1:0.0<span class="pl-pds">"</span></span>
 
-<span class="pl-c"><span class="pl-c">#</span> 查看</span>
+<span class="pl-c"><span class="pl-c">#</span> check</span>
 PS C:\Users\Sberm<span class="pl-k">&gt;</span> echo <span class="pl-smi">$<span class="pl-c1">env:</span>DISPLAY</span>
 <span class="pl-c1">127.0</span>.<span class="pl-c1">0.1</span>:<span class="pl-c1">0.0</span></pre></div>
 <ol start="4">
-<li>使用 ssh -Y @ 进行x forwarding(或者ssh -X @, 我的windows电脑无法使用)
+<li>Use ssh -Y @ for X forwarding (or ssh -X @; my Windows computer cannot use this).
 
 </li>
-<li>centos需要使用gvim(ubuntu的叫做vim-gtk)，它们支持剪贴板X11功能。</li>
+<li>On CentOS, you need to use gvim (on Ubuntu, it's called vim-gtk). They support X11 clipboard functionality.</li>
 </ol>
-<pre lang="something"><code># centos -&gt; 开启命令gvim或vimx
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> centos</span>
 yum install vim-X11.x86_64
 
-# ubuntu
-sudo apt-get install vim-gtk
-</code></pre>
-<p>查看gvim是否支持X11(vim一般不支持):</p>
+<span class="pl-c"><span class="pl-c">#</span> ubuntu</span>
+sudo apt-get install vim-gtk</pre></div>
+<p>check if gvim supports X11(vim usually doesn't support by default)</p>
 <div class="highlight highlight-source-shell"><pre><span class="pl-k">&gt;</span> gvim --version <span class="pl-k">|</span> grep clipboard
 +clipboard         +jumplist          +persistent_undo   +virtualedit
 -ebcdic            +mouseshape        +statusline        +xterm_clipboard</pre></div>
-<p>xterm_clipboard前有加号即支持。同时得支持系统剪贴板(+clipboard)，我的centos8 yum下载的vim-enhanced原生不支持剪贴板</p>
+<p>The presence of a plus sign (<code>+</code>) before <code>xterm_clipboard</code> indicates support. Additionally, it must support the system clipboard (<code>+clipboard</code>). The <code>vim-enhanced</code> package installed via yum on my CentOS 8 system does not natively support clipboard functionality.</p>
 <ol start="6">
-<li>gvim -v开启编辑器(或vimx)，gvim中使用以下命令复制到系统剪贴板。enjoy</li>
+<li>Open the editor with gvim -v (or vimx). In gvim, use the following command to copy to the system clipboard. Enjoy!</li>
 </ol>
-<pre lang="vimscript"><code>" 复制
-%y+ " (visual选择的所有行/若无选择，文件全部行)
+<pre lang="vimscript"><code>" copy
+%y+ " (visual) (if nothing gets selected, copy all the text)
 "+y " (normal)
 "*y " (normal)
 :"+y " (visual)
 :"*y " (visual)
 
-" 粘贴
+" paste
 &lt;ctrl + r&gt;+ (insert)
 "+p " (normal)
 "*p " (normal)

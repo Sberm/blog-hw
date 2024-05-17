@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<div>
+<a target="_blank" rel="noopener noreferrer" href="/images/sberf-transparent.png"><img width="200" src="/images/sberf-transparent.png" style="max-width: 100%;"></a><a target="_blank" rel="noopener noreferrer" href="/images/sberf-title.png"><img width="200" src="/images/sberf-title.png" style="max-width: 100%;"></a>
+</div>
+<p><a href="https://sberm.cn/sberf/docs" rel="nofollow"><img src="https://camo.githubusercontent.com/a577196191644eef196b4e523b1a3a7ac5e3c3e3a67b915fa7a85506414b89d5/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f646f63732d686572652d464644423141" alt="docs" data-canonical-src="https://img.shields.io/badge/docs-here-FFDB1A" style="max-width: 100%;"></a> <a href="https://sberm.cn/sberf" rel="nofollow"><img src="https://camo.githubusercontent.com/a0deb9577d43fb5ded5e1c47e8a9378261dccfe206ab9931b64268580481fd72/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f776562736974652d6f6666696369616c2d626c7565" alt="website" data-canonical-src="https://img.shields.io/badge/website-official-blue" style="max-width: 100%;"></a> <a href="https://github.com/Sberm/Sberf.c/releases"><img src="https://camo.githubusercontent.com/a91931c89d8050847c42e34b7a06ca8cf7293d7f5a3a3534c4235e642ceb77f0/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f76657273696f6e2d76302e302e352d677265656e" alt="version" data-canonical-src="https://img.shields.io/badge/version-v0.0.5-green" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="images/sberf-graph.png"><img src="images/sberf-graph.png" alt="" style="max-width: 100%;"></a></p>
+<div class="markdown-heading"><h2 class="heading-element">Sberf</h2><a id="user-content-sberf" class="anchor" aria-label="Permalink: Sberf" href="#sberf"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Profiling/tracing/visualizing tool based on eBPF</p>
+<div class="markdown-heading"><h4 class="heading-element">Quick start</h4><a id="user-content-quick-start" class="anchor" aria-label="Permalink: Quick start" href="#quick-start"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Download the newest version in <a href="https://github.com/Sberm/sberf/releases">Releases</a></p>
+<p>Usage</p>
+<div class="highlight highlight-source-shell"><pre>sudo ./sberf record <span class="pl-k">&lt;</span>PID<span class="pl-k">1&gt;</span>,<span class="pl-k">&lt;</span>PID<span class="pl-k">2&gt;</span>
+<span class="pl-c"><span class="pl-c">#</span> sudo ./sberf record 1001</span>
+<span class="pl-c"><span class="pl-c">#</span> sudo ./sberf record 1001,32847</span>
+</pre></div>
+<div class="highlight highlight-text-adblock"><pre>  Usage:
+
+    sberf record [options]
+
+  Options:
+
+    -p[--pid]: Record running time
+    -t[--tracepoint]: Record tracepoints' triggered time
+    -s[--syscall]: Record stack traces when a syscall is triggered
+    -m[--memory]: Record memory usage
+    -op[--off-cpu]: Record OFF-CPU time
+    -h[--help]: Print this help message
+
+    -f: Frequency in Hz
+    -np: No plotting, print the stacks instead
+    -a: Record all processes
+    -o: File name for the plot
+</pre></div>
+<div class="markdown-heading"><h4 class="heading-element">Compilation</h4><a id="user-content-compilation" class="anchor" aria-label="Permalink: Compilation" href="#compilation"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Install <a href="https://github.com/libbpf/bpftool">bpftool</a>
+</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre>git clone https://github.com/libbpf/bpftool.git
+<span class="pl-c1">cd</span> src
+make
+make install</pre></div>
+<ol start="2">
+<li>Install <a href="https://github.com/libbpf/libbpf">libbpf</a>
+</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre>git clone https://github.com/libbpf/libbpf.git
+<span class="pl-c1">cd</span> src
+make
+make install</pre></div>
+<ol start="3">
+<li>Install Clang</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> ubuntu</span>
+sudo apt-get install clang
+
+<span class="pl-c"><span class="pl-c">#</span> centos</span>
+sudo yum install clang</pre></div>
+<ol start="4">
+<li>Clone this repo</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre>git clone https://github.com/Sberm/sberf.git
+<span class="pl-c1">cd</span> sberf</pre></div>
+<ol start="5">
+<li>Generate vmlinux.h</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> generate vmlinux.h file to vmlinux folder</span>
+bpftool btf dump file /sys/kernel/btf/vmlinux format c <span class="pl-k">&gt;</span> vmlinux/vmlinux.h</pre></div>
+<ol start="6">
+<li>Make</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> mute</span>
+make
+
+<span class="pl-c"><span class="pl-c">#</span> verbose message</span>
+DEBUG=1 make</pre></div>
+<div class="markdown-heading"><h4 class="heading-element">Files &amp; their uses</h4><a id="user-content-files--their-uses" class="anchor" aria-label="Permalink: Files &amp; their uses" href="#files--their-uses"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><code>bpf.c</code> Programs that run on eBPF virtual machine</p>
+<p><code>.c</code> Regular c programs</p>
+<div class="markdown-heading"><h4 class="heading-element">Makefile compilation pipeline</h4><a id="user-content-makefile-compilation-pipeline" class="anchor" aria-label="Permalink: Makefile compilation pipeline" href="#makefile-compilation-pipeline"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> *.bpf.c: eBPF-c files</span>
+<span class="pl-c"><span class="pl-c">#</span> *.bpf.o: eBPF target file generated by clang and bpftool (in the build_bpf folder)</span>
+<span class="pl-c"><span class="pl-c">#</span> *.skel.h: skeleton header generated by bpftool, such as sberf.skel.h (in the build_bpf folder)</span>
+<span class="pl-c"><span class="pl-c">#</span> *.c: regular c file, calling eBPF virtual machine through include skeleton header </span>
+<span class="pl-c"><span class="pl-c">#</span> *.o: through CC, link all regular .o files to generate sberf executable file</span>
+<span class="pl-c"><span class="pl-c">#</span></span>
+<span class="pl-c"><span class="pl-c">#</span> bpf.c --Clang--&gt; bpf.tmp.o --bpftool--&gt; bpf.o --bpftool--&gt; skel.h</span>
+<span class="pl-c"><span class="pl-c">#</span>                                                               \_ .c --gcc--&gt; .o</span>
+<span class="pl-c"><span class="pl-c">#</span>                                                                               \_ sberf</span></pre></div>
+
+</article>
+<div>
+</div>
+</div>
+</html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        let css = document.getElementById("sberm-docs-css");
+    	css.href = "/docs/github.css";
+    }  
+  }  
+</script>

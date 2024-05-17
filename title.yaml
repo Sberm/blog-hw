@@ -71,7 +71,7 @@ b93:
   date: "2023-9-3"
 
 elixir_96:
-  title: "使用mix启动elixir应用"
+  title: "Launch Elixir app with mix"
   date: "2023-9-6"
  
 systemctl:
@@ -79,7 +79,7 @@ systemctl:
   date: "2023-9-16"
 
 b917:
-  title: "ssh共享远程vim剪贴板"
+  title: "Shared vim clipboard when using SSH"
   date: "2023-9-17"
 
 rustFirstImpression:

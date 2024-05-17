@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<div class="markdown-heading"><h2 class="heading-element">Personal Information</h2><a id="user-content-personal-information" class="anchor" aria-label="Permalink: Personal Information" href="#personal-information"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Name: Haowei Zhu (Howard Chu)</p>
+<p>Major: Computer science</p>
+<p>University: Shenzhen University</p>
+<p>Email: <a href="mailto:howardchu95@gmail.com">howardchu95@gmail.com</a></p>
+<p>Phone: +86 13682588784</p>
+<p>Github: <a href="https://github.com/sberm">https://github.com/sberm</a></p>
+<p>CV: <a href="https://sberm.cn/cv/" rel="nofollow">here</a></p>
+<p>Timezone: China Standard Time UTC+8</p>
+<div class="markdown-heading"><h2 class="heading-element">Project Information</h2><a id="user-content-project-information" class="anchor" aria-label="Permalink: Project Information" href="#project-information"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Project name: <strong>perf trace and BTF</strong></p>
+<p>Project size: <strong>medium</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Motivation</h3><a id="user-content-motivation" class="anchor" aria-label="Permalink: Motivation" href="#motivation"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Right now, perf trace has to build a list of format to pretty-print the syscall args. But we find it limited and manual work. Instead, it could use BTF (BPF type format) which has all the type information and is available in the (most) kernel.</p>
+<div class="markdown-heading"><h3 class="heading-element">Deliverables</h3><a id="user-content-deliverables" class="anchor" aria-label="Permalink: Deliverables" href="#deliverables"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>A new method of fetching augmented argument data.</li>
+<li>Implementation of an auto-generated beauty map that stores the type and size of augmented syscall argument, based on BTF.</li>
+<li>eBPF side augmented argument caching refactoring.</li>
+<li>Pretty print feature to visualize data from struct pointer, char* string, etc, using BTF.</li>
+<li>New sets of command line arguments to control pretty printing.</li>
+<li>Fixes of current documentation of perf trace tool. Detailed documentation of this project. Addition of information about <code>perf trace</code> on perf wiki.</li>
+<li>Fortnightly blogs on developmental advances and milestones.</li>
+</ol>
+<hr>
+<p>First, please let me explain the process of pretty printing. We have a syscall function name, from which we get an argument list, and then we get those arguments' types. By combining argument types and argument data, we can pretty print the trace message. Here's a flow chart of it:</p>
+<p><a target="_blank" rel="noopener noreferrer" href="/images/docs/perf/pipeline.png"><img src="/images/docs/perf/pipeline.png" alt="" style="max-width: 100%;"></a></p>
+<p>The mapping from function name to argument list is already established by <code>syscall table</code> and <code>tep_format_field</code>. Please notice that finding function arguments in vmlinux BTF is problematic. Firstly, function symbols started in <code>__x64_sys_</code> and <code>__ia32_sys_</code>(eg. <code>__x64_sys_open</code>) are completely useless because their function prototype's argument will just be a <code>pt_regs</code> struct which is used to pass arguments. Secondly, function symbols that start with <code>do_sys_</code> or <code>do_</code> are generally correct but they are not usually aligned with what we collected from eBPF's sys_enter_* program. The correct argument mapping is in the raw_syscall table at <code>/sys/kernel/tracing/events/syscalls</code> and has been read in <code>trace-&gt;sctbl</code>;</p>
+<p><a target="_blank" rel="noopener noreferrer" href="/images/docs/perf/pipeline-2.png"><img src="/images/docs/perf/pipeline-2.png" alt="" style="max-width: 100%;"></a></p>
+<p>And the mapping from argument list to actual argument type is very easy to establish using <code>btf__find_by_name(field-&gt;type)</code> (although <code>field-&gt;type</code> has to be stripped, such as removing '*' and 'const')</p>
+<p><a target="_blank" rel="noopener noreferrer" href="/images/docs/perf/pipeline-3.png"><img src="/images/docs/perf/pipeline-3.png" alt="" style="max-width: 100%;"></a></p>
+<p>So there are only two components we need, a <code>pretty print function</code> and <code>argument data</code>, mainly augmented argument data.</p>
+<p>I should mention that I'm focusing on augmented data(such as struct pointer data and char* string) in this project because vmlinux file doesn't contain any macro, a flag's type is directly resolved to int or uint, there is no additional information. Handcrafted opt codes and flags pretty-printing are still needed.</p>
+<div class="markdown-heading"><h3 class="heading-element">Pretty printing</h3><a id="user-content-pretty-printing" class="anchor" aria-label="Permalink: Pretty printing" href="#pretty-printing"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Sorting by customizability, there are three pretty print options. They are:</p>
+<ul>
+<li>
+<code>customized printf</code> with maximum customizability</li>
+<li>
+<code>btf_dump__dump_type_data</code> with little customizability</li>
+<li>
+<code>bpf_snprintf_btf</code> with zero customizability, and great <a href="https://github.com/bpftrace/bpftrace/pull/2651">disadvantages</a>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="/images/docs/perf/cus.png"><img src="/images/docs/perf/cus.png" alt="" style="max-width: 100%;"></a></p>
+<p>I want to mention that pretty printing here refers to printing a struct pointer (if it's char* or void*, just print the string/array).
+If all we want to do is a strace-style struct data dumping, <code>btf_dump__dump_type_data</code> is more than enough. But if we want to tweak the representation in struct's member (such as print perf_event_attr.type as PERF_TYPE_HARDWARE), then a customized pretty printing function is needed.</p>
+<p>Here are some ideas of a customized pretty printing function:</p>
+<ol>
+<li>Traverse members of the struct</li>
+<li>If the *backtraced data type is eventually a primitive type, print it as is.</li>
+<li>If data type is pointer, print it in hex.</li>
+<li>Curly brackets and indentation(optional).</li>
+<li>Field name and type.</li>
+</ol>
+
+<p>*Backtrace is like __u32-&gt;unsigned int</p>
+<p>Because there's not a lot of nested data in a struct that's passed in syscall, we don't need to have a recursive pretty print function and go a layer deeper. (there are some unions in those structs though)</p>
+<p>Pseudo code for pretty printing:</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-k">for</span> <span class="pl-s1">each</span> <span class="pl-smi">member</span> <span class="pl-s1">in</span> <span class="pl-s1">struct</span> <span class="pl-k">do</span>:
+	<span class="pl-en">print</span>(<span class="pl-s1">member</span>.<span class="pl-c1">name</span>) <span class="pl-c">// member name</span>
+
+	<span class="pl-s1">type</span> <span class="pl-c1">&lt;</span><span class="pl-c1">-</span> <span class="pl-en">back_trace</span>(<span class="pl-s1">member</span>);
+	<span class="pl-k">if</span> <span class="pl-s1">type</span> <span class="pl-c1">==</span> <span class="pl-c1">PRIMITIVE</span>
+		<span class="pl-en">print</span>(<span class="pl-s1">member</span>)
+	<span class="pl-s1">if</span> <span class="pl-s1">type</span> <span class="pl-c1">==</span> <span class="pl-c1">PTR</span>
+		<span class="pl-en">print_hex</span>(<span class="pl-s1">member</span>)
+
+	<span class="pl-en">print_beautify</span>(); <span class="pl-c">// curly brackets, indentation,</span>
+	                  <span class="pl-c">// color codes and so on</span></pre></div>
+<p>The complexity of finding type data using type name string using vmlinux BTF is <code>O(1)</code> because a BTF is essentially a huge hashmap. The memory usage of a complete vmlinux BTF is roughly 1.4MB, loaded straight from kernel using <code>btf__load_vmlinux_btf()</code>.</p>
+<div class="markdown-heading"><h3 class="heading-element">Fetching augmented argument data</h3><a id="user-content-fetching-augmented-argument-data" class="anchor" aria-label="Permalink: Fetching augmented argument data" href="#fetching-augmented-argument-data"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>First, let me analyze the De facto method that's currently being used.</p>
+<p>We use two array maps of type <code>BPF_MAP_TYPE_PROG_ARRAY</code> <code>syscalls_sys_enter</code> and <code>syscalls_sys_exit</code> to do <code>bpf_tail_call</code>, so that we can jump to the handling program which the current syscall_nr is pointed to. We also use a lot of string matching to find out the correct bpf program a system call should be attached to.</p>
+<p>Luckily, we don't have 300+ functions in the eBPF program, for smartly reusing some <code>sys_enter_</code> functions in different syscalls, but this method is hard to scale. So here is my proposed method:</p>
+<p>When we are thinking about caching pointers' value in eBPF, we are essentially probe_reading an argument pointer of a fixed size. This fixed size could come from the size of a struct, or a length of an array passed into the syscall as an argument itself(eg. <code>ssize_t read(int fd, void buf[.count], size_t count);</code>).</p>
+<p>When a syscall triggered an eBPF program, we could be reading from arg1, arg2, or arg6, with size sz1, sz2, or sz6. Also, we could be simultaneously reading from multiple arguments. (but only 6 arguments for sys_enter raw tracepoint)</p>
+<p>Judging from the use cases, I propose a map called beauty_map with the following structure:</p>
+<pre lang="nonsense"><code>syscall_nr
+(arg_nr1, sz1)
+(arg_nr2, sz2)
+(arg_nr3, sz3)
+(arg_nr4, sz4)
+(arg_nr5, sz5)
+(arg_nr6, sz6) 
+</code></pre>
+<p>Which is just:</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-smi">int</span> <span class="pl-s1">beauty_map</span>[<span class="pl-s1">n</span>][<span class="pl-c1">6</span>];           <span class="pl-c">// n: total amount of syscalls</span>
+<span class="pl-s1">beauty_map</span>[<span class="pl-s1">syscall_nr</span>][<span class="pl-c1">1</span>] <span class="pl-c1">=</span> <span class="pl-c1">32</span>; <span class="pl-c">// this means when syscall of </span>
+                                <span class="pl-c">// syscall_nr entered, </span>
+                                <span class="pl-c">// bpf program should read 32 bytes </span>
+                                <span class="pl-c">// from the address that argument 2 </span>
+                                <span class="pl-c">// is pointed to.</span></pre></div>
+<div class="markdown-heading"><h4 class="heading-element">rule</h4><a id="user-content-rule" class="anchor" aria-label="Permalink: rule" href="#rule"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>If the value of such map is 0, eBPF program should read nothing.</li>
+<li>If the value of such map is 1, eBPF program should read a null-terminated string.</li>
+<li>If the value of such map is n (n &gt; 1), eBPF program should read n bytes from specific argument's address.</li>
+<li>If the value of such map is m (m &lt; 0), read args_m(eg. size_t count) bytes from specific argument's address, see the example below:</li>
+</ul>
+<div class="markdown-heading"><h4 class="heading-element">examples</h4><a id="user-content-examples" class="anchor" aria-label="Permalink: examples" href="#examples"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<p>If beauty_map_enter[4][2] is 0, nothing is to be read.</p>
+</li>
+<li>
+<p>If beauty_map_enter[4][2] is 1, eBPF program should read a null-terminated string from argument 3's address I chose 1 because no pointer in syscall args points to a single-byte data(in this case, a char), they are often a bigger struct or int.</p>
+</li>
+<li>
+<p>If beauty_map_enter[4][2] is greater than 1, eBPF program should read a null-terminated string from argument 3's address.</p>
+</li>
+<li>
+<p>If beauty_map_enter[4][2] is below 0, for example, -4, it means that it should read data whose length is arg4(because it starts from -1, not 0)'s value from the address that argument 3 is pointed to. This solves: <code>int setsockopt(int sockfd, int level, int optname, const void optval[.optlen], socklen_t optlen);</code> For this syscall, the map value should be beauty_map_enter[nr_of_setsockopt][3] = -5.</p>
+</li>
+</ul>
+<p>The beauty map should be loaded into eBPF program. Which is something like:</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-k">#define</span> <span class="pl-c1">MAX_DATA_LEN</span> 6
+<span class="pl-k">struct</span> <span class="pl-smi">beauty_map_enter</span> {
+	<span class="pl-s1">__uint</span>(<span class="pl-smi">type</span>, <span class="pl-smi">BPF_MAP_TYPE_HASH</span>);
+	<span class="pl-s1">__type</span>(<span class="pl-smi">key</span>, <span class="pl-smi">__u32</span>);
+	<span class="pl-s1">__type</span>(<span class="pl-smi">value</span>, <span class="pl-smi">int</span>[<span class="pl-c1">MAX_DATA_LEN</span>]); <span class="pl-c">// with 6 elements</span>
+	<span class="pl-s1">__uint</span>(<span class="pl-smi">max_entries</span>, <span class="pl-c1">512</span>);
+} <span class="pl-s1">beauty_map_enter</span> <span class="pl-en">SEC</span>(<span class="pl-s">".maps"</span>);</pre></div>
+<p>The handling of return value is pretty much the same, with just one dimension to worry about.</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-k">struct</span> <span class="pl-smi">beauty_map_exit</span> {
+	<span class="pl-s1">__uint</span>(<span class="pl-smi">type</span>, <span class="pl-smi">BPF_MAP_TYPE_HASH</span>);
+	<span class="pl-s1">__type</span>(<span class="pl-smi">key</span>, <span class="pl-smi">__u32</span>);
+	<span class="pl-s1">__type</span>(<span class="pl-smi">value</span>, <span class="pl-smi">int</span>);
+	<span class="pl-s1">__uint</span>(<span class="pl-smi">max_entries</span>, <span class="pl-c1">512</span>);
+} <span class="pl-s1">beauty_map_exit</span> <span class="pl-en">SEC</span>(<span class="pl-s">".maps"</span>);</pre></div>
+<p>Here is the pseudo code for caching data in eBPF program</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-k"># sys_enter</span>
+<span class="pl-en">SEC</span>(<span class="pl-s">"tp/raw_syscalls/sys_enter"</span>)
+<span class="pl-smi">int</span> <span class="pl-en">sys_enter</span>(<span class="pl-k">struct</span> <span class="pl-smi">syscall_enter_args</span> <span class="pl-c1">*</span><span class="pl-s1">args</span>)
+{
+	<span class="pl-k">struct</span> <span class="pl-smi">augmented_args_payload</span> <span class="pl-c1">*</span><span class="pl-s1">augmented_args</span>;
+	<span class="pl-smi">unsigned <span class="pl-smi">int</span></span> <span class="pl-s1">args_len</span> <span class="pl-c1">=</span> <span class="pl-k">sizeof</span>(<span class="pl-s1">augmented_args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">args</span>);
+
+	<span class="pl-k">if</span> (<span class="pl-en">pid_filter__has</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">pids_filtered</span>, <span class="pl-en">getpid</span>()))
+		<span class="pl-k">return</span> <span class="pl-c1">0</span>;
+
+	<span class="pl-c">/* could make this a struct, since we don't need to pass it between different program */</span>
+	<span class="pl-s1">augmented_args</span> <span class="pl-c1">=</span> <span class="pl-en">augmented_args_payload</span>();
+	<span class="pl-k">if</span> (<span class="pl-s1">augmented_args</span> <span class="pl-c1">==</span> <span class="pl-c1">NULL</span>)
+		<span class="pl-k">return</span> <span class="pl-c1">1</span>;
+
+	<span class="pl-smi">int</span><span class="pl-c1">*</span> <span class="pl-s1">beauty_map</span> <span class="pl-c1">=</span> <span class="pl-en">bpf_map_lookup_elem</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">beauty_map_enter</span>, <span class="pl-c1">&amp;</span><span class="pl-s1">args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">syscall_nr</span>);
+	<span class="pl-smi">int</span> <span class="pl-s1">bytes</span>;
+	<span class="pl-k">const</span> <span class="pl-smi">void</span> <span class="pl-c1">*</span><span class="pl-s1">addr</span> <span class="pl-c1">=</span> <span class="pl-c1">NULL</span>;
+	<span class="pl-k">for</span> (<span class="pl-smi">int</span> <span class="pl-s1">i</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>;<span class="pl-s1">i</span> <span class="pl-c1">&lt;</span> <span class="pl-c1">RAW_SYSCALL_ARGS_NUM</span>; <span class="pl-s1">i</span><span class="pl-c1">++</span>) {
+		<span class="pl-s1">bytes</span> <span class="pl-c1">=</span> <span class="pl-s1">beauty_map</span>[<span class="pl-s1">i</span>];
+		<span class="pl-s1">addr</span> <span class="pl-c1">=</span> (<span class="pl-k">const</span> <span class="pl-smi">void</span> <span class="pl-c1">*</span>)<span class="pl-s1">args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">args</span>[<span class="pl-s1">i</span>];
+
+		<span class="pl-k">if</span> (<span class="pl-s1">bytes</span> <span class="pl-c1">==</span> <span class="pl-c1">1</span>) { <span class="pl-c">// read a null-terminated string</span>
+			<span class="pl-en">bpf_probe_read_user_str</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">augmented_args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">data</span>, <span class="pl-k">sizeof</span>(<span class="pl-s1">augmented_args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">data</span>), 
+			                        <span class="pl-s1">addr</span>);
+		} <span class="pl-k">else</span> <span class="pl-k">if</span> (<span class="pl-s1">bytes</span> <span class="pl-c1">&gt;</span> <span class="pl-c1">1</span>) { <span class="pl-c">// read bytes</span>
+			<span class="pl-en">bpf_probe_read_user</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">augmented_args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">data</span>, <span class="pl-s1">bytes</span>, <span class="pl-s1">addr</span>);
+		} <span class="pl-k">else</span> <span class="pl-k">if</span> (<span class="pl-s1">bytes</span> <span class="pl-c1">&lt;</span> <span class="pl-c1">0</span> <span class="pl-c1">&amp;&amp;</span> <span class="pl-s1">bytes</span> &gt;= <span class="pl-c1">-</span><span class="pl-c1">RAW_SYSCALL_ARGS_NUM</span>) {<span class="pl-c">//-(bytes + 1) as index,</span>
+			<span class="pl-smi">unsigned <span class="pl-smi">int</span></span> <span class="pl-s1">len</span> <span class="pl-c1">=</span> <span class="pl-s1">args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">args</span>[<span class="pl-c1">-</span>(<span class="pl-s1">bytes</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>)];<span class="pl-c">//therefore -6 &lt; bytes &lt; 0</span>
+			<span class="pl-en">bpf_probe_read_user</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">augmented_args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">data</span>, <span class="pl-s1">len</span>, <span class="pl-s1">addr</span>);
+		} <span class="pl-k">else</span> {
+			<span class="pl-k">continue</span>;
+		}
+		<span class="pl-en">augmented__output</span>(<span class="pl-s1">args</span>, <span class="pl-s1">augmented_args</span>, <span class="pl-s1">len</span> <span class="pl-c1">+</span> <span class="pl-s1">args_len</span>);
+	}
+	<span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<div class="highlight highlight-source-c"><pre><span class="pl-k"># sys_exit</span>
+<span class="pl-en">SEC</span>(<span class="pl-s">"tp/raw_syscalls/sys_exit"</span>)
+<span class="pl-smi">int</span> <span class="pl-en">sys_enter</span>(<span class="pl-k">struct</span> <span class="pl-smi">syscall_exit_args</span> <span class="pl-c1">*</span><span class="pl-s1">args</span>)
+{
+	<span class="pl-k">if</span> (<span class="pl-en">pid_filter__has</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">pids_filtered</span>, <span class="pl-en">getpid</span>()))
+		<span class="pl-k">return</span> <span class="pl-c1">0</span>;
+
+	<span class="pl-smi">int</span> <span class="pl-s1">beauty</span> <span class="pl-c1">=</span> <span class="pl-en">bpf_map_lookup_elem</span>(<span class="pl-c1">&amp;</span><span class="pl-s1">beauty_map_exit</span>, <span class="pl-c1">&amp;</span><span class="pl-s1">args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">syscall_nr</span>);
+	<span class="pl-k">if</span> (<span class="pl-s1">beauty</span> &lt;= <span class="pl-c1">0</span>) <span class="pl-c">// no need to read any data</span>
+		<span class="pl-k">return</span> <span class="pl-c1">0</span>;
+
+	<span class="pl-k">const</span> <span class="pl-smi">void</span> <span class="pl-c1">*</span><span class="pl-s1">addr</span> <span class="pl-c1">=</span> (<span class="pl-k">const</span> <span class="pl-smi">void</span> <span class="pl-c1">*</span>)<span class="pl-s1">args</span><span class="pl-c1">-&gt;</span><span class="pl-c1">ret</span>;
+	<span class="pl-smi">char</span> <span class="pl-s1">data</span>[<span class="pl-c1">MAX_DATA_LEN</span>];
+	<span class="pl-en">bpf_probe_read_user</span>(<span class="pl-s1">data</span>, <span class="pl-s1">beauty</span>, <span class="pl-s1">addr</span>);
+	<span class="pl-en">exit__output</span>(<span class="pl-s1">args</span>, <span class="pl-s1">bytes</span>);
+
+	<span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<p>This way we can avoid a bloated eBPF program with every syscall name in SEC, and we can manage to fit the needs of retrieving data for every syscall.</p>
+<p>No more <code>strcmp()</code> of <code>SEC()</code> eBPF program name is needed. There is no need for an <code>augmented_args_tmp</code> map of size 1 to pass the argument data between different BPF functions. The size of beauty_map_enter and beauty_map_exit in total is roughly 14KB</p>
+<p>Every time we run perf trace, we need to construct <code>beauty_map_enter</code> and <code>beauty_map_exit</code>. It cannot be static because structs' size and members are different in different kernel versions. The construction can easily be done by using <code>vmlinux btf</code> and <code>btf__resolve_size(btf, type_id)</code>.</p>
+<p>This comment in builtin-trace.c reads:</p>
+<pre><code> * We'll revisit this later to pass s-&gt;args_size to the BPF augmenter
+ * (now tools/perf/examples/bpf/augmented_raw_syscalls.c, so that it
+ * copies only what we need for each syscall, like what happens when we
+ * use syscalls:sys_enter_NAME, so that we reduce the kernel/userspace
+ * traffic to just what is needed for each syscall.
+</code></pre>
+<p>We will build a truly fine-grained and flexible augmenter with the support of beauty_map.</p>
+<p>This FIXME comment in <code>util/bpf_skel/augmented_raw_syscalls.bpf.c</code> reads:</p>
+<pre><code>/*
+ * FIXME: Should come from system headers
+ *
+ * The definition uses anonymous union and struct in order to control the
+ * default alignment.
+ */
+</code></pre>
+<p>Now that we have the beauty_map, including headers and making sure everything is aligned on eBPF side isn't necessary anymore. No system headers or vmlinux.h are needed. This FIXME should be fixed.</p>
+
+<div class="markdown-heading"><h3 class="heading-element">Other enhancement</h3><a id="user-content-other-enhancement" class="anchor" aria-label="Permalink: Other enhancement" href="#other-enhancement"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>We should use <code>bpf_core_read_user</code> and <code>bpf_core_read_user_str</code> instead of <code>bpf_probe_read_user</code> and <code>bpf_probe_read_user_str</code> for relocation in different kernel versions.</p>
+<div class="markdown-heading"><h3 class="heading-element">Testing</h3><a id="user-content-testing" class="anchor" aria-label="Permalink: Testing" href="#testing"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Test scripts that test all syscalls will be created. Random data will be filled into syscall arguments, collect the output of perf trace, and see if it is correct. The tests will focus on syscalls' augmented argument data.</p>
+<div class="markdown-heading"><h3 class="heading-element">Timeline</h3><a id="user-content-timeline" class="anchor" aria-label="Permalink: Timeline" href="#timeline"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>April 3 - April 25</strong></p>
+<ul>
+<li>Do a second pass on <code>perf trace</code>'s codebase. Fix <code>perf record</code>'s off-cpu sample issue and some more bugs, and talk with mentors about ideas on building <code>perf trace</code>.</li>
+</ul>
+<p><strong>April 26 - May 12</strong></p>
+<ul>
+<li>Focus on my degree thesis, I will not be contributing actively during this period.</li>
+</ul>
+<p><strong>May 13 - May 26</strong></p>
+<ul>
+<li>Talk with mentors and community members about ideas on building <code>perf trace</code>.</li>
+<li>Start to research and implement the new method of fetching augmented argument data.</li>
+</ul>
+<p><strong>May 27 - July 4</strong></p>
+<ul>
+<li>Finish implementing the auto-generated beauty_map that stores the type and size of augmented syscall arguments.</li>
+<li>Finish eBPF side augmented argument caching refactoring.</li>
+<li>Finish implementing the new method of fetching augmented argument data.</li>
+</ul>
+<p><strong>July 5 - July 12</strong></p>
+<ul>
+<li>Test the BTF-based <code>perf trace</code>.</li>
+<li>Submit midterm evaluations.</li>
+</ul>
+<p><strong>July 13 - August 19</strong></p>
+<ul>
+<li>Finish implementing pretty print feature.</li>
+<li>Add new sets of command line arguments to control pretty printing.</li>
+<li>Test the BTF based <code>perf trace</code> on all syscalls.</li>
+<li>Fix the current documentation of <code>perf trace</code> tool and create detailed documentation of this project.</li>
+<li>Add information about <code>perf trace</code> to perf wiki.</li>
+</ul>
+<p><strong>August 20 - August 26</strong></p>
+<ul>
+<li>Finish final testing and integration.</li>
+<li>Submit final work product.</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">My background and why me</h3><a id="user-content-my-background-and-why-me" class="anchor" aria-label="Permalink: My background and why me" href="#my-background-and-why-me"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>I have experience in <code>eBPF</code> and <code>C</code>. I wrote an eBPF-based performance analysis and visualization tool, <a href="https://github.com/Sberm/sberf">Sberf</a>, which is just <code>perf record</code> with built-in Flamegraph feature(it directly dumps data to an SVG file).</li>
+<li>I created other opensource projects such as a command line <a href="https://github.com/Sberm/Transgender.rs">file explorer</a> using Rust, and a single-file address-to-symbol library <a href="https://github.com/Sberm/sym.h">sym.h</a>.</li>
+<li>I have experience in computational biography, I am one of the authors of this <a href="https://www.sciencedirect.com/science/article/abs/pii/S0141813024017896" rel="nofollow">paper</a>, I have a patent <a href="https://max.book118.com/html/2023/1118/8105076135006006.shtm" rel="nofollow">"Intelligent parking management method and system based on Internet of things."</a>
+</li>
+<li>I once participated in Bytedance's Search Engine project as the project leader.</li>
+<li>I possess a physical Linux(Arch Linux, kernel version 6.8.1) machine, running on Intel CPU. My text editor of choice is NeoVim.</li>
+<li>More info <a href="https://sberm.cn/cv/" rel="nofollow">here</a>.</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Working schedule</h3><a id="user-content-working-schedule" class="anchor" aria-label="Permalink: Working schedule" href="#working-schedule"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>Work hours: 0:30 AM UTC - 3:45 PM UTC (40+h/week)</li>
+<li>Working full-time from Monday to Saturday.</li>
+<li>In cases of emergency, I’ll responsibly notify my mentor.</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">My requirements</h3><a id="user-content-my-requirements" class="anchor" aria-label="Permalink: My requirements" href="#my-requirements"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>Perf Wiki Edit Access</li>
+</ul>
+<p>Some information on perf wiki about <code>perf trace</code> is problematic, I would like to correct it.</p>
+<div class="markdown-heading"><h3 class="heading-element">Post GSOC</h3><a id="user-content-post-gsoc" class="anchor" aria-label="Permalink: Post GSOC" href="#post-gsoc"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>I will continue to submit patches for <code>perf trace</code> and <code>perf</code> tool for this is my area of interest.</p>
+<div class="markdown-heading"><h3 class="heading-element">References</h3><a id="user-content-references" class="anchor" aria-label="Permalink: References" href="#references"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>linux btf doc: <a href="https://docs.kernel.org/bpf/btf.html" rel="nofollow">https://docs.kernel.org/bpf/btf.html</a></p>
+<p>pretty print test: <a href="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf.c" rel="nofollow">https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf.c</a></p>
+<p>bpf_trace(Support BTF-based pretty printing): <a href="https://github.com/bpftrace/bpftrace/pull/2651">https://github.com/bpftrace/bpftrace/pull/2651</a></p>
+<p>random commit: <a href="https://patchwork.ozlabs.org/project/netdev/patch/20180809155521.1544888-3-yhs@fb.com/" rel="nofollow">https://patchwork.ozlabs.org/project/netdev/patch/20180809155521.1544888-3-yhs@fb.com/</a></p>
+<p>linux api: <a href="https://github.com/libbpf/libbpf/blob/20ea95b4505c477af3b6ff6ce9d19cee868ddc5d/include/uapi/linux/bpf.h">https://github.com/libbpf/libbpf/blob/20ea95b4505c477af3b6ff6ce9d19cee868ddc5d/include/uapi/linux/bpf.h</a></p>
+<p>kernel test btf_dump.c: <a href="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf_dump.c" rel="nofollow">https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf_dump.c</a></p>
+<p>blog post: <a href="https://martincarstenbach.com/2021/07/29/do-you-know-perf-trace-its-an-almost-perfect-replacement-for-strace/" rel="nofollow">https://martincarstenbach.com/2021/07/29/do-you-know-perf-trace-its-an-almost-perfect-replacement-for-strace/</a></p>
+<p>syscall table and regs lists: <a href="https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md" rel="nofollow">https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md</a></p>
+<p>READ_ONCE: <a href="https://stackoverflow.com/questions/72507777/how-the-triggered-event-cause-the-program-jump-to-the-hook-point,https://elixir.bootlin.com/linux/v5.18.1/source/samples/bpf/xdp_sample.bpf.h#L89" rel="nofollow">https://stackoverflow.com/questions/72507777/how-the-triggered-event-cause-the-program-jump-to-the-hook-point,https://elixir.bootlin.com/linux/v5.18.1/source/samples/bpf/xdp_sample.bpf.h#L89</a></p>
+
+</article>
+<div>
+</div>
+</div>
+</html>
+<script>
+  applyCss();
+  function applyCss() {
+    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        let css = document.getElementById("sberm-docs-css");
+    	css.href = "/docs/github.css";
+    }  
+  }  
+</script>
