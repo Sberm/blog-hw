@@ -317,6 +317,9 @@ bpf.attach_uprobe(name="pthread", sym="pthread_mutex_unlock", fn_name="probe_mut
 <p>如果某个cpu忙其他cpu闲会有什么现象, 以每个cpu为视角, 通过时间轴把所有的cpu关联起来, 使用不同的颜色表示runqueue的长度, 这样生成的图可以很容易看出migration是否及时, 这样的资源利用图是非常有必要的, 有点类似htop, 但是更加精细</p>
 <div class="markdown-heading"><h2 class="heading-element">自动补全</h2><a id="user-content-自动补全" class="anchor" aria-label="Permalink: 自动补全" href="#自动补全"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>perf自动补全在/etc/bash_completion.d/perf</p>
+<div class="markdown-heading"><h2 class="heading-element">js to c string</h2><a id="user-content-js-to-c-string" class="anchor" aria-label="Permalink: js to c string" href="#js-to-c-string"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<pre><code>'&lt;,'&gt;s/\(.*\)/"\1\\n"/g
+</code></pre>
 <hr>
 <br>
 <br>

@@ -338,6 +338,11 @@ bpf.attach_uprobe(name="pthread", sym="pthread_mutex_unlock", fn_name="probe_mut
 
 perf自动补全在/etc/bash_completion.d/perf
 
+## js to c string
+```
+'<,'>s/\(.*\)/"\1\\n"/g
+```
+
 ___
 
 <br/>

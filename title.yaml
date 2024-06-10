@@ -93,3 +93,7 @@ b1010:
 laziness:
   title: "懒惰的人生"
   date: "2024-2-25"
+
+perf-trace-enum:
+  title: "perf trace: Add support for enum arguments"
+  date: "2024-6-9"

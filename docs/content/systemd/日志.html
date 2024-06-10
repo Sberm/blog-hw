@@ -12,6 +12,9 @@
 <p>特定service的日志(全部，滚动)</p>
 <pre><code>journalctl -u checkin.service
 </code></pre>
+<p>limit the size of journal to 100M, keep journals in 7 days</p>
+<pre><code>journalctl --vacuum-size=100M &amp;&amp; sudo journalctl --vacuum-time=7d
+</code></pre>
 
 </article>
 <div>

@@ -14,18 +14,20 @@
 <p>最好不要把patch放在/tmp里面</p>
 </blockquote>
 <ol>
-<li>
-<p>将每一个逻辑分成一个commit, 上传所有的commit</p>
-</li>
-<li>
-<p>根据需求, 使用<code>format-patch</code>创建补丁</p>
-</li>
+<li>将每一个逻辑分成一个commit, 上传所有的commit</li>
+</ol>
+<p>在使用nvim编辑commit的过程中，使用<code>set tw=75</code>设置单行最大长度，若超过，使用<code>gg gqG</code>重新格式化每行的长度</p>
+<blockquote>
+<p>gg是光标回到第一行</p>
+</blockquote>
+<ol start="2">
+<li>根据需求, 使用<code>format-patch</code>创建补丁</li>
 </ol>
 <div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> single patch</span>
-git format-patch HEAD -o /tmp/patch
+git format-patch HEAD~1 -s -o /tmp/patch
 
 <span class="pl-c"><span class="pl-c">#</span> patch set</span>
-git format-patch -v2 HEAD~4 -o /tmp/off-cpu-patch --cover-letter</pre></div>
+git format-patch -v2 HEAD~4 -s -o /tmp/off-cpu-patch --cover-letter</pre></div>
 <ol start="3">
 <li>查看需要发送的邮箱</li>
 </ol>
@@ -53,6 +55,9 @@ git send-email --to peterz@infradead.org \
 --cc linux-kernel@vger.kernel.org \
 --cc trivial@kernel.org \
 ./patch/0001-perf-record-Fix-comments-misspellings.patch --smtp-debug=1</pre></div>
+<p>如果send-email想要verbose，加上<code>--smtp-debug</code></p>
+<pre><code>perf $ git send-email --smtp-debug --to 1007273067@qq.com patch/v1-0001-perf-trace-BTF-based-enum-pretty-printing.patch
+</code></pre>
 <p>References: <a href="https://kernelnewbies.org/FirstKernelPatch" rel="nofollow">https://kernelnewbies.org/FirstKernelPatch</a></p>
 
 </article>

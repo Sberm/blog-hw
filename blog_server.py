@@ -28,7 +28,6 @@ postgre_password = os.getenv("psql_password")
 conn = psycopg2.connect(f"dbname=root user=root password={postgre_password}")
 
 # 进入文档路由
-# real_doc_url = "/docs/bd217ad3f277a9e82e2305377b1eb25d861117c78c9fa20e67184e232809c950/ba1e9359f249eae13818bf39a50bc305b313b6fc1c643057bcae187959ef2bf3"
 real_doc_url = "/docs/secret"
 
 app = FastAPI()
@@ -85,7 +84,6 @@ async def create_upload_file(file: UploadFile):
 
 @app.post("/review/fetch-images")
 async def fetch_images(id: int = Body(..., embed = True)):
-    # print("fetching id", id)
     if (id < 0):
         return {
             "code": 200, 
@@ -343,12 +341,14 @@ doc = Doc()
 
 def update_html_doc():
     now = strftime("%H:%M:%S", localtime())
-    print(f"updating docs/index.html {now}")
     html = open('./docs/index.html', 'rb')
     soup = bs(html, 'html.parser')
     old_text = soup.find("div", {"id": "doc-container"})
     docs = ""
     folder_name = doc.doc_info[0].split('/',1)[0] if len(doc.doc_info) != 0 else ""
+
+    print(f"[{now}] updating docs's index.html", flush=True)
+
     for di in doc.doc_info:
         name_without_ext = di.rsplit(".html", 1)[0]
         tmp = di.split('/', 1)[0]
@@ -394,13 +394,13 @@ def do_sample(html):
 # curl http://127.0.0.1:4545/blog-info
 
 def update_html_blog():
-
     now = strftime("%H:%M:%S", localtime())
-    print(f"updating index.html {now}")
     html = open('./index.html', 'rb')
     soup = bs(html, 'html.parser')
     old_text = soup.find("div", {"id": "blog-index"})
     blogs = ""
+
+    print(f"[{now}] updating index.html", flush=True)
 
     for bl in blog.blog_info:
         # name title date sample 
@@ -467,10 +467,7 @@ def update_blog():
 
 # convert
 def generate_blog(file_name: str):
-
     now = time.strftime("%H:%M:%S", time.localtime())
-    print(f"blog updating {now}")
-
     headers = {"Accept": "application/vnd.github+json", "Authorization": github_token, "X-GitHub-Api-Version": "2022-11-28"}
     url = "https://api.github.com/markdown"
 
@@ -480,6 +477,8 @@ def generate_blog(file_name: str):
     root_dir = "./md"
 
     file_path = f"{root_dir}/{file_name}"
+
+    print(f"[{now}] updating blog [{file_path}]", flush=True)
 
     with open(f"{file_path}", 'r', encoding = "utf-8") as f:
         tmp = f.read()
@@ -578,7 +577,6 @@ def check_new_files():
 # convert_doc
 def generate_doc(file_path: str, dir_list: list[str]):
     now = time.strftime("%H:%M:%S", time.localtime())
-    print(f"doc updating {now}")
     headers = {"Accept": "application/vnd.github+json", "Authorization": github_token, "X-GitHub-Api-Version": "2022-11-28"}
     url = "https://api.github.com/markdown"
     root_dir = "./docs/md"
@@ -588,6 +586,8 @@ def generate_doc(file_path: str, dir_list: list[str]):
     file_name_path = file_name.rsplit('/', 1)[0]
     os.makedirs(f"{write_root}/{file_name_path}", exist_ok = True) 
     file_path = f"{root_dir}/{file_name}"
+
+    print(f"[{now}] updating docs [{file_path}]", flush=True)
 
     with open(f"{file_path}", 'r', encoding = "utf-8") as f:
         tmp = f.read()
