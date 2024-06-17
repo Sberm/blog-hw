@@ -202,12 +202,12 @@ html {
 	}
 
 	#title {
-		width: 6rem;
+		width: 5.2rem;
 		color:var(--foreground);
 		text-decoration: none; 
 		font-weight: bold;
 		display: inline-block;
-		font-size: 1.3rem;
+		font-size: 1.1rem;
 		align-self: flex-end;
 		margin-left: 1rem;
 		margin-bottom: 0;
