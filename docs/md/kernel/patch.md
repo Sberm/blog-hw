@@ -57,4 +57,10 @@ git send-email --to peterz@infradead.org \
 perf $ git send-email --smtp-debug --to 1007273067@qq.com patch/v1-0001-perf-trace-BTF-based-enum-pretty-printing.patch
 ```
 
+使用patch
+
+```
+git apply --ignore-space-change --ignore-whitespace patch
+```
+
 References: [https://kernelnewbies.org/FirstKernelPatch](https://kernelnewbies.org/FirstKernelPatch)

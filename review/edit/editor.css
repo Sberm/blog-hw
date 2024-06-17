@@ -11,18 +11,18 @@
 /* no font boost/text inflation algorithm */
 html * {max-height:1000000px;}
 
-@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+@media (min-width:0px) and (max-width:961px){ /* smartphones, iPhone, portrait 480x320 phones */ 
 
 	.delete-buttons {
 		margin-top: 4rem;
 	}
 
-    input[type=file] {
-        margin: 1rem 0;
-        font-size: 3rem;
-    }
+	input[type=file] {
+		margin: 1rem 0;
+		font-size: 3rem;
+	}
 
-    input[type=file]::file-selector-button {
+	input[type=file]::file-selector-button {
 		margin-right: 20px;
 		border: none;
 		/* background: #084cdf; */
@@ -32,30 +32,30 @@ html * {max-height:1000000px;}
 		color: #fff;
 		cursor: pointer;
 		transition: background .2s ease-in-out;
-    }
+	}
 
-    input[type=file]::file-selector-button:hover {
-    /* background: #0d45a5; */
-    background: #ff7452;
-    }
+	input[type=file]::file-selector-button:hover {
+	/* background: #0d45a5; */
+		background: #ff7452;
+	}
 
-    /* end file drop */
+	/* end file drop */
 
-    .preview-delete-button {
-        border-radius: 5px;
-        /* margin: 1.5rem 2.5rem 0 0; */
-        height: 50px;
-        width: 50px;
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 2;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px;
-        background-color: rgb(234, 147, 85);
-    }
+	.preview-delete-button {
+		border-radius: 5px;
+		/* margin: 1.5rem 2.5rem 0 0; */
+		height: 50px;
+		width: 50px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px;
+		background-color: rgb(234, 147, 85);
+	}
 
     .preview-image {
         object-fit: contain;

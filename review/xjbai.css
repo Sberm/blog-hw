@@ -13,7 +13,7 @@ img {
 	max-height: 100%;
 }
 
-@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+@media (min-width:0px) and (max-width:961px){ /* smartphones, iPhone, portrait 480x320 phones */ 
 
 	a {
 		text-decoration: none;
@@ -287,7 +287,7 @@ img {
     }
 }
 
-@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ 
+@media (min-width:961px) { /* big landscape tablets, laptops, and desktops */ 
 
 	a:hover.page {
 		background-color: #F9A974;

@@ -1,8 +1,8 @@
 html {
-    text-size-adjust: none;
-    -ms-text-size-adjust: none;
-    -webkit-text-size-adjust: none;
-    -moz-text-size-adjust: none;
+ text-size-adjust: none;
+ -ms-text-size-adjust: none;
+ -webkit-text-size-adjust: none;
+ -moz-text-size-adjust: none;
 }
 
 .markdown-body {
@@ -1012,8 +1012,7 @@ html {
   filter: invert(50%);
 }
 
-
-@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+@media (min-width:0px) and (max-width:961px){ /* smartphones, iPhone, portrait 480x320 phones */ 
     .spacing-div {
         width: 100%;
         margin: auto;
@@ -1028,7 +1027,7 @@ html {
       margin-top:-4.3rem;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem;
       border-radius: 40px;
       background-color: rgb(255, 255, 255);
       display: flex;
@@ -1044,6 +1043,7 @@ html {
       align-items: flex-end;
       margin-bottom: 0.6rem;
     }
+
     .leave-img {
       max-height: 100%;
     }
@@ -1105,7 +1105,7 @@ html {
       height: 100%;
     }
 }
-@media (min-width:1025px){ /* pc */ 
+@media (min-width:961px){ /* pc */ 
     .spacing-div {
         width: 70%;
         margin: auto;
@@ -1120,7 +1120,7 @@ html {
       margin-top:-4.3rem;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem;
       border-radius: 40px;
       background-color: rgb(255, 255, 255);
       display: flex;
@@ -1176,24 +1176,24 @@ html {
     }
 
     #footer-commu {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5rem;
-      /* this controls the image size */
-      height: 26%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5rem;
+	/* this controls the image size */
+	height: 26%;
     }
 
     .footer-image-container {
-      height: 100%;
-      flex-basis: 1;
+	height: 100%;
+	flex-basis: 1;
     }
 
     .footer-image {
-      max-height: 100%;
-      max-width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      height: 100%;
+	max-height: 100%;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	height: 100%;
     }
 }

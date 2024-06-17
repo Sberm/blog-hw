@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8"/>
         <link href="/images/favicon.ico" rel="icon" type="image/x-icon"/>
-        <link href="/docs/sberm-docs-dark.css" id="sberm-docs-css" rel="stylesheet" type="text/css"/>
+        <link href="/docs/sberm-docs.css" id="sberm-docs-css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="center">
@@ -16,13 +16,3 @@
         </div>
     </body>
 </html>
-<script>
-    applyCss();
-	function applyCss() {
-		if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-			// dark mode
-			let css = document.getElementById("sberm-docs-css");
-			css.href = "/docs/sberm-docs.css";
-		}
-	}
-</script>

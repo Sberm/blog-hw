@@ -2,10 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
+	<link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link id = "sberm-docs-css" rel="stylesheet" href="/docs/github.css" type="text/css">
 </head>
 <div class = "spacing-div">
 <article class="markdown-body">
@@ -58,6 +58,9 @@ git send-email --to peterz@infradead.org \
 <p>如果send-email想要verbose，加上<code>--smtp-debug</code></p>
 <pre><code>perf $ git send-email --smtp-debug --to 1007273067@qq.com patch/v1-0001-perf-trace-BTF-based-enum-pretty-printing.patch
 </code></pre>
+<p>使用patch</p>
+<pre><code>git apply --ignore-space-change --ignore-whitespace patch
+</code></pre>
 <p>References: <a href="https://kernelnewbies.org/FirstKernelPatch" rel="nofollow">https://kernelnewbies.org/FirstKernelPatch</a></p>
 
 </article>
@@ -65,12 +68,3 @@ git send-email --to peterz@infradead.org \
 </div>
 </div>
 </html>
-<script>
-  applyCss();
-  function applyCss() {
-    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        let css = document.getElementById("sberm-docs-css");
-    	css.href = "/docs/github.css";
-    }  
-  }  
-</script>

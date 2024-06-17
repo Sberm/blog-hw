@@ -1010,7 +1010,7 @@ body {
   filter: invert(50%);
 }
 
-@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+@media (min-width:0px) and (max-width:961px){ /* smartphones, iPhone, portrait 480x320 phones */ 
     .spacing-div {
         width: 100%;
         margin: auto;
@@ -1102,7 +1102,7 @@ body {
       height: 100%;
     }
 }
-@media (min-width:1025px){ /* pc */ 
+@media (min-width:961px){ /* pc */ 
     .spacing-div {
         width: 70%;
         margin: auto;

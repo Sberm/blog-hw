@@ -2,15 +2,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
+	<link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link id = "sberm-docs-css" rel="stylesheet" href="/docs/github.css" type="text/css">
 </head>
 <div class = "spacing-div">
 <article class="markdown-body">
-<h2><a id="user-content-centos-85---source" class="anchor" aria-hidden="true" tabindex="-1" href="#centos-85---source"><span aria-hidden="true" class="octicon octicon-link"></span></a>Centos-8.5 - Source</h2>
-<h4><a id="user-content-install-build-dependencies" class="anchor" aria-hidden="true" tabindex="-1" href="#install-build-dependencies"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install build dependencies</h4>
+<div class="markdown-heading"><h2 class="heading-element">Centos-8.5 - Source</h2><a id="user-content-centos-85---source" class="anchor" aria-label="Permalink: Centos-8.5 - Source" href="#centos-85---source"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h4 class="heading-element">Install build dependencies</h4><a id="user-content-install-build-dependencies" class="anchor" aria-label="Permalink: Install build dependencies" href="#install-build-dependencies"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <pre><code>dnf install -y bison cmake ethtool flex git iperf3 libstdc++-devel python3-netaddr python3-pip gcc gcc-c++ make zlib-devel elfutils-libelf-devel
 # dnf install -y luajit luajit-devel ## if use luajit, will report some lua function(which in lua5.3) undefined problem 
 dnf install -y clang clang-devel llvm llvm-devel llvm-static ncurses-devel
@@ -18,7 +18,7 @@ dnf -y install netperf
 pip3 install pyroute2
 ln -s /usr/bin/python3 /usr/bin/python
 </code></pre>
-<h4><a id="user-content-install-and-compile-bcc" class="anchor" aria-hidden="true" tabindex="-1" href="#install-and-compile-bcc"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install and Compile bcc</h4>
+<div class="markdown-heading"><h4 class="heading-element">Install and Compile bcc</h4><a id="user-content-install-and-compile-bcc" class="anchor" aria-label="Permalink: Install and Compile bcc" href="#install-and-compile-bcc"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <pre><code>git clone https://github.com/iovisor/bcc.git
 
 mkdir bcc-build
@@ -41,12 +41,3 @@ BPFTable.h  bcc_elf.h     bcc_proc.h       bcc_usdt.h  bpf_module.h   file_desc.
 </div>
 </div>
 </html>
-<script>
-  applyCss();
-  function applyCss() {
-    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        let css = document.getElementById("sberm-docs-css");
-    	css.href = "/docs/github.css";
-    }  
-  }  
-</script>

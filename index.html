@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
         <meta charset="utf-8"/>
         <link href="/images/favicon.ico" rel="icon" type="image/x-icon"/>
-        <link href="/sberm-dark.css" id="sberm-css" rel="stylesheet" type="text/css"/>
+        <link href="/sberm-index.css" id="sberm-css" rel="stylesheet" type="text/css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>
             Howard Chu
         </title>
     </head>
-    <!-- <body onload="loadBlog();"> -->
     <body>
         <div class="navi">
             <div class="image-container">
                 <a class="link-wrapper" href="https://sberm.cn">
-                    <img class="leave-img" id="navi-img" src="/images/leave-dark.png"/>
+                    <img class="leave-img" id="navi-img" src="/images/leave.png"/>
                 </a>
             </div>
         </div>
@@ -34,7 +33,7 @@
                 </div>
                 <div id="title-img">
                     <a href="https://sberm.cn">
-                        <img alt="akiha" id="akiha-img" src="images/akiha-dark.png"/>
+                        <img class="leave-img" id="akiha-img" src="images/akiha.png"/>
                     </a>
                 </div>
             </div>
@@ -57,19 +56,19 @@ perf tr...</p></div><div class="blog-item"><div class = "date">2023-9-17</div><a
                 <div id="footer-text-wrapper">
                     <p id="footer-text">
                         void remove_elegant(list *l, list_item *target)
-					{
-							list_item **p = &l->head;
-							while (*p != target)
-									p = &(*p)->next;
-							*p = target->next;
-					}
+			{
+			list_item **p = &l->head;
+			while (*p != target)
+					p = &(*p)->next;
+			*p = target->next;
+			}
                     </p>
                 </div>
                 <div id="footer-commu-background">
                     <div id="footer-commu">
                         <div class="footer-image-container">
                             <a href="https://sberm.cn/review/">
-                                <img class="footer-image" src="images/linux.png"/>
+                                <img class="footer-image" src="images/review/xjbai_logo.png"/>
                             </a>
                         </div>
                         <div class="footer-image-container">
@@ -90,24 +89,3 @@ perf tr...</p></div><div class="blog-item"><div class = "date">2023-9-17</div><a
         </div>
     </body>
 </html>
-<script>
-    applyCss();
-  function applyCss() {
-		if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-			// light mode
-			let root = document.querySelector(":root");
-			root.style.setProperty("--background", 'white');
-			root.style.setProperty("--foreground", 'black'); // black
-			root.style.setProperty("--visited", 'rgb(0, 75, 128)');
-			root.style.setProperty("--unvisited", 'rgb(0, 162, 190)');
-			root.style.setProperty("--footer-background", 'rgb(247, 247, 247)');
-			root.style.setProperty("--navi-background", 'rgb(255, 255, 255)');
-			root.style.setProperty("--navi-shadow", 'rgb(233, 233, 233)');
-			let akihaImage = document.getElementById("akiha-img");
-			akihaImage.src = "images/akiha.png";
-			let naviImage = document.getElementById("navi-img");
-			naviImage.src = "/images/leave.png";
-		}
-		
-	}
-</script>

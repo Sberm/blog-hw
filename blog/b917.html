@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link id = "sberm-blog-css" href="/blog/github-markdown-dark.css" type="text/css" rel="stylesheet">
+  <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link id = "sberm-blog-css" href="/blog/github.css" type="text/css" rel="stylesheet">
 </head>
 
-<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave-dark.png" class="leave-img"/></a></div></div>
+<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave.png" class="leave-img"/></a></div></div>
 <div class = "spacing-div">
 <article class="markdown-body">
 <ol>
@@ -59,51 +59,56 @@ sudo apt-get install vim-gtk</pre></div>
 </article>
 
 <div id="footer-main">
-    <div id="footer-line">
+  <div id="footer-line">
+  </div>
+  <div id="footer-text-wrapper">
+    <p id="footer-text">
+  void remove_elegant(list *l, list_item *target)
+  {
+  list_item **p = &l->head;
+  while (*p != target)
+  p = &(*p)->next;
+  *p = target->next;
+  }
+    </p>
+  </div>
+  <div id="footer-commu-background">
+    <div id="footer-commu">
+      <div class="footer-image-container">
+        <a href="https://sberm.cn/review/">
+          <img class="footer-image" src="../images/review/xjbai_logo.png"/>
+        </a>
+      </div>
+      <div class="footer-image-container">
+        <a href="https://twitter.com/howardchu_">
+          <img class="footer-image" src="../images/twitter.png"/>
+        </a>
+      </div>
+      <div class="footer-image-container">
+        <a href="https://github.com/sberm">
+          <img class="footer-image" src="../images/github.svg"/>
+        </a>
+      </div>
     </div>
-    <div id="footer-text-wrapper">
-        <p id="footer-text">
-    void remove_elegant(list *l, list_item *target)
-    {
-    list_item **p = &l->head;
-    while (*p != target)
-    p = &(*p)->next;
-    *p = target->next;
-    }
-        </p>
-    </div>
-    <div id="footer-commu-background">
-        <div id="footer-commu">
-            <div class="footer-image-container">
-                <a href="https://sberm.cn/review/">
-                    <img class="footer-image" src="../images/linux.png"/>
-                </a>
-            </div>
-            <div class="footer-image-container">
-                <a href="https://twitter.com/howardchu_">
-                    <img class="footer-image" src="../images/twitter.png"/>
-                </a>
-            </div>
-            <div class="footer-image-container">
-                <a href="https://github.com/sberm">
-                    <img class="footer-image" src="../images/github.svg"/>
-                </a>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
 <div>
 </div>
 </div>
 </html>
 <script>
-  applyCss();
-  function applyCss() {
-    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        let css = document.getElementById("sberm-blog-css");
-	    css.href = "/blog/github.css";
-        let akihaImage = document.getElementById("akiha-img");
-        akihaImage.src = "/images/leave.png";
-    }  
-  }  
+	function darkMode() {
+		let css = document.getElementById("sberm-blog-css");
+		let akihaImage = document.getElementById("akiha-img");
+
+		css.href = "blog/github-markdown-dark.css";
+		akihaImage.src = "/images/leave-dark.png";
+	}
+	function lightMode() {
+		let css = document.getElementById("sberm-blog-css");
+		let akihaImage = document.getElementById("akiha-img");
+
+		css.href = "/blog/github.css";
+		akihaImage.src = "/images/leave.png";
+	}
 </script>

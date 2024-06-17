@@ -1,8 +1,8 @@
 html {
-    text-size-adjust: none;
-    -ms-text-size-adjust: none;
-    -webkit-text-size-adjust: none;
-    -moz-text-size-adjust: none;
+	text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
 }
 
 body {
@@ -10,20 +10,20 @@ body {
 }
 
 .leave-img {
-  max-height: 100%;
+	max-height: 100%;
 }
 
 .markdown-body {
-  color-scheme: dark;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  margin: 0;
-  color: rgb(243, 243, 243);
-  background-color: rgb(51, 51, 51);
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-  font-size: 15px;
-  line-height: 1.5;
-  word-wrap: break-word;
+	color-scheme: dark;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	margin: 0;
+	color: rgb(243, 243, 243);
+	background-color: rgb(51, 51, 51);
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+	font-size: 15px;
+	line-height: 1.5;
+	word-wrap: break-word;
 }
 
 .markdown-body .octicon {
@@ -1021,7 +1021,7 @@ body {
   filter: invert(50%);
 }
 
-@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+@media (min-width:0px) and (max-width:961px){ 
     .spacing-div {
         width: 100%;
         margin: auto;
@@ -1110,7 +1110,7 @@ body {
       height: 100%;
     }
 }
-@media (min-width:1025px){ /* pc */ 
+@media (min-width: 961px){ /* pc */ 
     .spacing-div {
         width: 70%;
         margin: auto;

@@ -2,14 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link id = "sberm-docs-css" rel="stylesheet" href="/docs/github-markdown-dark.css" type="text/css">
+	<link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link id = "sberm-docs-css" rel="stylesheet" href="/docs/github.css" type="text/css">
 </head>
 <div class = "spacing-div">
 <article class="markdown-body">
-<div class="markdown-heading"><h2 class="heading-element">删除特定时间段内的文件</h2><a id="user-content-删除特定时间段内的文件" class="anchor-element" aria-label="Permalink: 删除特定时间段内的文件" href="#删除特定时间段内的文件"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">删除特定时间段内的文件</h2><a id="user-content-删除特定时间段内的文件" class="anchor" aria-label="Permalink: 删除特定时间段内的文件" href="#删除特定时间段内的文件"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> 从x时到现在</span>
 find images/ -type f -mtime <span class="pl-s"><span class="pl-pds">$(</span>echo <span class="pl-s"><span class="pl-pds">$(</span>date +%s -d<span class="pl-s"><span class="pl-pds">"</span>Mar 3, 2024 07:30:00<span class="pl-pds">"</span></span><span class="pl-pds">)</span></span> - <span class="pl-s"><span class="pl-pds">$(</span>date +%s<span class="pl-pds">)</span></span>  <span class="pl-k">|</span> bc -l <span class="pl-k">|</span> awk <span class="pl-s"><span class="pl-pds">'</span>{print $1 / 86400}<span class="pl-pds">'</span></span> <span class="pl-k">|</span> bc -l <span class="pl-pds">)</span></span> -delete
 
@@ -21,12 +21,3 @@ find images/ -type f -mtime <span class="pl-s"><span class="pl-pds">$(</span>dat
 </div>
 </div>
 </html>
-<script>
-  applyCss();
-  function applyCss() {
-    if (!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        let css = document.getElementById("sberm-docs-css");
-    	css.href = "/docs/github.css";
-    }  
-  }  
-</script>

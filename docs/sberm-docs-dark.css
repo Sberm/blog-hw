@@ -1,4 +1,4 @@
-@media (min-width:320px) and (max-width:1025px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+@media (min-width:0px) and (max-width:961px){ /* smartphones, iPhone, portrait 480x320 phones */ 
 
 	body {
 		background: rgb(51, 51, 51);
@@ -210,7 +210,7 @@
 	}
 }
 
-@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ 
+@media (min-width:961px) { /* big landscape tablets, laptops, and desktops */ 
 
 	body {
 		background: rgb(51, 51, 51);
