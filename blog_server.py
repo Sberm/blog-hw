@@ -339,7 +339,7 @@ class Doc:
 
 doc = Doc()
 
-def update_html_doc():
+def update_docs_index():
 	now = strftime("%H:%M:%S", localtime())
 	html = open('./docs/index.html', 'rb')
 	soup = bs(html, 'html.parser')
@@ -377,7 +377,7 @@ def do_sample(html):
 	soup = bs(html, features="html.parser")
 
 	# kill all script and style elements
-	for script in soup(["script", "style"]):
+	for script in soup(["script", "style", "h1", "h2", "h3"]):
 		script.extract()	# rip it out
 
 	# get text
@@ -393,14 +393,14 @@ def do_sample(html):
 
 # curl http://127.0.0.1:4545/blog-info
 
-def update_html_blog():
+def update_index():
 	now = strftime("%H:%M:%S", localtime())
 	html = open('./index.html', 'rb')
 	soup = bs(html, 'html.parser')
 	old_text = soup.find("div", {"id": "blog-index"})
 	blogs = ""
 
-	print(f"[{now}] updating index.html", flush=True)
+	print(f"[{now}] updating ./index.html", flush=True)
 
 	for bl in blog.blog_info:
 		# name title date sample 
@@ -413,28 +413,25 @@ def update_html_blog():
 	with open("./index.html", "wb") as f_output:
 		f_output.write(soup.prettify("utf-8", formatter_))
 
-
-def update_blog():
-
+def blogs_index():
 	# title, date, sample
 	# update(new file) -> iterate in dir
 	# no update -> send info
-
-	do_ite = False
+	do_iter = False
 
 	mod_t = 0.0
 	for root, _, files in os.walk(blog.blog_path):
 		for file in files:
 			# .#github.css, .swp, etc., or file ext is not .md
-			if (file[0] == "." or not (file.rsplit(".",1)[-1] == 'md')):
+			if (file[0] == "." or not ".html" in file):
 				continue
 			mod_t = max(os.path.getmtime(os.path.join(root, file)), mod_t)
 
 	if mod_t > blog.last_read:
 		blog.last_read = mod_t
-		do_ite = True
+		do_iter = True
 
-	if do_ite == True:
+	if do_iter == True:
 		blog_info = []
 		yaml_info = {}
 		with open("./title.yaml", "r") as f:
@@ -451,7 +448,7 @@ def update_blog():
 				blog_item['date'] = file_from_yaml.get("date") if file_from_yaml else "0000-00-00"
 				with open(os.path.join(root, file), "r") as f:
 					html = f.read()
-					blog_item['sample'] = f"{(do_sample(html))[:50]}..."
+					blog_item['sample'] = f"{(do_sample(html))[:170]}..."
 				blog_info.append(blog_item)
 
 		def parseDate(date_str: str):
@@ -463,9 +460,8 @@ def update_blog():
 
 		blog_info = sorted(blog_info, key=lambda x: parseDate(x['date']), reverse=True)
 		blog.blog_info = blog_info
-		update_html_blog()
+		update_index()
 
-# convert
 def generate_blog(file_name: str):
 	now = time.strftime("%H:%M:%S", time.localtime())
 	headers = {"Accept": "application/vnd.github+json", "Authorization": github_token, "X-GitHub-Api-Version": "2022-11-28"}
@@ -566,7 +562,7 @@ def generate_blog(file_name: str):
 	}}
 </script>""")
 
-def check_new_files():
+def blogs():
 	global l_m_f
 	for root,_, files in os.walk("./md"):
 		for file in files:
@@ -578,7 +574,6 @@ def check_new_files():
 				l_m_f = m_t
 				generate_blog(file)
 
-
 # convert_doc
 def generate_doc(file_path: str, dir_list: list[str]):
 	now = time.strftime("%H:%M:%S", time.localtime())
@@ -586,6 +581,7 @@ def generate_doc(file_path: str, dir_list: list[str]):
 	url = "https://api.github.com/markdown"
 	root_dir = "./docs/md"
 	write_root = "./docs/content"
+
 	# 乐唯/123/hello.md
 	file_name = file_path.split('md/', 1)[-1]
 	file_name_path = file_name.rsplit('/', 1)[0]
@@ -621,7 +617,7 @@ def generate_doc(file_path: str, dir_list: list[str]):
 </html>
 """)
 
-def check_new_docs():
+def docs():
 	global l_m_d
 	dir_list = []
 	for root, dirs, files in os.walk("./docs/md"):
@@ -637,9 +633,8 @@ def check_new_docs():
 				l_m_d = m_t
 				generate_doc(file_path, dir_list)
 
-def update_doc():
-
-	do_ite = False
+def docs_index():
+	do_iter = False
 
 	mod_t = 0.0
 	for root, _, files in os.walk(doc.doc_path):
@@ -650,10 +645,10 @@ def update_doc():
 
 	if mod_t > doc.last_read:
 		doc.last_read = mod_t
-		do_ite = True
+		do_iter = True
 
 	
-	if do_ite == True:
+	if do_iter == True:
 		doc_info_tmp = []
 		for root, _, files in os.walk(doc.doc_path):
 			for f in files:
@@ -662,21 +657,17 @@ def update_doc():
 				file_name = os.path.join(root, f).rsplit("docs/content/", 1)[-1]
 				doc_info_tmp.append(file_name)
 		doc.doc_info = doc_info_tmp
-		update_html_doc()
+		update_docs_index()
 
 def update_root():
 	global l_m_f, l_m_d
 	l_m_f = l_m_d = time.time()
 	while True:
 		try:
-			# update html
-			update_blog()
-			# convert
-			check_new_files() # blog
-			# doc_html
-			update_doc()
-			# convert_doc
-			check_new_docs()
+			blogs()
+			blogs_index()
+			docs()
+			docs_index()
 		except:
 			from traceback import print_exc
 			print("Internal error")
@@ -685,5 +676,4 @@ def update_root():
 
 t = Thread(target=update_root, args=[])
 t.start()
-
 uvicorn.run(host="127.0.0.1", port=21999, app=app)

@@ -1,3 +1,5 @@
+## Launch Elixir app with mix
+
 #### 0.5 define`main.ex`, use`mix run main.ex`(duplicates with 2.)
 main.ex:
 
