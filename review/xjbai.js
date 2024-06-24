@@ -1,3 +1,5 @@
+const RECORD_PER_PAGE = 7;
+
 function currentPage() {
 	const queryString = window.location.search;
 	const parameters = new URLSearchParams(queryString);
@@ -293,4 +295,3 @@ let REVIEW_IMG = [];
 let popUpImageLength = 0;
 let imageArrayPointer = 0;
 let imagePointer = 0;
-const RECORD_PER_PAGE = 4;

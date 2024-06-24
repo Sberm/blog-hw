@@ -646,7 +646,6 @@ def docs_index():
 	if mod_t > doc.last_read:
 		doc.last_read = mod_t
 		do_iter = True
-
 	
 	if do_iter == True:
 		doc_info_tmp = []

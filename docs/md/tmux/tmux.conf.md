@@ -1,6 +1,6 @@
 ## tmux
 
-clear
+god-like clear
 
 ```bash
 if [[ $TMUX ]]; then

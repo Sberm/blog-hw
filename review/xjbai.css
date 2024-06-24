@@ -32,10 +32,10 @@ img {
 		color: black;
 		background-color: transparent;
 		border-radius: 100%;
-		width: 5.3rem;
-		height: 5.3rem;
+		width: 1.5rem;
+		height: 1.5rem;
 		text-align: center;
-		font-size: 4.1rem;
+		font-size: 1.1rem;
 		display: inline-block;
 	}
 
@@ -46,7 +46,7 @@ img {
 	#pagination-bar {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: 0.6rem;
 		margin: 0 auto;
 		width: max-content;
 	}
@@ -59,7 +59,7 @@ img {
         left: 1vw;
         max-height: 1000%;
         max-width: 1000%;
-        height: 9rem;
+        height: 2rem;
     }
 
     .right-arrow {
@@ -69,12 +69,12 @@ img {
         right: 1vw;
         max-height: 1000%;
         max-width: 1000%;
-        height: 9rem;
+        height: 2rem;
     }
 
     .restaurant-name{
         font-family: 'Trip Sans';
-        font-size: 4.4rem;
+        font-size: 1.2rem;
         color: rgb(47, 47, 47);
     }
 
@@ -95,10 +95,10 @@ img {
 
     .xjbai {
         position: fixed;
-        bottom: 3vh;
+        bottom: 7vh;
         right: 0;
-        height: 13rem;
-        width: 13rem;
+        height: 5rem;
+        width: 5rem;
         z-index: 2;
         border-radius: 15px;
     }
@@ -111,10 +111,10 @@ img {
     .popup-quit-button {
         border-radius: 10px;
         /* margin: 1.5rem; */
-        margin: 7rem 2.5rem;
+        margin: 2rem 0.8rem;
         background-color: rgb(234, 147, 85);
-        height: 5rem;
-        width: 5rem;
+        height: 1rem;
+        width: 1rem;
         position: absolute;
         top: 0;
         right: 0;
@@ -122,7 +122,7 @@ img {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 10px;
     }
 
     @keyframes fadeIn {
@@ -152,7 +152,7 @@ img {
         display: flex;
         flex-direction: row;
         align-items: center;
-        border-radius: 20px;
+        border-radius: 10px;
         justify-content: center;
         z-index: 3;
     } 
@@ -185,7 +185,8 @@ img {
     }
 
     .image-container {
-        width: 20rem;
+        width: 6rem;
+	height: 8rem;
     }
 
     p {
@@ -193,13 +194,13 @@ img {
     }
 
     .review-header {
-        margin: 0 0 3rem 0;
-        font-size: 3.0rem;
+        margin: 1rem 0 1rem 0;
+        font-size: 1rem;
     }
 
     .review-text {
-        font-size: 2.7rem;
-        margin-bottom: 4rem;
+        font-size: 1rem;
+        margin-bottom: 1rem;
         color: rgb(79, 79, 79);
         max-height: 100%;
     }
@@ -217,26 +218,26 @@ img {
     }
 
     #rating-circle {
-        width: 3.5rem;
-        height: 3.5rem;
+        width: 1rem;
+        height: 1rem;
         background: rgb(234, 147, 85);
         border-radius: 50%;
-        margin-left: 0.2rem;
+        margin-left: 0.1rem;
     }
 
     #rating-circle-half {
-        width: 1.75rem;
+        width: 0.5rem;
         /* width: 1.3rem; */
-        height: 3.5rem;
+        height: 1rem;
         background: rgb(234, 147, 85);
         border-top-left-radius: 10rem;
         border-bottom-left-radius: 10rem;
-        margin-left: 0.2rem;
+        margin-left: 0.1rem;
     }
 
     .rating-score {
-        font-size: 3rem;
-        margin: 1.2rem 0 6.2rem 0;
+        font-size: 1rem;
+        margin: 0.2rem 0 0.2rem 0;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -248,14 +249,17 @@ img {
         /* font-family: 'Trip Sans VF', 'Trip Sans', Arial, sans-serif !important; */
         font-family: HYZhongYuan;
     }
+
     .main-header {
-        gap: 2rem;
-        font-size: 5rem;
+	height: 0.6rem;
+        gap: 0.3rem;
+        font-size: 1.8rem;
         font-weight: bold;
         width: 70%;
-        margin: 1rem auto;
+        margin: 0.6rem auto;
         display: flex;
         justify-content: center;
+	align-items: center;
         /* background-color: white; */
         padding: 1rem;
         border-radius: 20px;
@@ -263,7 +267,7 @@ img {
     }
 
     hr.custom-hr {
-        margin: 8.5rem auto;
+        margin: 1rem auto;
         border: 1px solid rgb(179, 179, 179);
         border-radius: 5px;
         width: 60%;
@@ -273,16 +277,17 @@ img {
     }
 
     .content-background {
-        padding: 3rem;
+        padding: 1rem;
         border-radius: 20px;
         background-color: white;
         width: 80%;
-        margin: 0 auto 10rem auto;
+        margin: 0 auto 5rem auto;
     }
+
     .review-date {
         font-family: 'Trip Sans';
-        font-size: 2.3rem;
-        margin: 2rem 0 0 0;
+        font-size: 1rem;
+        margin: 1rem 0 0 0;
         max-height: 100%;
     }
 }
@@ -324,27 +329,27 @@ img {
     .left-arrow {
         filter: invert(100%) sepia(0%) saturate(4584%) hue-rotate(194deg) brightness(111%) contrast(101%);
         position: absolute;
-        top: 40%;
+        top: 50%;
         left: 1vw;
         max-height: 1000%;
         max-width: 1000%;
-        height: 5.5rem;
+        height: 3.5rem;
     }
 
     .right-arrow {
         filter: invert(100%) sepia(0%) saturate(4584%) hue-rotate(194deg) brightness(111%) contrast(101%);
         position: absolute;
-        top: 40%;
+        top: 50%;
         right: 1vw;
         max-height: 1000%;
         max-width: 1000%;
-        height: 5.5rem;
+        height: 3.5rem;
     }
 
     .restaurant-name{
         font-family: 'Trip Sans';
         /*font-size: 2.7rem;*/
-		font-size: 2.3rem;
+	font-size: 2.3rem;
         color: rgb(47, 47, 47);
     }
 
@@ -469,13 +474,13 @@ img {
 
     .review-header {
         margin: 0 0 1rem 0;
-		/*font-size: 1.8rem;*/
-		font-size: 1.6rem;
+	/*font-size: 1.8rem;*/
+	font-size: 1.6rem;
     }
 
     .review-text {
-		font-size: 1.0rem;
-		margin-bottom: 2rem;
+	font-size: 1.0rem;
+	margin-bottom: 2rem;
         color: rgb(79, 79, 79);
     }
 
@@ -524,6 +529,7 @@ img {
         /* font-family: 'Trip Sans VF', 'Trip Sans', Arial, sans-serif !important; */
         font-family: HYZhongYuan;
     }
+
     .main-header {
         gap: 0.5rem;
         font-size: 3rem;

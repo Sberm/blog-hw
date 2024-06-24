@@ -97,3 +97,7 @@ laziness:
 perf-trace-enum:
   title: "perf trace: Add support for enum arguments"
   date: "2024-6-9"
+
+perf-blog-1:
+  title: "Journey to become a (newbie) perf contributor"
+  date: "2024-6-19"
