@@ -101,3 +101,7 @@ perf-trace-enum:
 perf-blog-1:
   title: "Journey to become a (newbie) perf contributor"
   date: "2024-6-19"
+
+how-to-contrib-perf:
+  title: "How to contribute to perf"
+  date: "2024-6-25"
