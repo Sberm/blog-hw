@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link id = "sberm-docs-css" rel="stylesheet" href="/docs/github.css" type="text/css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<div class="markdown-heading"><h2 class="heading-element">System clock not right</h2><a id="user-content-system-clock-not-right" class="anchor" aria-label="Permalink: System clock not right" href="#system-clock-not-right"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This may cause make to unable to build, and git to be really really slow.</p>
+<p>show current time</p>
+<div class="highlight highlight-source-shell"><pre>perf $ timedatectl
+               Local time: Tue 2024-07-09 13:22:42 HKT
+           Universal time: Tue 2024-07-09 05:22:42 UTC
+                 RTC time: Tue 2024-07-09 05:22:42
+                Time zone: Asia/Hong_Kong (HKT, +0800)
+System clock synchronized: yes
+              NTP service: active
+          RTC <span class="pl-k">in</span> <span class="pl-k">local</span> TZ: no</pre></div>
+<p>install ntp package</p>
+<div class="highlight highlight-source-shell"><pre>perf $ pacman -S ntp</pre></div>
+<p>set time</p>
+<div class="highlight highlight-source-shell"><pre>ntpd -qg</pre></div>
+
+</article>
+<div>
+</div>
+</div>
+</html>

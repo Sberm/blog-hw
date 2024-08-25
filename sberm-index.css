@@ -129,6 +129,7 @@ html {
 		font-size: 0.8rem;
 		font-family: Arial;
 		margin-top: 0.3rem;
+		word-wrap: break-word;
 	}
 
 	#video-preview {
@@ -349,6 +350,7 @@ html {
 		font-size: 13px;
 		font-family: Monaco;
 		margin-top: 0.3rem;
+		word-wrap: break-word;
 	}
 
 	#video-preview {

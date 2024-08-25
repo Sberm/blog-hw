@@ -13,24 +13,35 @@
 <article class="markdown-body">
 <div class="markdown-heading"><h1 class="heading-element">perf trace: Add support for enum arguments</h1><a id="user-content-perf-trace-add-support-for-enum-arguments" class="anchor" aria-label="Permalink: perf trace: Add support for enum arguments" href="#perf-trace-add-support-for-enum-arguments"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><code>perf trace</code> now supports pretty printing for enum arguments</p>
-<p>Well, that been said, there is only one argument that can be pretty printed, which is <code>enum landlock_rule_type rule_type</code> from syscall <code>landlock_add_rule</code>.</p>
+<p>Well, that been said, there is only one argument that can be pretty printed in all syscalls, which is <code>enum landlock_rule_type rule_type</code> from syscall <code>landlock_add_rule</code>.</p>
+<p>This feature is implemented using the BPF Type Format.</p>
 <p>Here is <code>perf trace</code> before:</p>
 <div class="highlight highlight-source-shell"><pre>perf $ ./perf trace -e landlock_add_rule
      0.000 ( 0.008 ms): ldlck-test/438194 landlock_add_rule(rule_type: 2)                                       = -1 EBADFD (File descriptor <span class="pl-k">in</span> bad state)
      0.010 ( 0.001 ms): ldlck-test/438194 landlock_add_rule(rule_type: 1)                                       = -1 EBADFD (File descriptor <span class="pl-k">in</span> bad state)</pre></div>
-<p>Just a number, kinda hard to understand for non-experts.</p>
+<p>Just a number (<code>rule_type: 1</code>), kinda hard to understand if you don't look up syscall arguments.</p>
 <p>And this is <code>perf trace</code> with <code>enum landlock_rule_type</code> pretty printing:</p>
 <div class="highlight highlight-source-shell"><pre>perf $ ./perf trace -e landlock_add_rule
      0.000 ( 0.029 ms): ldlck-test/438194 landlock_add_rule(rule_type: LANDLOCK_RULE_NET_PORT)                  = -1 EBADFD (File descriptor <span class="pl-k">in</span> bad state)
      0.036 ( 0.004 ms): ldlck-test/438194 landlock_add_rule(rule_type: LANDLOCK_RULE_PATH_BENEATH)              = -1 EBADFD (File descriptor <span class="pl-k">in</span> bad state)</pre></div>
 <p>I would say it's much better. :)</p>
-<p>Non-syscall tracepoints are supported too.</p>
+<p>Non-syscall tracepoints are supported as well.</p>
+<p>here's the output:</p>
 <div class="highlight highlight-source-shell"><pre>perf $ ./perf trace -e timer:hrtimer_start --max-events=1
      0.000 :0/0 timer:hrtimer_start(hrtimer: 0xffff974466d25f18, function: 0xffffffff89da5be0, expires: 488283834504945, softexpires: 488283834504945, mode: HRTIMER_MODE_ABS_PINNED_HARD)</pre></div>
-<p>You can use enum names, instead of plain integer number to do the filtering as well</p>
+<p>we got <code>mode: HRTIMER_MODE_ABS_PINNED_HARD</code> instead of <code>mode: 10</code></p>
+<div class="highlight highlight-source-c"><pre><span class="pl-smi">acme</span>@<span class="pl-s1">number</span>:~$ <span class="pl-s1">pahole</span> <span class="pl-c1">--</span><span class="pl-s1">contains_enumerator</span><span class="pl-c1">=</span><span class="pl-c1">HRTIMER_MODE_ABS_PINNED_HARD</span> | <span class="pl-s1">grep</span> <span class="pl-c1">-</span><span class="pl-c1">E</span> '([{}]|<span class="pl-c1">HRTIMER_MODE_ABS_PINNED_HARD</span>)'
+<span class="pl-k">enum</span> <span class="pl-smi">hrtimer_mode</span> {
+	<span class="pl-c1">HRTIMER_MODE_ABS_PINNED_HARD</span> <span class="pl-c1">=</span> <span class="pl-c1">10</span>,
+}</pre></div>
+<p>You can use enum names, instead of plain integers to do the filtering of events.</p>
+<p>instead of using <code>--filter</code> options like this:</p>
+<p><code>--filter='mode != 10 &amp;&amp; mode != 0'</code></p>
+<p>we can use <code>--filter</code> option like this:</p>
+<p><code>--filter='mode != HRTIMER_MODE_ABS_PINNED_HARD &amp;&amp; mode != HRTIMER_MODE_ABS'</code></p>
 <div class="highlight highlight-source-shell"><pre>perf $ ./perf trace -e timer:hrtimer_start --filter=<span class="pl-s"><span class="pl-pds">'</span>mode != HRTIMER_MODE_ABS_PINNED_HARD &amp;&amp; mode != HRTIMER_MODE_ABS<span class="pl-pds">'</span></span> --max-events=1
      0.000 Hyprland/534 timer:hrtimer_start(hrtimer: 0xffff9497801a84d0, function: 0xffffffffc04cdbe0, expires: 12639434638458, softexpires: 12639433638458, mode: HRTIMER_MODE_REL)</pre></div>
-<p>Please try <code>perf trace</code>, see if you like it!</p>
+<p>That's all, thank you.</p>
 
 </article>
 

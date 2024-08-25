@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link id = "sberm-docs-css" rel="stylesheet" href="/docs/github.css" type="text/css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<div class="markdown-heading"><h2 class="heading-element">find + grep/ripgrep</h2><a id="user-content-find--grepripgrep" class="anchor" aria-label="Permalink: find + grep/ripgrep" href="#find--grepripgrep"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="highlight highlight-source-shell"><pre>find <span class="pl-c1">.</span> -regex <span class="pl-s"><span class="pl-pds">'</span>./arch/.*/include/uapi/asm/unistd.h<span class="pl-pds">'</span></span> <span class="pl-k">|</span> xargs grep --color=auto <span class="pl-s"><span class="pl-pds">'</span>include &lt;asm<span class="pl-pds">'</span></span></pre></div>
+<p>ripgrep</p>
+<div class="highlight highlight-source-shell"><pre>find <span class="pl-c1">.</span> -regex <span class="pl-s"><span class="pl-pds">'</span>./tools/perf/.*<span class="pl-pds">'</span></span> <span class="pl-k">|</span> xargs rg EPOLLIN</pre></div>
+
+</article>
+<div>
+</div>
+</div>
+</html>

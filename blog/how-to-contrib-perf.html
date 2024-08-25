@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link id = "sberm-blog-css" href="/blog/github.css" type="text/css" rel="stylesheet">
+</head>
+
+<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave.png" class="leave-img"/></a></div></div>
+<div class = "spacing-div">
+<article class="markdown-body">
+<div class="markdown-heading"><h2 class="heading-element">How to contribute to perf</h2><a id="user-content-how-to-contribute-to-perf" class="anchor" aria-label="Permalink: How to contribute to perf" href="#how-to-contribute-to-perf"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h4 class="heading-element">TL;DR:</h4><a id="user-content-tldr" class="anchor" aria-label="Permalink: TL;DR:" href="#tldr"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Clone the repo:</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre>git clone https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/
+
+<span class="pl-c"><span class="pl-c">#</span> switch to perf-tools-next branch</span>
+git checkout perf-tools-next
+
+<span class="pl-c"><span class="pl-c">#</span> cd into the perf's directory</span>
+<span class="pl-c1">cd</span> tools/perf</pre></div>
+<ol start="2">
+<li>Write some code</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> compile with</span>
+make</pre></div>
+<ol start="3">
+<li>Commit changes</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre>git add
+git commit
+<span class="pl-c"><span class="pl-c">#</span> you can also use 'git commit -s' to add 'Signed-off-by:' tag</span></pre></div>
+<ol start="4">
+<li>Create a patch based on a commit</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> single patch</span>
+git format-patch HEAD~1 -s -o <span class="pl-k">~</span>/patch
+
+<span class="pl-c"><span class="pl-c">#</span> patch series, version 2, including 4 commits, adding cover letter</span>
+git format-patch -v2 HEAD~4 -s -o <span class="pl-k">~</span>/patch --cover-letter</pre></div>
+<ol start="5">
+<li>Check the format of your patch</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre>../../scripts/checkpatch.pl <span class="pl-k">~</span>/patch/0001-foo.patch</pre></div>
+<ol start="6">
+<li>Find maintainers to send your patch to</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> run this script in the root directory of Linux</span>
+<span class="pl-c"><span class="pl-c">#</span> use --no-rolestats to make the output simpler</span>
+<span class="pl-c"><span class="pl-c">#</span> use sed to extract useful emails, you can also do it by hand</span>
+./scripts/get_maintainer.pl --no-rolestats <span class="pl-k">~</span>/patch/0001-foo.patch <span class="pl-k">|</span> sed <span class="pl-s"><span class="pl-pds">'</span>s/.*&lt;\(.*\)&gt;.*/\1/g<span class="pl-pds">'</span></span></pre></div>
+<blockquote>
+<p>You can also add <code>| paste -s -d,</code> to the end of the command above to replace newlines with comma, and put the whole thing after the <code>--to</code> flag of <code>git send-email</code> for convenience, for example: <code>--to peterz@infradead.org,mingo@redhat.com,acme@kernel.org</code></p>
+</blockquote>
+<ol start="7">
+<li>Send your patch</li>
+</ol>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> don't copy as-is, use the maintainer emails you got from the previous step:</span>
+git send-email \
+--to peterz@infradead.org \
+--cc mingo@redhat.com \
+--cc acme@kernel.org \
+--cc namhyung@kernel.org \
+--cc mark.rutland@arm.com \
+--cc alexander.shishkin@linux.intel.com \
+--cc jolsa@kernel.org \
+--cc irogers@google.com \
+--cc adrian.hunter@intel.com \
+--cc kan.liang@linux.intel.com \
+--cc linux-perf-users@vger.kernel.org \
+--cc linux-kernel@vger.kernel.org \
+<span class="pl-k">~</span>/patch/0001-foo.patch --smtp-debug=1</pre></div>
+<div class="markdown-heading"><h2 class="heading-element">Explanations on each step</h2><a id="user-content-explanations-on-each-step" class="anchor" aria-label="Permalink: Explanations on each step" href="#explanations-on-each-step"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h4 class="heading-element">1. Clone the repo:</h4><a id="user-content-1-clone-the-repo" class="anchor" aria-label="Permalink: 1. Clone the repo:" href="#1-clone-the-repo"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>We use perf-tools-next.git and the branch perf-tools-next for active development:
+<a href="https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/" rel="nofollow">https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/</a></p>
+<p>For releasing in the next Linux kernel there is the perf-tools.git repository with the perf-tools branch:
+<a href="https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools.git/log/?h=perf-tools" rel="nofollow">https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools.git/log/?h=perf-tools</a></p>
+<blockquote>
+<p>courtesy of <a href="https://sites.google.com/site/rogersemail/home" rel="nofollow">Ian Rogers</a></p>
+</blockquote>
+<p>Please do:</p>
+<div class="highlight highlight-source-shell"><pre>git clone https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/
+
+<span class="pl-c"><span class="pl-c">#</span> switch to perf-tools-next branch</span>
+git checkout perf-tools-next</pre></div>
+<p>This is a git repo of Linux. Perf is located at <code>tools/perf</code>, let's <code>cd tools/perf</code> first.</p>
+<div class="markdown-heading"><h4 class="heading-element">2. Write some code</h4><a id="user-content-2-write-some-code" class="anchor" aria-label="Permalink: 2. Write some code" href="#2-write-some-code"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>To build perf, simply type <code>make</code> and return (make sure you are at <code>tools/perf</code>).</p>
+<p>Sometimes I do have to build it with <code>WERROR=0 make</code>, before changing anything.</p>
+<p>Now make your changes, compile run and repeat.</p>
+<p>You can see your changes with</p>
+<div class="highlight highlight-source-shell"><pre>git diff</pre></div>
+<div class="markdown-heading"><h4 class="heading-element">3. Commit changes</h4><a id="user-content-3-commit-changes" class="anchor" aria-label="Permalink: 3. Commit changes" href="#3-commit-changes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Once you decide the modification is complete, please commit it.</p>
+<p>For a simple feature/bug fix, just use</p>
+<div class="highlight highlight-source-shell"><pre>git add <span class="pl-k">&lt;</span>some-file<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> or 'git add .' to add everything in current directory </span>
+git commit
+<span class="pl-c"><span class="pl-c">#</span> you can also use 'git commit -s' to add 'Signed-off-by:' tag</span></pre></div>
+<p>To learn how to write commit title and descriptions, check how other people do it in the <a href="https://lore.kernel.org/linux-perf-users/" rel="nofollow">mailing list</a>.</p>
+<p>To learn more about tags like <code>Signed-off-by:</code>, <code>Tested-by:</code>, and <code>Reviewed-by:</code>, please read <a href="https://www.kernel.org/doc/html/v4.17/process/submitting-patches.html" rel="nofollow">Submitting patches: the essential guide to getting your code into the kernel</a></p>
+<p>The title looks like this:</p>
+<pre lang="git"><code>perf &lt;subcommand&gt;: &lt;topic&gt;
+
+perf pmu: Event parsing and listing fixes
+perf sched map: Add command-name, fuzzy-name options to filter the output map
+</code></pre>
+<p>For a more complicated contribution, please split your patches based on <strong>individual logic</strong>. Sometimes using <code>git add &lt;some-file&gt;</code> to create a commit for every modified file is good enough, but sometimes it's not.</p>
+<p>If you need to split the changes in the same file, please use <code>git add -p</code>, and press <code>e</code> to split. These changes are called <code>hunks</code> in git's term. To learn more about how to use <code>git add -p</code> to split up commits, please go to <a href="https://drewdeponte.com/blog/git-add-patch-wont-split/" rel="nofollow">here</a>.</p>
+<p>So after writing your code, the workflow will look like this:</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> check you changes</span>
+git status
+git diff
+
+<span class="pl-c"><span class="pl-c">#</span> create a commit</span>
+git add <span class="pl-k">&lt;</span>some-file<span class="pl-k">&gt;</span> <span class="pl-c"><span class="pl-c">#</span> or git add -p</span>
+git commit
+<span class="pl-c"><span class="pl-c">#</span> you can also use 'git commit -s' to add 'Signed-off-by:' tag</span>
+
+<span class="pl-c"><span class="pl-c">#</span> create another commit</span>
+git add <span class="pl-k">&lt;</span>some-file<span class="pl-k">&gt;</span>
+git commit
+<span class="pl-c1">.</span>
+<span class="pl-c1">.</span>
+<span class="pl-c1">.</span>
+<span class="pl-c"><span class="pl-c">#</span> create the last commit</span>
+git add <span class="pl-k">&lt;</span>some-file<span class="pl-k">&gt;</span>
+git commit
+
+<span class="pl-c"><span class="pl-c">#</span> see if all changes are added(staged)</span>
+git status</pre></div>
+<blockquote>
+<p>When writing commit messages, it is best to limit the number of characters per line to 75. I use vim as my editor, so this <code>:set tw=75</code> will do the auto wrapping. If vim somehow doesn't wrap, use <code>gg gqG</code> to format the commit message. There are also lots of online text wrapping apps.</p>
+</blockquote>
+<div class="markdown-heading"><h4 class="heading-element">4. Create a patch based on a commit</h4><a id="user-content-4-create-a-patch-based-on-a-commit" class="anchor" aria-label="Permalink: 4. Create a patch based on a commit" href="#4-create-a-patch-based-on-a-commit"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Please use <code>-s</code> option to add <code>Signed-off-by:</code>, and <code>-o</code> to specify output directory.</p>
+<p>Depending on how many commits to be included, use <code>-n</code> or <code>HEAD~n</code>, for example, to include 4 commits, you can do <code>git format-patch -4</code> or <code>git format-patch HEAD~4</code>.</p>
+<p>Adding version number using <code>-v</code> option is also recommended, so you can revise patches after receiving reviewer's opinions.</p>
+<p>When creating a patch series, it is highly recommended to use <code>--cover-letter</code> to add a cover letter to your series. Cover letter is an introduction to this patch series. Please don't forget to add an explanation of the purpose of this patch in the cover letter(of number 0000), and add a subject to this cover letter.</p>
+<p>examples:</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> single patch</span>
+git format-patch HEAD~1 -s -o <span class="pl-k">~</span>/patch
+
+<span class="pl-c"><span class="pl-c">#</span> patch series, version 2, including 4 commits, adding cover letter</span>
+git format-patch -v2 HEAD~4 -s -o <span class="pl-k">~</span>/patch --cover-letter</pre></div>
+<div class="markdown-heading"><h4 class="heading-element">5. Check the format of your patch</h4><a id="user-content-5-check-the-format-of-your-patch" class="anchor" aria-label="Permalink: 5. Check the format of your patch" href="#5-check-the-format-of-your-patch"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Use <code>scripts/checkpatch.pl</code> to check the format. (If you are in <code>tools/perf</code>, it is <code>../../scripts/checkpatch.pl</code>)</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> check one specific patch</span>
+../../scripts/checkpatch.pl <span class="pl-k">~</span>/patch/0001-foo.patch
+
+<span class="pl-c"><span class="pl-c">#</span> check all patches</span>
+../../scripts/checkpatch.pl <span class="pl-k">~</span>/patch/<span class="pl-k">*</span>.patch</pre></div>
+<p>You might get WARNING and ERROR</p>
+<pre><code>WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+
+ERROR: Please use git commit description style 'commit &lt;12+ chars of sha1&gt; ("&lt;title line&gt;")' - ie: 'commit 0123456789ab ("commit description")'
+</code></pre>
+<p>I suggest just pay close attention to errors.</p>
+<p>To edit/amend a commit based on these error messages:</p>
+<p>For a single patch, use <code>git add</code>, <code>git commit --amend</code>, and <code>git format-patch</code> to resolve errors.</p>
+<p>For a patch series, use <code>git rebase -i &lt;HASH&gt;~</code>, change the 'pick' to 'edit' for the commit you want to modify in the interactive file, and use <code>git add</code>, <code>git commit</code>, and <code>git rebase --continue</code>. This might be hard to understand, I recommend reading this <a href="https://stackoverflow.com/questions/1186535/how-do-i-modify-a-specific-commit" rel="nofollow">stack overflow post</a></p>
+<div class="markdown-heading"><h4 class="heading-element">6. Find maintainers and mailing lists to send your patch to</h4><a id="user-content-6-find-maintainers-and-mailing-lists-to-send-your-patch-to" class="anchor" aria-label="Permalink: 6. Find maintainers and mailing lists to send your patch to" href="#6-find-maintainers-and-mailing-lists-to-send-your-patch-to"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Run <code>get_maintainer.pl</code> script. This script can only be run when you're at the root directory of Linux.</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> run this script in the root directory of Linux</span>
+<span class="pl-c"><span class="pl-c">#</span> use --no-rolestats to make the output simpler</span>
+<span class="pl-c"><span class="pl-c">#</span> use sed to extract useful emails, you can also do it by hand</span>
+linux $ scripts/get_maintainer.pl <span class="pl-k">~</span>/patch/0001-foo.patch --no-rolestats <span class="pl-k">|</span> sed -r <span class="pl-s"><span class="pl-pds">'</span>s/.*&lt;(.*)&gt;.*/\1/g<span class="pl-pds">'</span></span>
+peterz@infradead.org
+mingo@redhat.com
+acme@kernel.org
+namhyung@kernel.org
+mark.rutland@arm.com
+alexander.shishkin@linux.intel.com
+jolsa@kernel.org
+irogers@google.com
+adrian.hunter@intel.com
+kan.liang@linux.intel.com
+linux-perf-users@vger.kernel.org
+linux-kernel@vger.kernel.org</pre></div>
+<blockquote>
+<p>You can also add <code>| paste -s -d,</code> to the end of the command above to replace newlines with comma, and put the whole thing after the <code>--to</code> flag of <code>git send-email</code> for convenience, for example: <code>--to peterz@infradead.org,mingo@redhat.com,acme@kernel.org</code></p>
+</blockquote>
+<p>You can also find maintainers of perf in <code>MAINTAINERS</code>. Just search <code>PERFORMANCE EVENTS SUBSYSTEM</code> in the <code>MAINTAINERS</code> file.</p>
+<div class="markdown-heading"><h4 class="heading-element">7. Send your patch</h4><a id="user-content-7-send-your-patch" class="anchor" aria-label="Permalink: 7. Send your patch" href="#7-send-your-patch"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> don't copy as-is, use the maintainer emails you got from the previous step:</span>
+git send-email \
+--to peterz@infradead.org \
+--cc mingo@redhat.com \
+--cc acme@kernel.org \
+--cc namhyung@kernel.org \
+--cc mark.rutland@arm.com \
+--cc alexander.shishkin@linux.intel.com \
+--cc jolsa@kernel.org \
+--cc irogers@google.com \
+--cc adrian.hunter@intel.com \
+--cc kan.liang@linux.intel.com \
+--cc linux-perf-users@vger.kernel.org \
+--cc linux-kernel@vger.kernel.org \
+<span class="pl-k">~</span>/patch/0001-foo.patch --smtp-debug=1
+
+<span class="pl-c"><span class="pl-c">#</span> or, simply do</span>
+
+git send-email --to peterz@infradead.org,mingo@redhat.com,acme@kernel.org,namhyung@kernel.org,mark.rutland@arm.com,alexander.shishkin@linux.intel.com,jolsa@kernel.org,irogers@google.com,adrian.hunter@intel.com,kan.liang@linux.intel.com,linux-perf-users@vger.kernel.org,linux-kernel@vger.kernel.org <span class="pl-k">~</span>/patch/0001-foo.patch --smtp-debug=1</pre></div>
+<p>I like to use <code>--smtp-debug=1</code>, because <code>git send-email</code> is slow, and <code>--smtp-debug=1</code> is a good loading screen, reducing some agitation.</p>
+<blockquote>
+<p>I do have to install some perl packages before successfully running <code>git send-email</code></p>
+</blockquote>
+<blockquote>
+<p>You can <code>git send-email</code> to yourself first to avoid embarrassment</p>
+</blockquote>
+<div class="markdown-heading"><h2 class="heading-element">You are all set, well done!</h2><a id="user-content-you-are-all-set-well-done" class="anchor" aria-label="Permalink: You are all set, well done!" href="#you-are-all-set-well-done"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Now you can check your contribution on the <a href="https://lore.kernel.org/linux-perf-users/" rel="nofollow">perf mailing list</a></p>
+<p>It might take one to three minutes for it to show up.</p>
+<div class="markdown-heading"><h4 class="heading-element">Apply patches</h4><a id="user-content-apply-patches" class="anchor" aria-label="Permalink: Apply patches" href="#apply-patches"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Sometimes you may want to apply a patch or two from the mailing list.</p>
+<p>The easiest way being, going to <code>https://lore.kernel.org/linux-perf-users/</code>, click on the <code>raw</code> link(besides <code>permalink</code>), and copy the whole thing. Next, type <code>git am</code> and return, paste what you have copied into it, press <code>Ctrl+D</code> to finish. But this process can be annoying.</p>
+<p>You can also download the <code>mbox.gz</code>, or just use <code>b4</code>. To learn more about how to apply patches from the mailing list, please read this <a href="https://blog.reds.ch/?p=1814" rel="nofollow">blog post</a></p>
+<hr>
+<p>Special thanks to <a href="https://sites.google.com/site/rogersemail/home" rel="nofollow">Ian Rogers</a>, <a href="https://github.com/namhyung">Namhyung Kim</a>, and <a href="https://github.com/acmel">Arnaldo Carvalho de Melo</a></p>
+
+</article>
+
+<div id="footer-main">
+  <div id="footer-line">
+  </div>
+  <div id="footer-text-wrapper">
+    <p id="footer-text">
+  void remove_elegant(list *l, list_item *target)
+  {
+  list_item **p = &l->head;
+  while (*p != target)
+  p = &(*p)->next;
+  *p = target->next;
+  }
+    </p>
+  </div>
+  <div id="footer-commu-background">
+    <div id="footer-commu">
+      <div class="footer-image-container">
+        <a href="https://sberm.cn/review/">
+          <img class="footer-image" src="../images/review/xjbai_logo.png"/>
+        </a>
+      </div>
+      <div class="footer-image-container">
+        <a href="https://twitter.com/howardchu_">
+          <img class="footer-image" src="../images/twitter.png"/>
+        </a>
+      </div>
+      <div class="footer-image-container">
+        <a href="https://github.com/sberm">
+          <img class="footer-image" src="../images/github.svg"/>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+</div>
+</div>
+</html>
+<script>
+	function darkMode() {
+		let css = document.getElementById("sberm-blog-css");
+		let akihaImage = document.getElementById("akiha-img");
+
+		css.href = "blog/github-markdown-dark.css";
+		akihaImage.src = "/images/leave-dark.png";
+	}
+	function lightMode() {
+		let css = document.getElementById("sberm-blog-css");
+		let akihaImage = document.getElementById("akiha-img");
+
+		css.href = "/blog/github.css";
+		akihaImage.src = "/images/leave.png";
+	}
+</script>

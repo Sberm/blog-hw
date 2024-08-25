@@ -1,0 +1,87 @@
+:root {
+	<!----background: rgb(51, 51, 51);-->
+	<!----foreground: rgb(243, 243, 243);-->
+	--background: white;
+	--foreground: black;
+}
+
+@media (min-width:0px) and (max-width:961px){ /* smartphones, iPhone, portrait 480x320 phones */ 
+	body {
+		background: var(--background);
+		color: var(--foreground);
+	}
+
+	input, select, textarea {
+		color: var(--foreground);
+	}
+
+	#password-container{
+		height: 90vh;
+		width: 90%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		user-select: none;
+	}
+
+	#input-password-parent{
+		height: 8rem;
+		width: 50%;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: bold;
+	}
+
+	#input-password{
+		border: none;
+		background-color: transparent;
+		width: 100%;
+		font-size: 1.5rem;
+		outline: none;
+	}
+}
+
+@media (min-width:961px) { /* big landscape tablets, laptops, and desktops */ 
+	body {
+		background: var(--background);
+		color: var(--foreground);
+	}
+
+	input, select, textarea {
+		color: var(--foreground);
+	}
+
+	#password-container{
+		height: 90vh;
+		width: 90%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		user-select: none;
+	}
+
+	#input-password-parent{
+		height: 4rem;
+		width: 17rem;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 2rem; /*大于号*/
+		font-weight: bold;
+	}
+
+	#input-password{
+		border: none;
+		background-color: transparent;
+		width: 100%;
+		font-size: 2.2rem;
+		outline: none;
+	}
+}

@@ -11,8 +11,24 @@
 <div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave.png" class="leave-img"/></a></div></div>
 <div class = "spacing-div">
 <article class="markdown-body">
-<div class="markdown-heading"><h2 class="heading-element">Journey to become a (newbie) perf contributor</h2><a id="user-content-journey-to-become-a-newbie-perf-contributor" class="anchor" aria-label="Permalink: Journey to become a (newbie) perf contributor" href="#journey-to-become-a-newbie-perf-contributor"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<p>Oct 25, 2023, this when I pushed the first commit to my silly little eBPF project, "sberf". Yes, I stole this name from a prestigious performance analysis tool, <a href="https://perf.wiki.kernel.org/index.php/Main_Page" rel="nofollow">perf</a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">Journey to Becoming a (Newbie) Perf Contributor</h2><a id="user-content-journey-to-becoming-a-newbie-perf-contributor" class="anchor" aria-label="Permalink: Journey to Becoming a (Newbie) Perf Contributor" href="#journey-to-becoming-a-newbie-perf-contributor"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Oct 25, 2023, this is the day I pushed the first commit to my silly little eBPF project, <code>sberf</code>. You can tell I stole this name from a prestigious performance analysis tool, <a href="https://perf.wiki.kernel.org/index.php/Main_Page" rel="nofollow">perf</a>.</p>
+<p>I didn't just steal the name, I stole some code from perf as well, about how to parse subcommands, calling function pointers and stuff.</p>
+<p>I wouldn't believe you if you told me that I can contribute to perf myself, I'd say you are crazy. I remember the day when I first read <code>perf record</code>'s code, all I saw was <code>evlist</code> this, <code>evlist</code> that, and no matter what, I just couldn't understand these abstractions, I was discouraged.</p>
+<blockquote>
+<p>Well actually, anybody can contribute to perf, here's a <a href="https://sberm.cn/blog/how-to-contrib-perf" rel="nofollow">blog post</a> I wrote about how to do it.</p>
+</blockquote>
+<p><a target="_blank" rel="noopener noreferrer" href="/images/docs/perf/Snipaste_2024-06-27_18-35-26.png"><img src="/images/docs/perf/Snipaste_2024-06-27_18-35-26.png" alt="evlist-all-over" style="max-width: 100%;"></a></p>
+<p>Fast forward to the GSoC application period, I started writing a proposal. I have a low expectation of getting selected, and that expectation dropped to none after reading this proposal in the mailing list: <a href="https://lore.kernel.org/linux-perf-users/CAMZOccS0NcTSSHkJEiM6X5pM95OT98iwz152303qPnKdw49azA@mail.gmail.com/T/#u" rel="nofollow">Proposal for Roofline Support in perf</a>. Figured that getting selected doesn't matter that much, contributing to a project that I looked up to is cool enough, so I started working.</p>
+<p>At first I thought kernel people are a little weird. No github, no GUI version controls, just plain texts, CLI tools and emails. I read some posts about how to contribute to the kernel, and I started to practice it. Luckily there's no learning curve in text editors for C, for I have used vim + tmux for years.</p>
+<p>I cured my <code>evlist</code>phobia by taking 3000+ lines of notes on <code>perf record</code>'s codebase, and I sent a <a href="https://lore.kernel.org/linux-perf-users/20240424024805.144759-1-howardchu95@gmail.com/" rel="nofollow">patch series</a> on off-cpu feature (where I also copied a lot of code from <a href="https://github.com/acmel">arnaldo carvalho de melo</a>'s <code>perf trace</code>). And then luckily, I got selected and I'm now contributing to perf.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="/images/docs/perf/Snipaste_2024-06-27_18-13-07.png"><img src="/images/docs/perf/Snipaste_2024-06-27_18-13-07.png" alt="note-image" style="max-width: 100%;"></a></p>
+<p>About a month later, I contribute a feature: <a href="https://sberm.cn/blog/perf-trace-enum" rel="nofollow">enum pretty printing for perf trace</a>, this paves the path for the struct pointer pretty-printing feature, which I have been working on as a background task.</p>
+<p>Thank you, that's my story, and thank you, perf.</p>
+<div class="markdown-heading"><h4 class="heading-element">P.S.</h4><a id="user-content-ps" class="anchor" aria-label="Permalink: P.S." href="#ps"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Because I'm writing C instead of Java, there's only one more thing that I want to do. That is... turning off syntax highlighting.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="/images/docs/perf/Snipaste_2024-06-27_18-36-02.png"><img src="/images/docs/perf/Snipaste_2024-06-27_18-36-02.png" alt="no-highlighting" style="max-width: 100%;"></a></p>
+<p>Haha, it's just a joke. Or is it?</p>
 
 </article>
 

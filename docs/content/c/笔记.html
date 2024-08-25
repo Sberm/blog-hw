@@ -11,6 +11,15 @@
 <article class="markdown-body">
 <div class="highlight highlight-source-c"><pre><span class="pl-k">#define</span> <span class="pl-en">DS</span>(<span class="pl-s1">fmt</span>, <span class="pl-s1">args</span>...) printf(fmt, ##args);
 <span class="pl-c">// DS("%d %f\n", 1, 0.3);</span></pre></div>
+<p>Man, what can I say?</p>
+<div class="highlight highlight-source-c"><pre><span class="pl-s1">f_attr</span> <span class="pl-c1">=</span> (<span class="pl-k">struct</span> <span class="pl-smi">perf_file_attr</span>){
+	.<span class="pl-c1">attr</span> <span class="pl-c1">=</span> <span class="pl-s1">evsel</span><span class="pl-c1">-&gt;</span><span class="pl-c1">core</span>.<span class="pl-c1">attr</span>,
+	.<span class="pl-c1">embed</span> <span class="pl-c1">=</span> <span class="pl-s1">evsel</span><span class="pl-c1">-&gt;</span><span class="pl-c1">sample_type_embed</span>,
+	.<span class="pl-c1">ids</span>  <span class="pl-c1">=</span> {
+		.<span class="pl-c1">offset</span> <span class="pl-c1">=</span> <span class="pl-s1">evsel</span><span class="pl-c1">-&gt;</span><span class="pl-c1">id_offset</span>,
+		.<span class="pl-c1">size</span>   <span class="pl-c1">=</span> <span class="pl-s1">evsel</span><span class="pl-c1">-&gt;</span><span class="pl-c1">core</span>.<span class="pl-c1">ids</span> <span class="pl-c1">*</span> <span class="pl-k">sizeof</span>(<span class="pl-s1">u64</span>),
+	}
+};</pre></div>
 
 </article>
 <div>

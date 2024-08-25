@@ -18,7 +18,11 @@ from datetime import datetime
 os.chdir("/root/hw/blog-hw")
 
 # /docs 认证密码
-CORRECT_PASSWORD = "akiha"
+CORRECT_PASSWORD = "akihaa"
+
+chen_pass = "hongli"
+yang_pass = "jhs"
+liao_pass = "nile"
 
 # github api 请求token
 github_token = os.getenv("github_token")
@@ -29,6 +33,10 @@ conn = psycopg2.connect(f"dbname=root user=root password={postgre_password}")
 
 # 进入文档路由
 real_doc_url = "/docs/secret"
+
+chen_doc_url = "/docs/secret/content/解谜/chenzi"
+yang_doc_url = "/docs/secret/content/解谜/yang"
+liao_doc_url = "/docs/secret/content/解谜/liao"
 
 app = FastAPI()
 
@@ -59,8 +67,16 @@ def make_response(code: int, msg: str, url: str = None):
 @app.post("/validate")
 async def valiate(password: str = Body(...,description="password", examples="abc123"),
 				  jwt: str = Body(...,description="json web token")):
+	password = password.lower()
+
 	if password == CORRECT_PASSWORD:
 		return make_response(200, "correct password", real_doc_url)
+	elif password == chen_pass:
+		return make_response(200, "correct password", chen_doc_url)
+	elif password == yang_pass:
+		return make_response(200, "correct password", yang_doc_url)
+	elif password == liao_pass:
+		return make_response(200, "correct password", liao_doc_url)
 	else:
 		return make_response(430, "wrong password")
 
