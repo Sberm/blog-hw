@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link id = "sberm-docs-css" rel="stylesheet" href="/docs/github.css" type="text/css">
+</head>
+<div class = "spacing-div">
+<article class="markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">为发行版安装新内核</h1><a id="user-content-为发行版安装新内核" class="anchor" aria-label="Permalink: 为发行版安装新内核" href="#为发行版安装新内核"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The simplest set of instructions I always used for kernel upgrade / downgrade are by ubuntuforums.org user by the name of lykwydchykyn (url modified by me for this post):</p>
+<p>Go here: <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/" rel="nofollow">http://kernel.ubuntu.com/~kernel-ppa/mainline/</a>
+Download 3 (maybe 4) debs to a folder somewhere:</p>
+<pre><code>linux-headers-VERSION-NUMBER_all.deb
+linux-headers-VERSION-NUMBER_amd64.deb
+linux-image-VERSION-NUMBER_amd64.deb
+linux-image-extra-VERSION-NUMBER_amd64.deb   # if available
+</code></pre>
+<p>Install the debs with whatever package manager front-end you use (is gdebi still around?), or use these commands:</p>
+<pre><code>cd /path/to/folder/where/you/put/the/debs
+sudo dpkg -i *.deb
+</code></pre>
+<p>Sources:</p>
+<p><a href="https://wiki.ubuntu.com/Kernel/MainlineBuilds" rel="nofollow">https://wiki.ubuntu.com/Kernel/MainlineBuilds</a>
+<a href="http://ubuntuforums.org/showthread.php?p=11391743#post11391743" rel="nofollow">http://ubuntuforums.org/showthread.php?p=11391743#post11391743</a></p>
+
+</article>
+<div>
+</div>
+</div>
+</html>

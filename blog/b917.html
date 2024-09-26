@@ -14,6 +14,12 @@
 <div class="markdown-heading"><h2 class="heading-element">Shared vim clipboard when using SSH</h2><a id="user-content-shared-vim-clipboard-when-using-ssh" class="anchor" aria-label="Permalink: Shared vim clipboard when using SSH" href="#shared-vim-clipboard-when-using-ssh"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <ol>
 <li>For Windows, download MobaXterm or Xming; for Mac, download XQuartz as the X server. After downloading, open the application.</li>
+</ol>
+<blockquote>
+<p>Note that on Mac XQuartz works after I uncheck the <code>Enable Syncing</code>, and check it back again. <a href="https://stackoverflow.com/questions/47822357/how-to-use-x11-forwarding-to-copy-from-vim-to-local-machine" rel="nofollow">Link</a>
+And tmux doesn't work well on Mac's default Terminal.app. For sharing clipboard you need to install <a href="https://github.com/tmux-plugins/tmux-yank">tmux-yank</a> plugin</p>
+</blockquote>
+<ol start="2">
 <li>In the server's SSH configuration file located at <code>/etc/ssh/sshd_config</code>, enable <code>X11Forwarding yes</code>.</li>
 <li>Based on personal experience, use the X server address provided in MobaXterm and set the Windows environment variable <code>$env:DISPLAY</code> to that address. This can be done in <code>Edit System Environment Variables</code>.</li>
 </ol>
@@ -42,20 +48,19 @@ sudo apt-get install vim-gtk</pre></div>
 <ol start="6">
 <li>Open the editor with gvim -v (or vimx). In gvim, use the following command to copy to the system clipboard. Enjoy!</li>
 </ol>
-<pre lang="vimscript"><code>" copy
-%y+ " (visual) (if nothing gets selected, copy all the text)
-"+y " (normal)
-"*y " (normal)
-:"+y " (visual)
-:"*y " (visual)
+<div class="highlight highlight-source-viml"><pre><span class="pl-c"><span class="pl-c">"</span> copy</span>
+<span class="pl-k">%</span><span class="pl-c1">y</span><span class="pl-k">+</span><span class="pl-c"> <span class="pl-c">"</span> (visual) (if nothing gets selected, copy all the text)</span>
+<span class="pl-c"><span class="pl-c">"</span>+y " (normal)</span>
+<span class="pl-c"><span class="pl-c">"</span>*y " (normal)</span>
+:<span class="pl-s"><span class="pl-pds">"</span>+y <span class="pl-pds">"</span></span> (<span class="pl-c1">visual</span>)
+:<span class="pl-s"><span class="pl-pds">"</span>*y <span class="pl-pds">"</span></span> (<span class="pl-c1">visual</span>)
 
-" paste
-&lt;ctrl + r&gt;+ (insert)
-"+p " (normal)
-"*p " (normal)
-:"+p " (visual)
-:"*p" (visual)
-</code></pre>
+<span class="pl-c"><span class="pl-c">"</span> paste</span>
+<span class="pl-e">&lt;ctrl + r&gt;</span><span class="pl-k">+</span> (<span class="pl-c1">insert</span>)
+<span class="pl-c"><span class="pl-c">"</span>+p " (normal)</span>
+<span class="pl-c"><span class="pl-c">"</span>*p " (normal)</span>
+:<span class="pl-s"><span class="pl-pds">"</span>+p <span class="pl-pds">"</span></span> (<span class="pl-c1">visual</span>)
+:<span class="pl-s"><span class="pl-pds">"</span>*p<span class="pl-pds">"</span></span> (<span class="pl-c1">visual</span>)</pre></div>
 
 </article>
 

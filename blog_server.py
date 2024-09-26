@@ -18,7 +18,7 @@ from datetime import datetime
 os.chdir("/root/hw/blog-hw")
 
 # /docs 认证密码
-CORRECT_PASSWORD = "akihaa"
+CORRECT_PASSWORD = "akiha"
 
 chen_pass = "hongli"
 yang_pass = "jhs"
