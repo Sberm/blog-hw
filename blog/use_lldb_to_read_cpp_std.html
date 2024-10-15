@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="/images/favicon.ico" rel="icon" type="/image/x-icon" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link id = "sberm-blog-css" href="/blog/github.css" type="text/css" rel="stylesheet">
+</head>
+
+<div class="navi"><div class="image-container"><a href="https://sberm.cn" class="link-wrapper"><img id="akiha-img" src="/images/leave.png" class="leave-img"/></a></div></div>
+<div class = "spacing-div">
+<article class="markdown-body">
+<div class="markdown-heading"><h2 class="heading-element">Using lldb to read C++ standard library</h2><a id="user-content-using-lldb-to-read-c-standard-library" class="anchor" aria-label="Permalink: Using lldb to read C++ standard library" href="#using-lldb-to-read-c-standard-library"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>C++ standard library can be hard to read, using a debugger to help with learning can
+be a good approach.</p>
+<p>My machine is a mac so this will be <code>clang</code>'s std library. And I'm using <code>lldb</code>
+because it's better supported than <code>gdb</code>. Here's how to do it.</p>
+<p>Install <code>lldb</code>, typically use</p>
+<pre><code>xcode-select --install
+</code></pre>
+<p>If you want to update installed tools through command line, use <code>softwareupdate</code> command line tool</p>
+<div class="highlight highlight-source-shell"><pre>softwareupdate -l
+softwareupdate -i <span class="pl-s"><span class="pl-pds">"</span>software name<span class="pl-pds">"</span></span></pre></div>
+<p>Compile and run debugger</p>
+<div class="highlight highlight-source-shell"><pre>lldb a.out</pre></div>
+<p>Somehow <code>lldb</code>'s <code>l</code> or <code>list</code> commands doesn't print the source file for me, but what works for me is <code>l source_file.c</code> and <code>l main</code>.</p>
+<div class="highlight highlight-source-shell"><pre>cpp_learn $ lldb a.out
+(lldb) target create <span class="pl-s"><span class="pl-pds">"</span>a.out<span class="pl-pds">"</span></span>
+Current executable <span class="pl-c1">set</span> to <span class="pl-s"><span class="pl-pds">'</span>/Users/howardchu/hw/cabin/cpp_learn/a.out<span class="pl-pds">'</span></span> (arm64).
+(lldb) l main
+File: /Users/howardchu/hw/cabin/cpp_learn/a.cc
+   5    bool comparator(int o1, int o2)
+   6    {
+   7            <span class="pl-k">return</span> o1 <span class="pl-k">&lt;</span> o2<span class="pl-k">;</span>
+   8    }
+   9   
+   10   int <span class="pl-en">main</span>()
+   11   {
+   12           vector<span class="pl-k">&lt;</span>int<span class="pl-k">&gt;</span> a = {1, 3}<span class="pl-k">;</span>
+   13           <span class="pl-en">sort(a.begin</span>(), <span class="pl-en">a.end</span>(), comparator);
+   14           <span class="pl-k">return</span> 0<span class="pl-k">;</span>
+   15   }
+(lldb) </pre></div>
+<p>But when I want to step into a c++ standard library lldb won't do it.</p>
+<div class="highlight highlight-source-shell"><pre>(lldb) s
+Process 84607 stopped
+<span class="pl-k">*</span> thread <span class="pl-c"><span class="pl-c">#</span>1, queue = 'com.apple.main-thread', stop reason = step in</span>
+    frame <span class="pl-c"><span class="pl-c">#</span>0: 0x00000001000037dc a.out`main at a.cc:13:9</span>
+   10   int <span class="pl-en">main</span>()
+   11   {
+   12           vector<span class="pl-k">&lt;</span>int<span class="pl-k">&gt;</span> a = {1, 3}<span class="pl-k">;</span>
+-<span class="pl-k">&gt;</span> 13           <span class="pl-en">sort(a.begin</span>(), <span class="pl-en">a.end</span>(), comparator);
+   14           <span class="pl-k">return</span> 0<span class="pl-k">;</span>
+   15   }
+Target 0: (a.out) stopped.
+(lldb) s
+Process 84607 stopped
+<span class="pl-k">*</span> thread <span class="pl-c"><span class="pl-c">#</span>1, queue = 'com.apple.main-thread', stop reason = step in</span>
+    frame <span class="pl-c"><span class="pl-c">#</span>0: 0x000000010000380c a.out`main at a.cc:14:2</span>
+   11   {
+   12           vector<span class="pl-k">&lt;</span>int<span class="pl-k">&gt;</span> a = {1, 3}<span class="pl-k">;</span>
+   13           <span class="pl-en">sort(a.begin</span>(), <span class="pl-en">a.end</span>(), comparator);
+-<span class="pl-k">&gt;</span> 14           <span class="pl-k">return</span> 0<span class="pl-k">;</span>
+   15   }
+Target 0: (a.out) stopped.
+(lldb)</pre></div>
+<p>To solve this one has to disable the <code>std::</code> standard library function filtering in <code>lldb</code>, run this command in lldb:</p>
+<p>Show all the filtering regular expressions:</p>
+<div class="highlight highlight-source-shell"><pre>(lldb) settings show target.process.thread.step-avoid-regexp <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+target.process.thread.step-avoid-regexp (regex) = ^std::
+
+(lldb)</pre></div>
+<p>Set that to empty:</p>
+<div class="highlight highlight-source-shell"><pre>(lldb) settings <span class="pl-c1">set</span> target.process.thread.step-avoid-regexp <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span></pre></div>
+<p>This is from this Stack Overflow page <a href="https://stackoverflow.com/questions/70554765/why-the-breakpoints-set-in-stl-are-skipped-ignored-while-using-lldb/70560542" rel="nofollow">Why the breakpoints set in STL are "skipped/ignored" while using LLDB?</a></p>
+<p>Now I can step into the c++ std</p>
+<div class="highlight highlight-source-shell"><pre>(lldb) r
+Process 88390 launched: <span class="pl-s"><span class="pl-pds">'</span>/Users/howardchu/hw/cabin/cpp_learn/a.out<span class="pl-pds">'</span></span> (arm64)
+Process 88390 stopped
+<span class="pl-k">*</span> thread <span class="pl-c"><span class="pl-c">#</span>1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1</span>
+    frame <span class="pl-c"><span class="pl-c">#</span>0: 0x00000001000037dc a.out`main at a.cc:13:9</span>
+   10   int <span class="pl-en">main</span>()
+   11   {
+   12           vector<span class="pl-k">&lt;</span>int<span class="pl-k">&gt;</span> a = {1, 3}<span class="pl-k">;</span>
+-<span class="pl-k">&gt;</span> 13           <span class="pl-en">sort(a.begin</span>(), <span class="pl-en">a.end</span>(), comparator);
+   14           <span class="pl-k">return</span> 0<span class="pl-k">;</span>
+   15   }
+Target 0: (a.out) stopped.
+(lldb) s
+Process 88390 stopped
+<span class="pl-k">*</span> thread <span class="pl-c"><span class="pl-c">#</span>1, queue = 'com.apple.main-thread', stop reason = step in</span>
+    frame <span class="pl-c"><span class="pl-c">#</span>0: 0x0000000100003920 a.out`std::__1::vector&lt;int, std::__1::allocator&lt;int&gt;&gt;::begin[abi:ue170006](this=0x000000016fdff1c0 size=2) at vector:1501:30</span>
+   1498 typename vector<span class="pl-k">&lt;</span>_Tp, _Allocator<span class="pl-k">&gt;</span>::iterator
+   1499 vector<span class="pl-k">&lt;</span>_Tp, <span class="pl-en">_Allocator&gt;::begin</span>() _NOEXCEPT
+   1500 {
+-<span class="pl-k">&gt;</span> 1501     <span class="pl-k">return</span> __make_iter(this-<span class="pl-k">&gt;</span>__begin_)<span class="pl-k">;</span>
+   1502 }
+   1503
+   1504 template <span class="pl-k">&lt;</span>class _Tp, class _Allocator<span class="pl-k">&gt;</span>
+Target 0: (a.out) stopped.
+(lldb)</pre></div>
+
+</article>
+
+<div id="footer-main">
+  <div id="footer-line">
+  </div>
+  <div id="footer-text-wrapper">
+    <p id="footer-text">
+  void remove_elegant(list *l, list_item *target)
+  {
+  list_item **p = &l->head;
+  while (*p != target)
+  p = &(*p)->next;
+  *p = target->next;
+  }
+    </p>
+  </div>
+  <div id="footer-commu-background">
+    <div id="footer-commu">
+      <div class="footer-image-container">
+        <a href="https://sberm.cn/review/">
+          <img class="footer-image" src="../images/review/xjbai_logo.png"/>
+        </a>
+      </div>
+      <div class="footer-image-container">
+        <a href="https://twitter.com/howardchu_">
+          <img class="footer-image" src="../images/twitter.png"/>
+        </a>
+      </div>
+      <div class="footer-image-container">
+        <a href="https://github.com/sberm">
+          <img class="footer-image" src="../images/github.svg"/>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+</div>
+</div>
+</html>
+<script>
+	function darkMode() {
+		let css = document.getElementById("sberm-blog-css");
+		let akihaImage = document.getElementById("akiha-img");
+
+		css.href = "blog/github-markdown-dark.css";
+		akihaImage.src = "/images/leave-dark.png";
+	}
+	function lightMode() {
+		let css = document.getElementById("sberm-blog-css");
+		let akihaImage = document.getElementById("akiha-img");
+
+		css.href = "/blog/github.css";
+		akihaImage.src = "/images/leave.png";
+	}
+</script>

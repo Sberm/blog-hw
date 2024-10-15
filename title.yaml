@@ -105,3 +105,7 @@ perf-blog-1:
 how-to-contrib-perf:
   title: "How to contribute to perf"
   date: "2024-6-25"
+
+use_lldb_to_read_cpp_std:
+  title: "Using lldb to read C++ standard library"
+  date: "2024-10-10"
