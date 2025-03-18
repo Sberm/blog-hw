@@ -33,7 +33,10 @@ PS C:\Users\Sberm<span class="pl-k">&gt;</span> echo <span class="pl-smi">$<span
 <li>Use ssh -Y @ for X forwarding (or ssh -X @; my Windows computer cannot use this).
 
 </li>
-<li>On CentOS, you need to use gvim (on Ubuntu, it's called vim-gtk). They support X11 clipboard functionality.</li>
+<li>It is required to use a vim that supports X11. I'll use <a href="https://github.com/neovim/neovim">Neovim</a> because it
+comes with everything, making the installation convenient. On CentOS, you
+can use gvim (on Ubuntu, it's called vim-gtk). They support X11
+clipboard functionality.</li>
 </ol>
 <div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> centos</span>
 yum install vim-X11.x86_64
@@ -45,8 +48,13 @@ sudo apt-get install vim-gtk</pre></div>
 +clipboard         +jumplist          +persistent_undo   +virtualedit
 -ebcdic            +mouseshape        +statusline        +xterm_clipboard</pre></div>
 <p>The presence of a plus sign (<code>+</code>) before <code>xterm_clipboard</code> indicates support. Additionally, it must support the system clipboard (<code>+clipboard</code>). The <code>vim-enhanced</code> package installed via yum on my CentOS 8 system does not natively support clipboard functionality.</p>
-<ol start="6">
-<li>Open the editor with gvim -v (or vimx). In gvim, use the following command to copy to the system clipboard. Enjoy!</li>
+<ol start="5">
+<li>
+<p>Also install <code>xclip</code> or <code>xsel</code> for X11 clipboard sharing.</p>
+</li>
+<li>
+<p>Open the editor with gvim -v (or vimx). In gvim, use the following command to copy to the system clipboard. Enjoy!</p>
+</li>
 </ol>
 <div class="highlight highlight-source-viml"><pre><span class="pl-c"><span class="pl-c">"</span> copy</span>
 <span class="pl-k">%</span><span class="pl-c1">y</span><span class="pl-k">+</span><span class="pl-c"> <span class="pl-c">"</span> (visual) (if nothing gets selected, copy all the text)</span>
