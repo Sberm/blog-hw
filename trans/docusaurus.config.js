@@ -6,7 +6,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://sberm.com',
-  baseUrl: '/',
+  baseUrl: '/trans/',
 
   organizationName: 'Sberm',
   projectName: 'Transgender.rs',
@@ -28,9 +28,9 @@ const config = {
           sidebarPath: './sidebars.js',
         },
         blog: false,
-        theme: {
-          customCss: './src/css/custom.css',
-        },
+        'theme': {
+          customCss: ['./src/css/custom.css'],
+	},
       }),
     ],
   ],
